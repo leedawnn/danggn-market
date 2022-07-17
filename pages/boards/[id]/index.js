@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import Image from 'next/image';
+import { CgProfile } from 'react-icons/cg';
 import { useQuery, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 
@@ -32,23 +32,19 @@ const detailBoards = () => {
       <Wrapper>
         <Container>
           <UserInfo>
-            <Image src='/public/profile.png' width={46} height={46} />
-            <LeftInfo>
+            <ProfileIcon />
+            <PostInfo>
               <UserName>{data?.fetchBoard?.writer}</UserName>
               <CreatedDate>{data?.fetchBoard?.createdAt}</CreatedDate>
-            </LeftInfo>
-            <RightInfo>
-              <Image src='/public/images/link.svg' width={26} height={13} />
-              <Image src='/public/images/location.svg' width={26} height={13} />
-            </RightInfo>
+            </PostInfo>
           </UserInfo>
           <BoardContents>
             <Title>{data?.fetchBoard?.title}</Title>
             <Content>{data?.fetchBoard?.contents}</Content>
           </BoardContents>
           <BoardLike>
-            <Image src='/public/images/thumbsUp.svg' width={20} height={20} />
-            <Image src='/public/images/thumbsDown.svg' width={20} height={20} />
+            {/* <Image src='/public/images/thumbsUp.svg' width={20} height={20} />
+            <Image src='/public/images/thumbsDown.svg' width={20} height={20} /> */}
           </BoardLike>
         </Container>
         <BtnWrapper>
@@ -67,7 +63,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 30px 100px;
+  padding: 50px 100px;
   flex-wrap: wrap;
 `;
 
@@ -79,18 +75,24 @@ const Container = styled.div`
   width: 1200px;
   border: 1px solid #e5e5e5;
   box-shadow: 0px 4px 20px 0px #00000033;
-  padding: 50px 100px;
+  padding: 10px 100px;
 `;
 
 const UserInfo = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   padding: 20px;
   border-bottom: 1px solid #bdbdbd;
 `;
 
-const LeftInfo = styled.div`
+const ProfileIcon = styled(CgProfile)`
+  width: 46px;
+  height: 46px;
+  margin-right: 20px;
+`;
+
+const PostInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -107,22 +109,17 @@ const CreatedDate = styled.span`
   font-weight: 400;
 `;
 
-const RightInfo = styled.div`
-  display: flex;
-`;
-
 const BoardContents = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: left;
   width: 100%;
   min-height: 700px;
-  padding: 50px 0px;
+  padding: 20px 0px;
 `;
 
-const Title = styled.span`
-  font-size: 30px;
-  font-weight: 700;
+const Title = styled.h1`
+  color: #000000;
 `;
 
 const Content = styled.p`
