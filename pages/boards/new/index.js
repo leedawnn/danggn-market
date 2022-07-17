@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 const newBoards = () => {
   // 게시글 등록 api
@@ -14,6 +15,8 @@ const newBoards = () => {
       }
     }
   `;
+
+  const router = useRouter();
 
   const [writer, setWriter] = useState('');
   const [password, setPassword] = useState('');
@@ -88,7 +91,7 @@ const newBoards = () => {
             },
           },
         });
-        console.log(result);
+        router.push(`/boards/${result.data.createBoard._id}`);
         alert('게시물이 등록되었습니다.');
       } catch (error) {
         console.log(error);
