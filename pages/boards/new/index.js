@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
 
 const newBoards = () => {
   // 게시글 등록 api
@@ -92,9 +93,9 @@ const newBoards = () => {
           },
         });
         router.push(`/boards/${result.data.createBoard._id}`);
-        alert('게시물이 등록되었습니다.');
+        Swal.fire('등록 완료!', '게시물이 등록되었습니다.', 'success');
       } catch (error) {
-        console.log(error);
+        Swal.fire('Error!', error.message, 'error');
       }
     }
   };
