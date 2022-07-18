@@ -1,20 +1,7 @@
-import styled from '@emotion/styled';
+import CreateBoard from '../../../../src/components/units/boards/new/CreateBoard.container';
 
 const EditBoards = () => {
-  return (
-    <>
-      <Wrapper></Wrapper>
-    </>
-  );
+  return <CreateBoard isEdit={true} />;
 };
 
 export default EditBoards;
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 50px 100px;
-  flex-wrap: wrap;
-`;

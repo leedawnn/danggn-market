@@ -4,7 +4,7 @@ const CreateBoardUI = (props) => {
   return (
     <S.Wrapper>
       <S.Container>
-        <S.Title>게시물 등록</S.Title>
+        <S.Title>게시물 {props.isEdit ? '수정' : '등록'}</S.Title>
         <S.PostForm>
           <S.UserContainer>
             <S.UserName>
@@ -58,7 +58,7 @@ const CreateBoardUI = (props) => {
           </S.MainSetting>
           <S.BtnContainer>
             <S.RegisterBtn type='button' onClick={props.onClickValidation}>
-              등록하기
+              {props.isEdit ? '수정' : '등록'}하기
             </S.RegisterBtn>
           </S.BtnContainer>
         </S.PostForm>

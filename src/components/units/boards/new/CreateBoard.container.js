@@ -5,7 +5,7 @@ import CreateBoardUI from './CreateBoard.presenter';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD } from './CreateBoard.queries';
 
-const CreateBoard = () => {
+const CreateBoard = (props) => {
   const router = useRouter();
 
   const [writer, setWriter] = useState('');
@@ -100,6 +100,7 @@ const CreateBoard = () => {
         onChangeTitle={onChangeTitle}
         onChangeContents={onChangeContents}
         onClickValidation={onClickValidation}
+        isEdit={props.isEdit}
       />
     </>
   );

@@ -1,4 +1,5 @@
 import * as S from './DetailBoard.styles';
+import { getDate } from '../../../../commons/libraries/utils';
 
 const DetailBoardUI = (props) => {
   return (
@@ -9,7 +10,7 @@ const DetailBoardUI = (props) => {
             <S.ProfileIcon />
             <S.PostInfo>
               <S.UserName>{props.data?.fetchBoard?.writer}</S.UserName>
-              <S.CreatedDate>{props.data?.fetchBoard?.createdAt}</S.CreatedDate>
+              <S.CreatedDate>{getDate(props.data?.fetchBoard?.createdAt)}</S.CreatedDate>
             </S.PostInfo>
           </S.UserInfo>
           <S.BoardContents>
