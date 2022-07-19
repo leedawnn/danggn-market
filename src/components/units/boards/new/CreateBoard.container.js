@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import CreateBoardUI from './CreateBoard.presenter';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD, UPDATE_BOARD } from './CreateBoard.queries';
+import { Modal } from 'antd';
 
 const CreateBoard = (props) => {
   const router = useRouter();
@@ -78,7 +79,10 @@ const CreateBoard = (props) => {
         });
         router.push(`/boards/${result.data.createBoard._id}`);
       } catch (error) {
-        console.log(error);
+        Modal.error({
+          title: '에러 메시지',
+          content: error,
+        });
       }
     }
   };
