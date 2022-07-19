@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Swal from 'sweetalert2';
 import CreateBoardUI from './CreateBoard.presenter';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD, UPDATE_BOARD } from './CreateBoard.queries';
@@ -78,9 +77,8 @@ const CreateBoard = (props) => {
           },
         });
         router.push(`/boards/${result.data.createBoard._id}`);
-        Swal.fire('등록 완료!', '게시물이 등록되었습니다.', 'success');
       } catch (error) {
-        Swal.fire('Error!', error.message, 'error');
+        console.log(error);
       }
     }
   };
