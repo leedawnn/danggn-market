@@ -7,11 +7,11 @@ const DetailBoard = () => {
   const router = useRouter();
 
   const { data } = useQuery(FETCH_BOARD, {
-    variables: { boardId: router.query.id },
+    variables: { boardId: String(router.query.id) },
   });
 
   const onClickMoveToEdit = () => {
-    router.push(`boards/${router.query.id}/edit`);
+    router.push(`${router.query.id}/edit`);
   };
 
   return (

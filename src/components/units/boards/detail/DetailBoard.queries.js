@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-// 게시물 조회 api
 export const FETCH_BOARD = gql`
   query fetchBoard($boardId: ID!) {
     fetchBoard(boardId: $boardId) {
@@ -11,6 +10,14 @@ export const FETCH_BOARD = gql`
       createdAt
       likeCount
       dislikeCount
+    }
+  }
+`;
+
+export const UPDATE_BOARD = gql`
+  mutation updateBoard($updateBoardInput: UpdateBoardInput!, $password: String, $boardId: ID!) {
+    updateBoard(updateBoardInput: $updateBoardInput, password: $password, boardId: $boardId) {
+      _id
     }
   }
 `;

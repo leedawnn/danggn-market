@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import CreateBoardUI from './CreateBoard.presenter';
 import { useMutation } from '@apollo/client';
-import { CREATE_BOARD } from './CreateBoard.queries';
+import { CREATE_BOARD, UPDATE_BOARD } from './CreateBoard.queries';
 
 const CreateBoard = (props) => {
   const router = useRouter();
@@ -13,16 +13,13 @@ const CreateBoard = (props) => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
 
-  // form 검증 에러메시지
   const [writerError, setWriterError] = useState('');
   const [PwError, setPwError] = useState('');
   const [titleError, setTitleError] = useState('');
   const [contentError, setContentsError] = useState('');
 
-  // graphql에 게시글 등록 api 등록
   const [createBoard] = useMutation(CREATE_BOARD);
 
-  // input 감지 이벤트
   const onChangeWriter = (event) => {
     setWriter(event.target.value);
   };
@@ -39,7 +36,6 @@ const CreateBoard = (props) => {
     setContents(event.target.value);
   };
 
-  // 폼 유효성 검사
   const onClickValidation = async () => {
     let isCheck = true;
 
@@ -88,6 +84,7 @@ const CreateBoard = (props) => {
       }
     }
   };
+
   return (
     <>
       <CreateBoardUI
