@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import CreateBoardUI from './CreateBoard.presenter';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { CREATE_BOARD, UPDATE_BOARD } from './CreateBoard.queries';
 import { Modal } from 'antd';
+import {
+  ICreateBoardInput,
+  IMutation,
+  IMutationCreateBoardArgs,
+  IMutationUpdateBoardArgs,
+} from '../../../../commons/types/generated/types';
 
-const CreateBoard = (props) => {
+const CreateBoard = (props: ICreateBoardInput) => {
   const router = useRouter();
 
   const [writer, setWriter] = useState('');
@@ -18,21 +24,22 @@ const CreateBoard = (props) => {
   const [titleError, setTitleError] = useState('');
   const [contentError, setContentsError] = useState('');
 
-  const [createBoard] = useMutation(CREATE_BOARD);
+  const [createBoard] = useMutation<Pick<IMutation, 'createBoard'>, IMutationCreateBoardArgs>(CREATE_BOARD);
+  // const [updateBoard] = useQuery<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
 
-  const onChangeWriter = (event) => {
+  const onChangeWriter = (event: ChangeEvent<HTMLInputElement>) => {
     setWriter(event.target.value);
   };
 
-  const onChangePw = (event) => {
+  const onChangePw = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
-  const onChangeTitle = (event) => {
+  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
   };
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLInputElement>) => {
     setContents(event.target.value);
   };
 
@@ -79,13 +86,13 @@ const CreateBoard = (props) => {
         });
         router.push(`/boards/${result.data.createBoard._id}`);
       } catch (error) {
-        Modal.error({
-          title: '에러 메시지',
-          content: error,
-        });
+        if (error instanceof Error) Modal.error({ content: error.message });
       }
     }
   };
+
+  // 수정하기 버튼 누르면 수정하기 ~
+  // const onClickUpdate = () => {};
 
   return (
     <>
@@ -100,6 +107,7 @@ const CreateBoard = (props) => {
         onChangeContents={onChangeContents}
         onClickValidation={onClickValidation}
         isEdit={props.isEdit}
+        data={props.data}
       />
     </>
   );

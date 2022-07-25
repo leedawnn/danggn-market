@@ -1,4 +1,4 @@
-import * as S from './CreateBoard.styles.js';
+import * as S from './CreateBoard.styles';
 
 const CreateBoardUI = (props) => {
   return (
@@ -11,7 +11,12 @@ const CreateBoardUI = (props) => {
               <S.UserSpan>
                 작성자<span> *</span>
               </S.UserSpan>
-              <S.UserInput type='text' placeholder='이름을 적어주세요.' onChange={props.onChangeWriter} />
+              <S.UserInput
+                type='text'
+                placeholder='이름을 적어주세요.'
+                onChange={props.onChangeWriter}
+                // defaultValue={props?.data.fetchBoard.writer || ''}
+              />
               <S.ErrorMsg>{props.writerError}</S.ErrorMsg>
             </S.UserName>
             <S.UserPw>
