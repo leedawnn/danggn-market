@@ -18,6 +18,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
   const [password, setPassword] = useState('');
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
+  const [youtubeUrl, setYoutubeUrl] = useState('');
 
   const [writerError, setWriterError] = useState('');
   const [PwError, setPwError] = useState('');
@@ -25,7 +26,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
   const [contentError, setContentsError] = useState('');
 
   const [createBoard] = useMutation<Pick<IMutation, 'createBoard'>, IMutationCreateBoardArgs>(CREATE_BOARD);
-  // const [updateBoard] = useQuery<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
+  // const [updateBoard] = useMutation<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
 
   const onChangeWriter = (event: ChangeEvent<HTMLInputElement>) => {
     setWriter(event.target.value);
@@ -41,6 +42,10 @@ const CreateBoard = (props: ICreateBoardInput) => {
 
   const onChangeContents = (event: ChangeEvent<HTMLInputElement>) => {
     setContents(event.target.value);
+  };
+
+  const onChangeYoutubeUrl = (event: ChangeEvent<HTMLInputElement>) => {
+    setYoutubeUrl(event?.target.value);
   };
 
   const onClickValidation = async () => {
@@ -81,18 +86,46 @@ const CreateBoard = (props: ICreateBoardInput) => {
               password,
               title,
               contents,
+              youtubeUrl,
             },
           },
         });
-        router.push(`/boards/${result.data.createBoard._id}`);
+        router.push(`/boards/${result.data?.createBoard._id}`);
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });
       }
     }
   };
 
-  // 수정하기 버튼 누르면 수정하기 ~
-  // const onClickUpdate = () => {};
+  const onClickUpdate = async () => {
+    if (!title && !contents && !youtubeUrl) {
+      alert('수정한 내용이 없습니다.');
+      return;
+    }
+
+    if (!password) {
+      alert('비밀번호를 입력해주세요.');
+    }
+
+    const updateBoardInput: IUpdateBoardInput = {};
+    if (title) updateBoardInput.title = title;
+    if (contents) updateBoardInput.contents = contents;
+    if (youtubeUrl) updateBoardInput.youtubeUrl = youtubeUrl;
+
+    try {
+      if (typeof router.query.boardId !== 'string') return;
+      const result = await updateBoard({
+        variables: {
+          boardId: router.query.boardId,
+          password,
+          updateBoardInput,
+        },
+      });
+      router.push(`/boards/${result.data?.updateBoard._id}`);
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
+  };
 
   return (
     <>
@@ -105,7 +138,9 @@ const CreateBoard = (props: ICreateBoardInput) => {
         onChangePw={onChangePw}
         onChangeTitle={onChangeTitle}
         onChangeContents={onChangeContents}
+        onChangeYoutubeUrl={onChangeYoutubeUrl}
         onClickValidation={onClickValidation}
+        onClickUpdate={onClickUpdate}
         isEdit={props.isEdit}
         data={props.data}
       />

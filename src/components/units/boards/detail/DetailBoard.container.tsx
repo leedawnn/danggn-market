@@ -11,7 +11,7 @@ const DetailBoard = () => {
   });
 
   const onClickMoveToEdit = () => {
-    router.push(`/${router.query.id}/edit`);
+    router.push(`/boards/${router.query.id}/edit`);
   };
 
   return (

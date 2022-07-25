@@ -43,7 +43,7 @@ const CreateBoardUI = (props) => {
           <S.AddressInput />
           <S.AddressInput />
           <S.YoutubeContainer>
-            <S.YoutubeSpan>유튜브</S.YoutubeSpan>
+            <S.YoutubeSpan onChange={props.onChangeYoutubeUrl}>유튜브</S.YoutubeSpan>
             <S.YoutubeInput type='text' placeholder='링크를 복사해주세요.' />
           </S.YoutubeContainer>
           <S.PhotoContainer>

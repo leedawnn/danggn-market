@@ -7,6 +7,19 @@ export const CREATE_BOARD = gql`
       writer
       title
       contents
+      youtubeUrl
+    }
+  }
+`;
+
+export const UPDATE_BOARD = gql`
+  mutation updateBoard($updateBoardInput: UpdateBoardInput!, $password: String, $boardId: ID!) {
+    updateBoard(UpdateBoardInput: $UpdateBoardInput, password: $password, boardId: $boardId) {
+      _id
+      writer
+      title
+      contents
+      youtubeUrl
     }
   }
 `;
