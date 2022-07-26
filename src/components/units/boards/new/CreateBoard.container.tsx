@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import CreateBoardUI from './CreateBoard.presenter';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { CREATE_BOARD, UPDATE_BOARD } from './CreateBoard.queries';
 import { Modal } from 'antd';
 import {
@@ -26,7 +26,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
   const [contentError, setContentsError] = useState('');
 
   const [createBoard] = useMutation<Pick<IMutation, 'createBoard'>, IMutationCreateBoardArgs>(CREATE_BOARD);
-  // const [updateBoard] = useMutation<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
+  const [updateBoard] = useMutation<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
 
   const onChangeWriter = (event: ChangeEvent<HTMLInputElement>) => {
     setWriter(event.target.value);
@@ -123,7 +123,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
       });
       router.push(`/boards/${result.data?.updateBoard._id}`);
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) Modal.error({ content: error.message });
     }
   };
 
