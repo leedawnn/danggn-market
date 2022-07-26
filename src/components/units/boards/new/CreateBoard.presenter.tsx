@@ -1,6 +1,7 @@
 import * as S from './CreateBoard.styles';
 
 const CreateBoardUI = (props) => {
+  console.log(props.data?.fetchBoard);
   return (
     <S.Wrapper>
       <S.Container>
@@ -8,14 +9,14 @@ const CreateBoardUI = (props) => {
         <S.PostForm>
           <S.UserContainer>
             <S.UserName>
-              <S.UserSpan>
-                작성자<span> *</span>
-              </S.UserSpan>
+              <S.UserSpan>작성자</S.UserSpan>
               <S.UserInput
                 type='text'
                 placeholder='이름을 적어주세요.'
                 onChange={props.onChangeWriter}
-                // defaultValue={props?.data.fetchBoard.writer || ''}
+                value={props.data?.fetchBoard.writer}
+                readOnly={!!props.data?.fetchBoard.writer}
+                disabled
               />
               <S.ErrorMsg>{props.writerError}</S.ErrorMsg>
             </S.UserName>
