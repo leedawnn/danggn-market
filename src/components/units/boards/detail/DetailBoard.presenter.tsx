@@ -1,7 +1,8 @@
 import * as S from './DetailBoard.styles';
 import { getDate } from '../../../../commons/libraries/utils';
+import { IDetailBoardUIProps } from './DetailBoard.types';
 
-const DetailBoardUI = (props) => {
+const DetailBoardUI = (props: IDetailBoardUIProps) => {
   return (
     <>
       <S.Wrapper>
