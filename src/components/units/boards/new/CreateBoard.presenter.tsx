@@ -1,6 +1,7 @@
 import * as S from './CreateBoard.styles';
+import { ICreateBoardUIprops } from './CreateBoard.types';
 
-const CreateBoardUI = (props) => {
+const CreateBoardUI = (props: ICreateBoardUIprops) => {
   console.log(props.data?.fetchBoard);
   return (
     <S.Wrapper>
@@ -14,9 +15,9 @@ const CreateBoardUI = (props) => {
                 type='text'
                 placeholder='이름을 적어주세요.'
                 onChange={props.onChangeWriter}
-                value={props.data?.fetchBoard.writer}
+                defaultValue={props.data?.fetchBoard.writer || ''}
                 readOnly={!!props.data?.fetchBoard.writer}
-                disabled
+                // disabled
               />
               <S.ErrorMsg>{props.writerError}</S.ErrorMsg>
             </S.UserName>
@@ -63,7 +64,7 @@ const CreateBoardUI = (props) => {
             </S.SettingInputs>
           </S.MainSetting>
           <S.BtnContainer>
-            <S.RegisterBtn type='button' onClick={props.onClickValidation}>
+            <S.RegisterBtn type='button' onClick={props.isEdit ? props.onClickUpdate : props.onClickValidation}>
               {props.isEdit ? '수정' : '등록'}하기
             </S.RegisterBtn>
           </S.BtnContainer>

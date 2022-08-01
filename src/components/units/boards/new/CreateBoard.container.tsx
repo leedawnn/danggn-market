@@ -10,6 +10,7 @@ import {
   IMutationCreateBoardArgs,
   IMutationUpdateBoardArgs,
 } from '../../../../commons/types/generated/types';
+import { IUpdateBoardInput } from './CreateBoard.types';
 
 const CreateBoard = (props: ICreateBoardInput) => {
   const router = useRouter();
@@ -105,6 +106,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
 
     if (!password) {
       alert('비밀번호를 입력해주세요.');
+      return;
     }
 
     const updateBoardInput: IUpdateBoardInput = {};
@@ -113,15 +115,16 @@ const CreateBoard = (props: ICreateBoardInput) => {
     if (youtubeUrl) updateBoardInput.youtubeUrl = youtubeUrl;
 
     try {
-      if (typeof router.query.boardId !== 'string') return;
+      if (typeof router.query.id !== 'string') return;
       const result = await updateBoard({
         variables: {
-          boardId: router.query.boardId,
+          boardId: router.query.id,
           password,
           updateBoardInput,
         },
       });
-      router.push(`/boards/${result.data?.updateBoard._id}`);
+      console.log(result);
+      router.push(`/boards/${router.query.id}`);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }
