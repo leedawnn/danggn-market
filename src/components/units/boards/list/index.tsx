@@ -22,13 +22,18 @@ export const FETCH_BOARDS_COUNT = gql`
   }
 `;
 
-const ListBoard = () => {
+const ListBoard = (event) => {
   const router = useRouter();
 
   const { data } = useQuery<Pick<IQuery, 'fetchBoards'>, IQueryFetchBoardsArgs>(FETCH_BOARDS);
   const { data: dataBoardsCount } = useQuery<Pick<IQuery, 'fetchBoardsCount'>, IQueryFetchBoardsCountArgs>(
     FETCH_BOARDS_COUNT
   );
+
+  const onClickMoveToEdit = (event) => {
+    router.push(`/boards/${event.target.id}`);
+  };
+
   return (
     <>
       <Wrapper>
@@ -39,9 +44,11 @@ const ListBoard = () => {
           <ColumnHeaderBasic>날짜</ColumnHeaderBasic>
         </TableRow>
         {data?.fetchBoards.map((el) => (
-          <Row key={uuidv4()}>
+          <Row key={el._id}>
             <ColumnBasic>{String(el._id).slice(-4).toUpperCase()}</ColumnBasic>
-            <ColumnTitle>{el.title}</ColumnTitle>
+            <ColumnTitle id={el._id} onClick={onClickMoveToEdit}>
+              {el.title}
+            </ColumnTitle>
             <ColumnBasic>{el.writer}</ColumnBasic>
             <ColumnBasic>{getDate(el.createdAt)}</ColumnBasic>
           </Row>
