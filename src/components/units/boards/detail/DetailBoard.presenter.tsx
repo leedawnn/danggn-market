@@ -24,7 +24,7 @@ const DetailBoardUI = (props: IDetailBoardUIProps) => {
           </S.BoardLike>
         </S.Container>
         <S.BtnWrapper>
-          <S.Button>목록으로</S.Button>
+          <S.Button onClick={props.onClickMoveToBoards}>목록으로</S.Button>
           <S.Button onClick={props.onClickMoveToEdit}>수정하기</S.Button>
           <S.Button onClick={props.onClickDelete}>삭제하기</S.Button>
         </S.BtnWrapper>

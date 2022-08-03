@@ -14,17 +14,23 @@ const DetailBoard = () => {
 
   const [deleteBoard] = useMutation<Pick<IMutation, 'deleteBoard'>, IMutationDeleteBoardArgs>(DELETE_BOARD);
 
+  const onClickMoveToBoards = () => {
+    router.push('/');
+  };
+
   const onClickMoveToEdit = () => {
     router.push(`/boards/${router.query.id}/edit`);
   };
 
-  const onClickDelete = () => {
+  const onClickDelete = async () => {
     if (typeof router.query.id !== 'string') return;
 
     try {
-      deleteBoard({
+      await deleteBoard({
         variables: { boardId: String(router.query.id) },
       });
+      alert('게시물이 삭제되었습니다.'); // TODO: 모달로 바꾸고 yes 눌렀을 때 삭제, no면 상세 페이지로 되돌아가기
+      router.push('/');
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }
@@ -32,7 +38,12 @@ const DetailBoard = () => {
 
   return (
     <>
-      <DetailBoardUI onClickMoveToEdit={onClickMoveToEdit} onClickDelete={onClickDelete} data={data} />
+      <DetailBoardUI
+        onClickMoveToBoards={onClickMoveToBoards}
+        onClickMoveToEdit={onClickMoveToEdit}
+        onClickDelete={onClickDelete}
+        data={data}
+      />
     </>
   );
 };
