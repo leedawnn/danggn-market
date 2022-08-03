@@ -17,7 +17,6 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
                 onChange={props.onChangeWriter}
                 defaultValue={props.data?.fetchBoard.writer || ''}
                 readOnly={!!props.data?.fetchBoard.writer}
-                // disabled
               />
               <S.ErrorMsg>{props.writerError}</S.ErrorMsg>
             </S.UserName>
@@ -29,12 +28,22 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
           </S.UserContainer>
           <S.TitleContainer>
             <S.TitleSpan>제목</S.TitleSpan>
-            <S.TitleInput type='text' placeholder='제목을 작성해주세요.' onChange={props.onChangeTitle} />
+            <S.TitleInput
+              type='text'
+              placeholder='제목을 작성해주세요.'
+              onChange={props.onChangeTitle}
+              defaultValue={props.data?.fetchBoard.title}
+            />
             <S.ErrorMsg>{props.titleError}</S.ErrorMsg>
           </S.TitleContainer>
           <S.ContentsContainer>
             <S.ContentsSpan>내용</S.ContentsSpan>
-            <S.ContentsInput type='text' placeholder='내용을 작성해주세요.' onChange={props.onChangeContents} />
+            <S.ContentsInput
+              type='text'
+              placeholder='내용을 작성해주세요.'
+              onChange={props.onChangeContents}
+              defaultValue={props.data?.fetchBoard.contents}
+            />
             <S.ErrorMsg>{props.contentError}</S.ErrorMsg>
           </S.ContentsContainer>
           <S.AddressSpan>주소</S.AddressSpan>
