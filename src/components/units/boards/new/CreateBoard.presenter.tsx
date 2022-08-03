@@ -1,5 +1,6 @@
 import * as S from './CreateBoard.styles';
 import { ICreateBoardUIprops } from './CreateBoard.types';
+import ImageAdd from '../../../../../public/imageAdd.svg';
 
 const CreateBoardUI = (props: ICreateBoardUIprops) => {
   console.log(props.data?.fetchBoard);
@@ -60,9 +61,15 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
           <S.PhotoContainer>
             <S.PhotoSpan>사진 첨부</S.PhotoSpan>
             <S.PhotoItems>
-              <S.PhotoItem />
-              <S.PhotoItem />
-              <S.PhotoItem />
+              <S.PhotoItem>
+                <ImageAdd />
+              </S.PhotoItem>
+              <S.PhotoItem>
+                <ImageAdd />
+              </S.PhotoItem>
+              <S.PhotoItem>
+                <ImageAdd />
+              </S.PhotoItem>
             </S.PhotoItems>
           </S.PhotoContainer>
           <S.MainSetting>

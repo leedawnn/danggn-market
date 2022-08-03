@@ -204,10 +204,14 @@ export const PhotoItems = styled.div`
 `;
 
 export const PhotoItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 78px;
   height: 78px;
-  background-color: gray;
+  border: 2px dotted black;
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 export const MainSetting = styled.div`
