@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { gql, useQuery } from '@apollo/client';
 import { IQuery, IQueryFetchBoardsArgs, IQueryFetchBoardsCountArgs } from '../../../../commons/types/generated/types';
 import { getDate } from '../../../../commons/libraries/utils';
-import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/router';
 
 export const FETCH_BOARDS = gql`
@@ -30,7 +29,7 @@ const ListBoard = (event) => {
     FETCH_BOARDS_COUNT
   );
 
-  const onClickMoveToEdit = (event) => {
+  const onClickMoveToEdit = (event: MouseEvent<HTMLDivElement>) => {
     router.push(`/boards/${event.target.id}`);
   };
 
@@ -60,7 +59,9 @@ const ListBoard = (event) => {
 export default ListBoard;
 
 const Wrapper = styled.div`
-  width: 1200px;
+  position: absolute;
+  width: 1000px;
+  height: 583px;
   margin: 100px;
 `;
 
@@ -78,13 +79,13 @@ const Row = styled.div`
 `;
 
 const ColumnHeaderBasic = styled.div`
-  width: 10%;
+  width: 20%;
   font-weight: 700;
   text-align: center;
 `;
 
 const ColumnHeaderTitle = styled.div`
-  width: 70%;
+  width: 50%;
   font-weight: 700;
   text-align: center;
 `;
@@ -98,23 +99,16 @@ const TableRow = styled.div`
 `;
 
 const ColumnBasic = styled.div`
-  width: 10%;
+  width: 20%;
   text-align: center;
 `;
 
 const ColumnTitle = styled.div`
-  width: 70%;
+  width: 50%;
   text-align: center;
   cursor: pointer;
 
   :hover {
     color: orange;
   }
-`;
-
-const Footer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-top: 50px;
 `;
