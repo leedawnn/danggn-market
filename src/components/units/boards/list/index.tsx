@@ -2,7 +2,11 @@ import styled from '@emotion/styled';
 import { gql, useQuery } from '@apollo/client';
 import { IQuery, IQueryFetchBoardsArgs, IQueryFetchBoardsCountArgs } from '../../../../commons/types/generated/types';
 import { getDate } from '../../../../commons/libraries/utils';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { EditOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 
 export const FETCH_BOARDS = gql`
   query fetchBoards($page: Int) {
@@ -22,6 +26,8 @@ export const FETCH_BOARDS_COUNT = gql`
 `;
 
 const ListBoard = (event) => {
+  const [size, setSize] = useState<SizeType>('large');
+
   const router = useRouter();
 
   const { data } = useQuery<Pick<IQuery, 'fetchBoards'>, IQueryFetchBoardsArgs>(FETCH_BOARDS);
@@ -31,6 +37,10 @@ const ListBoard = (event) => {
 
   const onClickMoveToEdit = (event: MouseEvent<HTMLDivElement>) => {
     router.push(`/boards/${event.target.id}`);
+  };
+
+  const onClickMoveToCreate = () => {
+    router.push('/boards/new');
   };
 
   return (
@@ -52,6 +62,17 @@ const ListBoard = (event) => {
             <ColumnBasic>{getDate(el.createdAt)}</ColumnBasic>
           </Row>
         ))}
+        <Footer>
+          <CreatePostButton
+            type='primary'
+            shape='round'
+            icon={<EditOutlined />}
+            size={size}
+            onClick={onClickMoveToCreate}
+          >
+            게시물 등록하기
+          </CreatePostButton>
+        </Footer>
       </Wrapper>
     </>
   );
@@ -111,4 +132,16 @@ const ColumnTitle = styled.div`
   :hover {
     color: orange;
   }
+`;
+
+const Footer = styled.div`
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+`;
+
+const CreatePostButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
