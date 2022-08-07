@@ -1,4 +1,4 @@
-import DetailBoard from '../../../src/components/units/boards/detail/DetailBoard.container';
+import DetailBoard from '../../../src/components/units/board/detail/DetailBoard.container';
 
 const DetailBoards = () => {
   return <DetailBoard />;

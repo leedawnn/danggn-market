@@ -1,4 +1,4 @@
-import CreateBoard from '../../../src/components/units/boards/new/CreateBoard.container';
+import CreateBoard from '../../../src/components/units/board/new/CreateBoard.container';
 
 const CreateBoards = () => {
   return <CreateBoard isEdit={false} />;
