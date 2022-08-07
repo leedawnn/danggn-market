@@ -28,19 +28,43 @@ export const FETCH_BOARDS_COUNT = gql`
 const ListBoard = (event) => {
   const [size, setSize] = useState<SizeType>('large');
 
-  const router = useRouter();
-
-  const { data } = useQuery<Pick<IQuery, 'fetchBoards'>, IQueryFetchBoardsArgs>(FETCH_BOARDS);
+  const { data, refetch } = useQuery<Pick<IQuery, 'fetchBoards'>, IQueryFetchBoardsArgs>(FETCH_BOARDS);
   const { data: dataBoardsCount } = useQuery<Pick<IQuery, 'fetchBoardsCount'>, IQueryFetchBoardsCountArgs>(
     FETCH_BOARDS_COUNT
   );
 
-  const onClickMoveToEdit = (event: MouseEvent<HTMLDivElement>) => {
+  const [startPage, setStartPage] = useState(1);
+  const [activePage, setActivePage] = useState(1);
+  const lastPage = Math.ceil(dataBoardsCount?.fetchBoardsCount / 10);
+
+  const router = useRouter();
+
+  const onClickMoveToDetail = (event: MouseEvent<HTMLDivElement>) => {
     router.push(`/boards/${event.target.id}`);
   };
 
   const onClickMoveToCreate = () => {
     router.push('/boards/new');
+  };
+
+  const onClickPage = (event: MouseEvent<HTMLSpanElement>) => {
+    const activePage = Number(event.target.id);
+    setActivePage(activePage);
+    refetch({ page: activePage });
+  };
+
+  const onClickPrevPage = () => {
+    if (startPage <= 1) return;
+    setStartPage((prev) => prev - 10);
+    setActivePage(startPage - 10);
+    refetch({ page: startPage - 10 });
+  };
+
+  const onClickNextPage = () => {
+    if (startPage + 10 > lastPage) return;
+    setStartPage((prev) => prev + 10);
+    setActivePage(startPage + 10);
+    refetch({ page: startPage + 10 });
   };
 
   return (
@@ -55,14 +79,33 @@ const ListBoard = (event) => {
         {data?.fetchBoards.map((el) => (
           <Row key={el._id}>
             <ColumnBasic>{String(el._id).slice(-4).toUpperCase()}</ColumnBasic>
-            <ColumnTitle id={el._id} onClick={onClickMoveToEdit}>
+            <ColumnTitle id={el._id} onClick={onClickMoveToDetail}>
               {el.title}
             </ColumnTitle>
             <ColumnBasic>{el.writer}</ColumnBasic>
             <ColumnBasic>{getDate(el.createdAt)}</ColumnBasic>
           </Row>
         ))}
+        {/* TODO: prev, next 아이콘으로 바꾸기 */}
         <Footer>
+          <Page onClick={onClickPrevPage}>{`<`}</Page>
+          {Array(10)
+            .fill(1)
+            .map(
+              (_, index) =>
+                startPage + index <= lastPage && (
+                  <Page
+                    key={startPage + index}
+                    id={String(startPage + index)}
+                    onClick={onClickPage}
+                    isActive={startPage + index === activePage}
+                  >
+                    {startPage + index}
+                  </Page>
+                )
+            )}
+          <Page onClick={onClickNextPage}>{`>`}</Page>
+
           <CreatePostButton
             type='primary'
             shape='round'
@@ -134,14 +177,28 @@ const ColumnTitle = styled.div`
   }
 `;
 
+interface IPageProps {
+  isActive?: boolean;
+}
+
 const Footer = styled.div`
   display: flex;
-  justify-content: right;
+  justify-content: space-evenly;
   margin-top: 20px;
+`;
+
+const Page = styled.span<IPageProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px;
+  font-weight: ${(props) => (props.isActive ? '700' : 'default')};
+  cursor: pointer;
 `;
 
 const CreatePostButton = styled(Button)`
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
+  margin-left: 480px;
 `;
