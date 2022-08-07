@@ -4,7 +4,7 @@ import { IQuery, IQueryFetchBoardsArgs, IQueryFetchBoardsCountArgs } from '../..
 import { getDate } from '../../../../commons/libraries/utils';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 
@@ -105,7 +105,10 @@ const ListBoard = (event) => {
                 )
             )}
           <Page onClick={onClickNextPage}>{`>`}</Page>
-
+          <SearchWrapper>
+            <SearchBarIcon />
+            <SearchBar />
+          </SearchWrapper>
           <CreatePostButton
             type='primary'
             shape='round'
@@ -183,7 +186,7 @@ interface IPageProps {
 
 const Footer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   margin-top: 20px;
 `;
 
@@ -196,9 +199,32 @@ const Page = styled.span<IPageProps>`
   cursor: pointer;
 `;
 
+const SearchWrapper = styled.div`
+  position: relative;
+`;
+
+const SearchBarIcon = styled(SearchOutlined)`
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  font-size: 16px;
+`;
+
+const SearchBar = styled.input`
+  width: 300px;
+  height: 40px;
+  padding: 0px 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ededed;
+
+  :focus {
+    outline: none;
+  }
+`;
+
 const CreatePostButton = styled(Button)`
   display: flex;
   justify-content: right;
   align-items: center;
-  margin-left: 480px;
 `;
