@@ -2,11 +2,13 @@ import styled from '@emotion/styled';
 import { gql, useQuery } from '@apollo/client';
 import { IQuery, IQueryFetchBoardsArgs, IQueryFetchBoardsCountArgs } from '../../../../commons/types/generated/types';
 import { getDate } from '../../../../commons/libraries/utils';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { EditOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
+import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 export const FETCH_BOARDS = gql`
   query fetchBoards($page: Int) {
@@ -26,18 +28,21 @@ export const FETCH_BOARDS_COUNT = gql`
 `;
 
 const ListBoard = (event) => {
+  const router = useRouter();
+
   const [size, setSize] = useState<SizeType>('large');
 
   const { data, refetch } = useQuery<Pick<IQuery, 'fetchBoards'>, IQueryFetchBoardsArgs>(FETCH_BOARDS);
-  const { data: dataBoardsCount } = useQuery<Pick<IQuery, 'fetchBoardsCount'>, IQueryFetchBoardsCountArgs>(
-    FETCH_BOARDS_COUNT
-  );
+  const { data: dataBoardsCount, refetch: refetchBoardsCount } = useQuery<
+    Pick<IQuery, 'fetchBoardsCount'>,
+    IQueryFetchBoardsCountArgs
+  >(FETCH_BOARDS_COUNT);
+
+  const [keyword, setKeyword] = useState('');
 
   const [startPage, setStartPage] = useState(1);
   const [activePage, setActivePage] = useState(1);
   const lastPage = Math.ceil(dataBoardsCount?.fetchBoardsCount / 10);
-
-  const router = useRouter();
 
   const onClickMoveToDetail = (event: MouseEvent<HTMLDivElement>) => {
     router.push(`/boards/${event.target.id}`);
@@ -52,6 +57,20 @@ const ListBoard = (event) => {
     setActivePage(activePage);
     refetch({ page: activePage });
   };
+
+  const getDebounce = _.debounce((value: string) => {
+    refetch({ search: value, page: 1 });
+    refetchBoardsCount({ search: value });
+    onChangeKeyword(value);
+  }, 200);
+
+  const onChangeKeyword = (value: string) => {
+    setKeyword(value);
+  };
+
+  function onChangeSearchbar(event: ChangeEvent<HTMLInputElement>) {
+    getDebounce(event.target.value);
+  }
 
   const onClickPrevPage = () => {
     if (startPage <= 1) return;
@@ -80,7 +99,14 @@ const ListBoard = (event) => {
           <Row key={el._id}>
             <ColumnBasic>{String(el._id).slice(-4).toUpperCase()}</ColumnBasic>
             <ColumnTitle id={el._id} onClick={onClickMoveToDetail}>
-              {el.title}
+              {el.title
+                .replaceAll(keyword, `@#$%${keyword}@#$%`)
+                .split('@#$%')
+                .map((el) => (
+                  <FindKeyword key={uuidv4()} isSearch={keyword === el}>
+                    {el}
+                  </FindKeyword>
+                ))}
             </ColumnTitle>
             <ColumnBasic>{el.writer}</ColumnBasic>
             <ColumnBasic>{getDate(el.createdAt)}</ColumnBasic>
@@ -107,7 +133,7 @@ const ListBoard = (event) => {
           <Page onClick={onClickNextPage}>{`>`}</Page>
           <SearchWrapper>
             <SearchBarIcon />
-            <SearchBar />
+            <SearchBar placeholder='검색어를 입력해 주세요.' onChange={onChangeSearchbar} />
           </SearchWrapper>
           <CreatePostButton
             type='primary'
@@ -221,6 +247,14 @@ const SearchBar = styled.input`
   :focus {
     outline: none;
   }
+`;
+
+interface IkeywordProps {
+  isSearch: boolean;
+}
+
+const FindKeyword = styled.span<IkeywordProps>`
+  color: ${(props) => (props.isSearch ? 'tomato' : 'default')};
 `;
 
 const CreatePostButton = styled(Button)`
