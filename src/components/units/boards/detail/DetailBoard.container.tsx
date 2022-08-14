@@ -15,7 +15,7 @@ const DetailBoard = () => {
   const [deleteBoard] = useMutation<Pick<IMutation, 'deleteBoard'>, IMutationDeleteBoardArgs>(DELETE_BOARD);
 
   const onClickMoveToBoards = () => {
-    router.push('/');
+    router.push('/boards');
   };
 
   const onClickMoveToEdit = () => {
