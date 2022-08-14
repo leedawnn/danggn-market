@@ -33,6 +33,9 @@ export const globalStyles = css`
   a {
     text-decoration: none;
     color: #000;
+    :hover {
+      color: inherit;
+    }
   }
   li {
     list-style: none;
