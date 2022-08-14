@@ -89,62 +89,64 @@ const ListBoard = (event) => {
   return (
     <>
       <Wrapper>
-        <TableRow>
-          <ColumnHeaderBasic>ID</ColumnHeaderBasic>
-          <ColumnHeaderTitle>제목</ColumnHeaderTitle>
-          <ColumnHeaderBasic>작성자</ColumnHeaderBasic>
-          <ColumnHeaderBasic>날짜</ColumnHeaderBasic>
-        </TableRow>
-        {data?.fetchBoards.map((el) => (
-          <Row key={el._id}>
-            <ColumnBasic>{String(el._id).slice(-4).toUpperCase()}</ColumnBasic>
-            <ColumnTitle id={el._id} onClick={onClickMoveToDetail}>
-              {el.title
-                .replaceAll(keyword, `@#$%${keyword}@#$%`)
-                .split('@#$%')
-                .map((el) => (
-                  <FindKeyword key={uuidv4()} isSearch={keyword === el}>
-                    {el}
-                  </FindKeyword>
-                ))}
-            </ColumnTitle>
-            <ColumnBasic>{el.writer}</ColumnBasic>
-            <ColumnBasic>{getDate(el.createdAt)}</ColumnBasic>
-          </Row>
-        ))}
-        {/* TODO: prev, next 아이콘으로 바꾸기 */}
-        <Footer>
-          <Page onClick={onClickPrevPage}>{`<`}</Page>
-          {Array(10)
-            .fill(1)
-            .map(
-              (_, index) =>
-                startPage + index <= lastPage && (
-                  <Page
-                    key={startPage + index}
-                    id={String(startPage + index)}
-                    onClick={onClickPage}
-                    isActive={startPage + index === activePage}
-                  >
-                    {startPage + index}
-                  </Page>
-                )
-            )}
-          <Page onClick={onClickNextPage}>{`>`}</Page>
-          <SearchWrapper>
-            <SearchBarIcon />
-            <SearchBar placeholder='검색어를 입력해 주세요.' onChange={onChangeSearchbar} />
-          </SearchWrapper>
-          <CreatePostButton
-            type='primary'
-            shape='round'
-            icon={<EditOutlined />}
-            size={size}
-            onClick={onClickMoveToCreate}
-          >
-            게시물 등록하기
-          </CreatePostButton>
-        </Footer>
+        <Table>
+          <TableRow>
+            <ColumnHeaderBasic>ID</ColumnHeaderBasic>
+            <ColumnHeaderTitle>제목</ColumnHeaderTitle>
+            <ColumnHeaderBasic>작성자</ColumnHeaderBasic>
+            <ColumnHeaderBasic>날짜</ColumnHeaderBasic>
+          </TableRow>
+          {data?.fetchBoards.map((el) => (
+            <Row key={el._id}>
+              <ColumnBasic>{String(el._id).slice(-4).toUpperCase()}</ColumnBasic>
+              <ColumnTitle id={el._id} onClick={onClickMoveToDetail}>
+                {el.title
+                  .replaceAll(keyword, `@#$%${keyword}@#$%`)
+                  .split('@#$%')
+                  .map((el) => (
+                    <FindKeyword key={uuidv4()} isSearch={keyword === el}>
+                      {el}
+                    </FindKeyword>
+                  ))}
+              </ColumnTitle>
+              <ColumnBasic>{el.writer}</ColumnBasic>
+              <ColumnBasic>{getDate(el.createdAt)}</ColumnBasic>
+            </Row>
+          ))}
+          {/* TODO: prev, next 아이콘으로 바꾸기 */}
+          <Footer>
+            <Page onClick={onClickPrevPage}>{`<`}</Page>
+            {Array(10)
+              .fill(1)
+              .map(
+                (_, index) =>
+                  startPage + index <= lastPage && (
+                    <Page
+                      key={startPage + index}
+                      id={String(startPage + index)}
+                      onClick={onClickPage}
+                      isActive={startPage + index === activePage}
+                    >
+                      {startPage + index}
+                    </Page>
+                  )
+              )}
+            <Page onClick={onClickNextPage}>{`>`}</Page>
+            <SearchWrapper>
+              <SearchBarIcon />
+              <SearchBar placeholder='검색어를 입력해 주세요.' onChange={onChangeSearchbar} />
+            </SearchWrapper>
+            <CreatePostButton
+              type='primary'
+              shape='round'
+              icon={<EditOutlined />}
+              size={size}
+              onClick={onClickMoveToCreate}
+            >
+              게시물 등록하기
+            </CreatePostButton>
+          </Footer>
+        </Table>
       </Wrapper>
     </>
   );
@@ -152,9 +154,16 @@ const ListBoard = (event) => {
 export default ListBoard;
 
 const Wrapper = styled.div`
-  position: absolute;
-  width: 1000px;
-  height: 583px;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100%;
+`;
+
+const Table = styled.section`
+  display: flex;
+  flex-direction: column;
+  width: 1300px;
   margin: 100px;
 `;
 
