@@ -3,6 +3,7 @@ import { globalStyles } from '../styles/globalStyles';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import 'antd/dist/antd.css';
+import Layout from '../src/components/commons/layout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <Global styles={globalStyles} />
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </ApolloProvider>
   );
 }
