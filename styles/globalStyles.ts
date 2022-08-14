@@ -5,6 +5,7 @@ export const globalStyles = css`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'InfinitySans';
   }
   html {
     font-size: 16px;
@@ -14,7 +15,9 @@ export const globalStyles = css`
     cursor: default;
     position: relative;
   }
-  h1,
+  h1 {
+    font-family: 'SSShinb7';
+  }
   h2,
   h3,
   h4,
@@ -33,5 +36,20 @@ export const globalStyles = css`
   }
   li {
     list-style: none;
+  }
+
+  @font-face {
+    font-family: 'SSShinb7';
+    src: url('/fonts/SSShinb7Regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'InfinitySans';
+    src: url('/fonts/InfinitySansR-Regular.otf');
+  }
+
+  @font-face {
+    font-family: 'InfinitySansBold';
+    src: url('/fonts/InfinitySansWM-Bold.otf');
   }
 `;
