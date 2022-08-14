@@ -1,9 +1,9 @@
-import ListBoard from '../src/components/units/board/list';
+import Banner from '../src/components/commons/layout/banner';
 
 export default function Home() {
   return (
     <>
-      <ListBoard />
+      <Banner />
     </>
   );
 }
