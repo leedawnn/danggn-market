@@ -187,7 +187,7 @@ export const YoutubeInput = styled.input`
 export const PhotoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: left;
+  justify-content: center;
   width: 282px;
   height: 118px;
 `;
