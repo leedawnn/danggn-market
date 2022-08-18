@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { CgProfile } from 'react-icons/cg';
+import { GrLike, GrDislike } from 'react-icons/gr';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -65,16 +66,44 @@ export const Title = styled.h1`
   color: #000000;
 `;
 
+export const ImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Image = styled.img`
+  width: 996px;
+  height: 480px;
+  margin-bottom: 30px;
+`;
+
 export const Content = styled.p`
   font-size: 14px;
   font-weight: 400;
 `;
 
 export const BoardLike = styled.div`
-  width: 100px;
+  width: 200px;
   display: flex;
   justify-content: space-between;
+  padding: 30px;
   cursor: pointer;
+`;
+
+export const LikeIcon = styled(GrLike)`
+  font-size: 20px;
+`;
+
+export const LikeCount = styled.div`
+  color: #ffd600;
+`;
+
+export const DisLikeIcon = styled(GrDislike)`
+  font-size: 20px;
+`;
+
+export const DisLikeCount = styled.div`
+  color: #828282;
 `;
 
 export const BtnWrapper = styled.div`
