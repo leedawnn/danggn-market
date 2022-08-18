@@ -5,6 +5,8 @@ export interface IDetailBoardUIProps {
   onClickMoveToEdit: () => void;
   onClickDelete: () => void;
   onClickMoveToBoards: () => void;
+  onClickLike: () => void;
+  onClickDislike: () => void;
 }
 
 export interface IUpdateBoardInput {
