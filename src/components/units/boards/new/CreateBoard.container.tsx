@@ -1,18 +1,17 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import CreateBoardUI from './CreateBoard.presenter';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD, UPDATE_BOARD } from './CreateBoard.queries';
 import { Modal } from 'antd';
 import {
-  ICreateBoardInput,
   IMutation,
   IMutationCreateBoardArgs,
   IMutationUpdateBoardArgs,
 } from '../../../../commons/types/generated/types';
-import { IUpdateBoardInput } from './CreateBoard.types';
+import { IBoardcreateProps, IUpdateBoardInput } from './CreateBoard.types';
 
-const CreateBoard = (props: ICreateBoardInput) => {
+const CreateBoard = (props: IBoardcreateProps) => {
   const router = useRouter();
 
   const [writer, setWriter] = useState('');
@@ -20,6 +19,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [fileUrls, setFileUrls] = useState(['', '', '']);
 
   const [writerError, setWriterError] = useState('');
   const [PwError, setPwError] = useState('');
@@ -48,6 +48,18 @@ const CreateBoard = (props: ICreateBoardInput) => {
   const onChangeYoutubeUrl = (event: ChangeEvent<HTMLInputElement>) => {
     setYoutubeUrl(event?.target.value);
   };
+
+  const onChangeFileUrls = (fileUrl: string, index: number) => {
+    const newFileUrls = [...fileUrls];
+    newFileUrls[index] = fileUrl;
+    setFileUrls(newFileUrls);
+  };
+
+  useEffect(() => {
+    if (props.data?.fetchBoard.images?.length) {
+      setFileUrls([...props.data?.fetchBoard.images]);
+    }
+  }, [props.data]);
 
   const onClickValidation = async () => {
     let isCheck = true;
@@ -88,6 +100,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
               title,
               contents,
               youtubeUrl,
+              images: [...fileUrls],
             },
           },
         });
@@ -99,6 +112,10 @@ const CreateBoard = (props: ICreateBoardInput) => {
   };
 
   const onClickUpdate = async () => {
+    const currentFiles = JSON.stringify(fileUrls);
+    const defaultFiles = JSON.stringify(props.data?.fetchBoard.images);
+    const isChangedFiles = currentFiles !== defaultFiles;
+
     if (!title && !contents && !youtubeUrl) {
       alert('수정한 내용이 없습니다.');
       return;
@@ -113,6 +130,7 @@ const CreateBoard = (props: ICreateBoardInput) => {
     if (title) updateBoardInput.title = title;
     if (contents) updateBoardInput.contents = contents;
     if (youtubeUrl) updateBoardInput.youtubeUrl = youtubeUrl;
+    if (isChangedFiles) updateBoardInput.images = fileUrls;
 
     try {
       if (typeof router.query.id !== 'string') return;
@@ -142,12 +160,15 @@ const CreateBoard = (props: ICreateBoardInput) => {
         onChangeTitle={onChangeTitle}
         onChangeContents={onChangeContents}
         onChangeYoutubeUrl={onChangeYoutubeUrl}
+        onChangeFileUrls={onChangeFileUrls}
         onClickValidation={onClickValidation}
         onClickUpdate={onClickUpdate}
         isEdit={props.isEdit}
         data={props.data}
+        fileUrls={fileUrls}
       />
     </>
   );
 };
+
 export default CreateBoard;
