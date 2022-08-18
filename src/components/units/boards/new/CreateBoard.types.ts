@@ -10,6 +10,7 @@ export interface IUpdateBoardInput {
   title?: string;
   contents?: string;
   youtubeUrl?: string;
+  images?: string[];
 }
 
 export interface ICreateBoardUIprops {
@@ -28,6 +29,8 @@ export interface ICreateBoardUIprops {
   onChangeTitle: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeContents: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeYoutubeUrl: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChangeFileUrls: (fileUrls: string, index: number) => void;
   onClickValidation: () => void;
   onClickUpdate: () => void;
+  fileUrls: string[];
 }
