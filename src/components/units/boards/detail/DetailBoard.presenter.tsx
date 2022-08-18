@@ -16,11 +16,20 @@ const DetailBoardUI = (props: IDetailBoardUIProps) => {
           </S.UserInfo>
           <S.BoardContents>
             <S.Title>{props.data?.fetchBoard?.title}</S.Title>
+            <S.ImageWrapper>
+              {props.data?.fetchBoard.images
+                ?.filter((el: string) => el)
+                .map((el: string) => (
+                  <S.Image key={el} src={`https://storage.googleapis.com/${el}`} />
+                ))}
+            </S.ImageWrapper>
             <S.Content>{props.data?.fetchBoard?.contents}</S.Content>
           </S.BoardContents>
           <S.BoardLike>
-            {/* <Image src='/public/images/thumbsUp.svg' width={20} height={20} />
-        <Image src='/public/images/thumbsDown.svg' width={20} height={20} /> */}
+            <S.LikeIcon onClick={props.onClickLike} />
+            <S.LikeCount>{props.data?.fetchBoard.likeCount}</S.LikeCount>
+            <S.DisLikeIcon onClick={props.onClickDislike} />
+            <S.DisLikeCount>{props.data?.fetchBoard.dislikeCount}</S.DisLikeCount>
           </S.BoardLike>
         </S.Container>
         <S.BtnWrapper>
