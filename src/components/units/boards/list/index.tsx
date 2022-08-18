@@ -11,8 +11,8 @@ import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 export const FETCH_BOARDS = gql`
-  query fetchBoards($page: Int) {
-    fetchBoards(page: $page) {
+  query fetchBoards($page: Int, $search: String) {
+    fetchBoards(page: $page, search: $search) {
       _id
       writer
       title
@@ -164,7 +164,7 @@ const Table = styled.section`
   display: flex;
   flex-direction: column;
   width: 1300px;
-  margin: 100px;
+  margin: 10px 100px 100px 100px;
 `;
 
 const Row = styled.div`
