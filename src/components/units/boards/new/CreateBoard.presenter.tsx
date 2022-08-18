@@ -1,6 +1,8 @@
 import * as S from './CreateBoard.styles';
 import { ICreateBoardUIprops } from './CreateBoard.types';
 import ImageAdd from '../../../../../public/imageAdd.svg';
+import Uploads01 from '../../../commons/uploads/01/Uploads01.container';
+import { v4 as uuidv4 } from 'uuid';
 
 const CreateBoardUI = (props: ICreateBoardUIprops) => {
   console.log(props.data?.fetchBoard);
@@ -61,15 +63,9 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
           <S.PhotoContainer>
             <S.PhotoSpan>사진 첨부</S.PhotoSpan>
             <S.PhotoItems>
-              <S.PhotoItem>
-                <ImageAdd />
-              </S.PhotoItem>
-              <S.PhotoItem>
-                <ImageAdd />
-              </S.PhotoItem>
-              <S.PhotoItem>
-                <ImageAdd />
-              </S.PhotoItem>
+              {props.fileUrls.map((el, index) => (
+                <Uploads01 key={uuidv4()} index={index} fileUrl={el} onChangeFileUrls={props.onChangeFileUrls} />
+              ))}
             </S.PhotoItems>
           </S.PhotoContainer>
           <S.MainSetting>
