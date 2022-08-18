@@ -1,8 +1,13 @@
 import { useRouter } from 'next/router';
 import DetailBoardUI from './DetailBoard.presenter';
 import { useMutation, useQuery } from '@apollo/client';
-import { FETCH_BOARD, DELETE_BOARD } from './DetailBoard.queries';
-import { IMutation, IMutationDeleteBoardArgs } from '../../../../commons/types/generated/types';
+import { FETCH_BOARD, DELETE_BOARD, LIKE_BOARD, DISLIKE_BOARD } from './DetailBoard.queries';
+import {
+  IMutation,
+  IMutationDeleteBoardArgs,
+  IMutationDislikeBoardArgs,
+  IMutationLikeBoardArgs,
+} from '../../../../commons/types/generated/types';
 import { Modal } from 'antd';
 
 const DetailBoard = () => {
@@ -13,6 +18,9 @@ const DetailBoard = () => {
   });
 
   const [deleteBoard] = useMutation<Pick<IMutation, 'deleteBoard'>, IMutationDeleteBoardArgs>(DELETE_BOARD);
+
+  const [likeBoard] = useMutation<Pick<IMutation, 'likeBoard'>, IMutationLikeBoardArgs>(LIKE_BOARD);
+  const [dislikeBoard] = useMutation<Pick<IMutation, 'dislikeBoard'>, IMutationDislikeBoardArgs>(DISLIKE_BOARD);
 
   const onClickMoveToBoards = () => {
     router.push('/boards');
@@ -29,11 +37,37 @@ const DetailBoard = () => {
       await deleteBoard({
         variables: { boardId: String(router.query.id) },
       });
-      alert('게시물이 삭제되었습니다.'); // TODO: 모달로 바꾸고 yes 눌렀을 때 삭제, no면 상세 페이지로 되돌아가기
+      alert('게시물이 성공적으로 삭제되었습니다.'); // TODO: no면 상세 페이지로 되돌아가기
       router.push('/');
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }
+  };
+
+  const onClickLike = () => {
+    if (typeof router.query.id !== 'string') return;
+    likeBoard({
+      variables: { boardId: router.query.id },
+      refetchQueries: [
+        {
+          query: FETCH_BOARD,
+          variables: { boardId: router.query.id },
+        },
+      ],
+    });
+  };
+
+  const onClickDislike = () => {
+    if (typeof router.query.id !== 'string') return;
+    dislikeBoard({
+      variables: { boardId: router.query.id },
+      refetchQueries: [
+        {
+          query: FETCH_BOARD,
+          variables: { boardId: router.query.id },
+        },
+      ],
+    });
   };
 
   return (
@@ -43,6 +77,8 @@ const DetailBoard = () => {
         onClickMoveToEdit={onClickMoveToEdit}
         onClickDelete={onClickDelete}
         data={data}
+        onClickLike={onClickLike}
+        onClickDislike={onClickDislike}
       />
     </>
   );
