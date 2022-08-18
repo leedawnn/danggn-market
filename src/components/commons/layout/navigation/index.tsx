@@ -22,8 +22,16 @@ const Navigation = () => {
           </Link>
           <HeaderRight>
             <HeaderRightMenus>
-              <MenuItem>Sign in</MenuItem>
-              <MenuItem>Join</MenuItem>
+              <MenuItem>
+                <Link href='/users/login'>
+                  <a>Sign in</a>
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href='/users/login'>
+                  <a>Join</a>
+                </Link>
+              </MenuItem>
               <MenuItem>My</MenuItem>
               <MenuItem>Order</MenuItem>
               <HiOutlineHeart />
@@ -38,8 +46,11 @@ const Navigation = () => {
 export default Navigation;
 
 const Wrapper = styled.div`
+  position: sticky;
+  top: 0;
   display: flex;
   width: 100%;
+  background-color: rgba(255, 255, 255, 0.047);
 `;
 
 const HeaderTop = styled.div`
