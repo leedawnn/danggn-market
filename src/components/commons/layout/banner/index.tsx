@@ -31,16 +31,18 @@ const Banner = () => {
 export default Banner;
 
 const Wrapper = styled.div`
-  height: 800px;
-  overflow-x: hidden;
+  position: relative;
+  height: 100%;
+  overflow-y: hidden;
 `;
 
 const SliderItem = styled.img`
+  top: 0;
   left: 0;
   right: 0;
-  top: 0;
   bottom: 0;
-  height: 960px;
+  width: 100%;
+  height: 100%;
   margin: auto;
   overflow: auto;
 `;
