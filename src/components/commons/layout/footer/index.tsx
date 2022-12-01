@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { FiInstagram } from 'react-icons/fi';
 
 export default function Footer() {
@@ -13,8 +14,22 @@ export default function Footer() {
           <HeaderLi>사업자정보확인</HeaderLi>
         </HeaderUl>
       </FooterHeader>
+      <FooterSection>
+        <FooterDiscription>
+          상호 : 주식회사 댕근마켓 대표 : 이지혜 개인정보 보호 책임자 : 이지혜 TEL : 010-####-$$$$ EMAIL :
+          dev.leedawn@gamil.com <br />
+          사업자등록번호 : 170-xx-@@@@@[사업자정보보기] 통신판매업신고 : 2022-서울강남-xxxxx 주소 : 호그와트 그리핀도르
+          기숙사 휴게실
+        </FooterDiscription>
+        <FooterDiscription>COPYRIGHT(C) ALL RIGHTS RESERVED.</FooterDiscription>
+      </FooterSection>
       <FooterBottom>
-        <FiInstagram />
+        <Link href='https://www.instagram.com/kkimiiskkimi/'>
+          <a>
+            <FooterInstagramIcon />
+          </a>
+        </Link>
+        <FooterInstagram>kkimi is cute.</FooterInstagram>
       </FooterBottom>
     </Wrapper>
   );
@@ -22,12 +37,42 @@ export default function Footer() {
 
 const Wrapper = styled.footer`
   width: 100%;
+  padding: 100px 0;
 `;
 
-const FooterHeader = styled.header``;
+const FooterHeader = styled.header`
+  display: flex;
+  justify-content: center;
+`;
 
-const HeaderUl = styled.ul``;
+const HeaderUl = styled.ul`
+  display: flex;
+`;
 
-const HeaderLi = styled.li``;
+const HeaderLi = styled.li`
+  margin-right: 1rem;
+`;
 
-const FooterBottom = styled.div``;
+const FooterSection = styled.div`
+  text-align: center;
+`;
+
+const FooterDiscription = styled.p`
+  color: #8b8b8b;
+`;
+
+const FooterBottom = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FooterInstagramIcon = styled(FiInstagram)`
+  color: #8b8b8b;
+  margin-top: 5px;
+`;
+
+const FooterInstagram = styled.span`
+  margin-left: 2px;
+  color: #8b8b8b;
+`;
