@@ -17,5 +17,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'no-useless-return': 'off',
+    'no-unneeded-ternary': 'off',
   },
 };

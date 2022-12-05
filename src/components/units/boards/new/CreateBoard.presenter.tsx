@@ -1,6 +1,5 @@
 import * as S from './CreateBoard.styles';
 import { ICreateBoardUIprops } from './CreateBoard.types';
-import ImageAdd from '../../../../../public/imageAdd.svg';
 import Uploads01 from '../../../commons/uploads/01/Uploads01.container';
 import { v4 as uuidv4 } from 'uuid';
 

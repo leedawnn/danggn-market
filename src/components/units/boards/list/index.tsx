@@ -45,11 +45,11 @@ const ListBoard = (event) => {
   const lastPage = Math.ceil(dataBoardsCount?.fetchBoardsCount / 10);
 
   const onClickMoveToDetail = (event: MouseEvent<HTMLDivElement>) => {
-    router.push(`/boards/${event.target.id}`);
+    router.push(`/board/${event.target.id}`);
   };
 
   const onClickMoveToCreate = () => {
-    router.push('/boards/new');
+    router.push('/board/new');
   };
 
   const onClickPage = (event: MouseEvent<HTMLSpanElement>) => {
@@ -230,7 +230,8 @@ const Page = styled.span<IPageProps>`
   justify-content: center;
   align-items: center;
   margin: 0px 10px;
-  font-weight: ${(props) => (props.isActive ? '700' : 'default')};
+  color: ${(props) => (props.isActive ? 'orange' : 'default')};
+  font-weight: ${(props) => (props.isActive ? '800' : 'default')};
   cursor: pointer;
 `;
 

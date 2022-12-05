@@ -6,43 +6,35 @@ import 'slick-carousel/slick/slick-theme.css';
 
 const Banner = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    speed: 4000,
+    speed: 2000,
     autoplaySpeed: 4000,
-    cssEase: 'linear',
+    cssEase: 'ease-in-out',
+    useTransform: false,
   };
+
   return (
     <Wrapper>
       <Slider {...settings}>
-        <div>
-          <SliderItem src='/1.jpeg' />
-        </div>
-        <div>
-          <SliderItem src='/2.jpeg' />
-        </div>
+        <SliderItem src='/2.jpeg' />
+        <SliderItem src='/1.jpeg' />
       </Slider>
     </Wrapper>
   );
 };
+
 export default Banner;
 
 const Wrapper = styled.div`
-  position: relative;
-  height: 100%;
+  width: 100%;
   overflow-y: hidden;
 `;
 
 const SliderItem = styled.img`
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   width: 100%;
-  height: 100%;
-  margin: auto;
-  overflow: auto;
+  height: 100vh;
 `;

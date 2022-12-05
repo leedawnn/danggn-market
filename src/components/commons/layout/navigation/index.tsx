@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import { HiOutlineHeart } from 'react-icons/hi';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
-import { accessTokenState, userInfoState } from '../../../../commons/store';
+import { accessTokenState, CartState, userInfoState } from '../../../../commons/store';
 import { gql, useMutation } from '@apollo/client';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 const LOGOUT_USER = gql`
   mutation logoutUser {
@@ -15,8 +16,34 @@ const LOGOUT_USER = gql`
 `;
 
 const Navigation = () => {
+  const router = useRouter();
+
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [cart, setCart] = useRecoilState(CartState);
+
+  const isHome = () => {
+    if (router.asPath === '/') {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = (e: any) => {
+      const { innerHeight } = window;
+      const { scrollHeight } = document.body;
+      const myScroll = e.srcElement.scrollingElement.scrollTop;
+
+      const scrolled = '';
+      console.log('전체 body 의 높이 : ' + scrollHeight);
+      console.log('전체 스크롤바 높이 : ' + innerHeight);
+      console.log('현재 스크롤 위치 : ' + myScroll);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+  }, []);
 
   const [logoutUser] = useMutation(LOGOUT_USER);
 
@@ -31,25 +58,27 @@ const Navigation = () => {
   useEffect(() => {}, [accessToken]);
 
   return (
-    <Wrapper>
+    <Wrapper isHome={isHome()}>
       <HeaderTop>
         <HeaderTopinner>
           <HeaderLeft>
             <HeaderMenus>
               <Link href='/market'>
                 <a>
-                  <HeaderMenu>MARKET</HeaderMenu>
+                  <HeaderMenu isHome={isHome()}>MARKET</HeaderMenu>
                 </a>
               </Link>
               <Link href='/board'>
                 <a>
-                  <HeaderMenu>BOARD</HeaderMenu>
+                  <HeaderMenu isHome={isHome()}>BOARD</HeaderMenu>
                 </a>
               </Link>
             </HeaderMenus>
           </HeaderLeft>
           <Link href='/'>
-            <Logo>댕근마켓</Logo>
+            <a>
+              <Logo isHome={isHome()}>댕근마켓</Logo>
+            </a>
           </Link>
           <HeaderRight>
             <HeaderRightMenus>
@@ -57,25 +86,29 @@ const Navigation = () => {
               {!userInfo.name ? (
                 <Link href='/user/signin'>
                   <a>
-                    <MenuItem>Sign in</MenuItem>
+                    <MenuItem isHome={isHome()}>Sign in</MenuItem>
                   </a>
                 </Link>
               ) : (
-                <MenuItem onClick={onClickLogOut}>Logout</MenuItem>
+                <MenuItem onClick={onClickLogOut} isHome={isHome()}>
+                  Logout
+                </MenuItem>
               )}
               <Link href='/user/join'>
                 <a>
-                  <MenuItem>Join</MenuItem>
+                  <MenuItem isHome={isHome()}>Join</MenuItem>
                 </a>
               </Link>
               <Link href='/user/mypage'>
                 <a>
-                  <MenuItem>My</MenuItem>
+                  <MenuItem isHome={isHome()}>My</MenuItem>
                 </a>
               </Link>
-              <MenuItem>Order</MenuItem>
-              <HiOutlineHeart />
-              <MenuItem>Cart(0)</MenuItem>
+              <MenuItem isHome={isHome()}>
+                Order <HiOutlineHeart style={{ marginRight: '2px' }} />
+              </MenuItem>
+
+              <MenuItem isHome={isHome()}>Cart({cart})</MenuItem>
             </HeaderRightMenus>
           </HeaderRight>
         </HeaderTopinner>
@@ -85,18 +118,26 @@ const Navigation = () => {
 };
 export default Navigation;
 
-const Wrapper = styled.div`
-  position: fixed;
-  top: 0;
+interface IsHomeProps {
+  isHome: boolean;
+}
+
+const Wrapper = styled.div<IsHomeProps>`
+  position: ${(props) => (props.isHome ? 'fixed' : 'sticky')};
+  top: ${(props) => (props.isHome ? '0' : '-6px')};
   display: flex;
   width: 100%;
+  height: 78px;
+  padding: ${(props) => (props.isHome ? '50px 100px' : '15px 100px')};
+  background-color: ${(props) => (props.isHome ? 'rgba(255, 255, 255, 0)' : '#ffffff')};
+  opacity: ${(props) => (props.isHome ? 'default' : '0.7')};
+  backdrop-filter: ${(props) => (props.isHome ? 'default' : 'blur(30px)')};
   z-index: 1;
-  background-color: rgba(255, 255, 255, 0);
 `;
 
 const HeaderTop = styled.div`
+  display: flex;
   width: 100%;
-  height: 88px;
 `;
 
 const HeaderTopinner = styled.div`
@@ -104,16 +145,14 @@ const HeaderTopinner = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 88px;
-  padding: 35px 150px;
 `;
 
 const HeaderLeft = styled.header``;
 
-const Logo = styled.a`
+const Logo = styled.a<IsHomeProps>`
   font-family: 'SSShinb7';
   font-size: 36px;
-  color: #ffffff;
+  color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
   cursor: pointer;
 `;
 
@@ -121,9 +160,9 @@ const HeaderMenus = styled.ul`
   display: flex;
 `;
 
-const HeaderMenu = styled.li`
+const HeaderMenu = styled.li<IsHomeProps>`
   margin-left: 30px;
-  color: #ffffff;
+  color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
   cursor: pointer;
 `;
 
@@ -138,8 +177,11 @@ const HeaderRightMenus = styled.ul`
   color: #ffffff;
 `;
 
-const MenuItem = styled.li`
+const MenuItem = styled.li<IsHomeProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-left: 15px;
-  color: #ffffff;
+  color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
   cursor: pointer;
 `;

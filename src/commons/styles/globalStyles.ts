@@ -29,10 +29,11 @@ export const globalStyles = css`
     letter-spacing: -0.5%;
   }
   button {
+    border: none;
   }
   a {
     text-decoration: none;
-    color: #000;
+    color: #000000;
     :hover {
       color: inherit;
     }
