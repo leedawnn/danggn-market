@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FiInstagram } from 'react-icons/fi';
 
 export default function Footer() {
+  const router = useRouter();
+
+  const isHome = router.asPath === '/' ? true : false;
+
   return (
-    <Wrapper>
+    <Wrapper isHome={isHome}>
       <FooterHeader>
         <HeaderUl>
           <HeaderLi>회사소개</HeaderLi>
@@ -35,9 +40,13 @@ export default function Footer() {
   );
 }
 
-const Wrapper = styled.footer`
+interface IsHomeProps {
+  isHome: boolean;
+}
+
+const Wrapper = styled.footer<IsHomeProps>`
   width: 100%;
-  padding: 100px 0;
+  padding: ${(props) => (props.isHome ? '100px 0' : '0 0 50px 0')};
 `;
 
 const FooterHeader = styled.header`
