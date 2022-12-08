@@ -1,4 +1,4 @@
-import About from '../../../units/landing/about';
+import AboutCommunity from '../../../units/landing/aboutCommunity';
 import BestUsedItems from '../../../units/landing/bestUsedItems';
 import RollingBanner from '../../../units/landing/rollingBanner';
 
@@ -6,7 +6,7 @@ const Section = () => {
   return (
     <>
       <RollingBanner />
-      <About />
+      <AboutCommunity />
       <BestUsedItems />
     </>
   );
