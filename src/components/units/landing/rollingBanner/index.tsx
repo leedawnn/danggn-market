@@ -18,7 +18,9 @@ const Wrapper = styled.div`
   max-width: 100%;
   overflow: hidden;
   height: 26px;
+  border-top: 1px solid #000000;
   border-bottom: 1px solid #000000;
+  margin-top: 0.2px;
 `;
 
 const SlideTextInner = styled.div`

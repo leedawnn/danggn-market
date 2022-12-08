@@ -7,14 +7,14 @@ const AboutCommunity = () => {
       <Wrapper>
         <CommunityWrapper>
           <CommunityImage src='/1.jpeg' alt='반려동물 커뮤니티 소개 이미지' />
-          <CommunityText>
+          <CommunityInner>
             <CommunityTitle>
               반려동물과 <br /> 함께하는 커뮤니티
             </CommunityTitle>
             <CommunitySpan>매일 업데이트되는 인기글!</CommunitySpan>
             <CommunitySpan>내새꾸 자랑부터 궁금증까지 재밌게 소통해요 🐶</CommunitySpan>
             <Button01 url='/board' title='커뮤니티 바로가기' />
-          </CommunityText>
+          </CommunityInner>
         </CommunityWrapper>
       </Wrapper>
     </>
@@ -41,7 +41,7 @@ const CommunityImage = styled.img`
   height: 500px;
 `;
 
-const CommunityText = styled.div`
+const CommunityInner = styled.div`
   display: flex;
   flex-direction: column;
 `;
