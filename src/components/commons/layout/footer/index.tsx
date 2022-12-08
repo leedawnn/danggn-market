@@ -46,7 +46,7 @@ interface IsHomeProps {
 
 const Wrapper = styled.footer<IsHomeProps>`
   width: 100%;
-  padding: ${(props) => (props.isHome ? '100px 0' : '0 0 50px 0')};
+  padding: ${(props) => (props.isHome ? '100px 0' : '50px 0')};
 `;
 
 const FooterHeader = styled.header`

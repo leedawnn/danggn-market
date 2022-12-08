@@ -36,8 +36,7 @@ const Navigation = () => {
       const { scrollHeight } = document.body;
       const myScroll = e.srcElement.scrollingElement.scrollTop;
 
-      const scrolled = '';
-      console.log('전체 body 의 높이 : ' + scrollHeight);
+      if (myScroll) console.log('전체 body 의 높이 : ' + scrollHeight);
       console.log('전체 스크롤바 높이 : ' + innerHeight);
       console.log('현재 스크롤 위치 : ' + myScroll);
     };
