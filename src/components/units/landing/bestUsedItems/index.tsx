@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import Link from 'next/link';
 import { IQuery } from '../../../../commons/types/generated/types';
 import { FETCH_USED_ITEMS_OF_THE_BEST } from './bestUsedItems.queries';
 
 const BestUsedItems = () => {
   const { data } = useQuery<Pick<IQuery, 'fetchUseditemsOfTheBest'>>(FETCH_USED_ITEMS_OF_THE_BEST);
-  console.log(data);
+
   return (
     <Wrapper>
       <Title>베스트 중고 거래</Title>
@@ -19,6 +20,11 @@ const BestUsedItems = () => {
           </BestUsedItem>
         ))}
       </BestUsedItemsWrapper>
+      <Link href='/market'>
+        <a>
+          <MoveToMarketSpan>더 많은 중고 거래 보러가기</MoveToMarketSpan>
+        </a>
+      </Link>
     </Wrapper>
   );
 };
@@ -40,7 +46,7 @@ const BestUsedItemsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  height: 250px;
+  height: 300px;
   justify-content: space-around;
 `;
 
@@ -70,4 +76,13 @@ const ItemPrice = styled.span`
 
 const ItemPickedCount = styled.span`
   color: #868e96;
+`;
+
+const MoveToMarketSpan = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+  text-decoration: underline !important;
+  cursor: pointer;
 `;

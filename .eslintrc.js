@@ -19,5 +19,6 @@ module.exports = {
     'no-useless-return': 'off',
     'no-unneeded-ternary': 'off',
     'no-unused-vars': 'off',
+    'no-undef': 'off',
   },
 };
