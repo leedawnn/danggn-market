@@ -3,17 +3,21 @@ import Link from 'next/link';
 
 interface IButtonProps {
   title: string;
-  url: string;
+  url?: string;
 }
 
 const Button01 = (props: IButtonProps) => {
   return (
     <Button>
-      <ButtonText>
-        <Link href={props.url}>
-          <a>{props.title}</a>
-        </Link>
-      </ButtonText>
+      {props.url ? (
+        <ButtonText>
+          <Link href={props.url}>
+            <a>{props.title}</a>
+          </Link>
+        </ButtonText>
+      ) : (
+        <ButtonText>{props.title}</ButtonText>
+      )}
     </Button>
   );
 };
