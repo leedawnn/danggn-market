@@ -8,7 +8,7 @@ const AboutMarket = () => {
         <MarketInner>
           <MarketTitle>
             오로지, <br />
-            댕댕이를 위한 중고마켓
+            댕냥이를 위한 중고마켓
           </MarketTitle>
           <MarketSpan>반려인들과의 따듯한 거래를 지금 경험해보세요 🤗 </MarketSpan>
           <ButtonWrapper>
