@@ -26,7 +26,7 @@ const Banner = () => {
       <SlideContent>
         <ContentTitle>국내 최초 반려동물만을 위한 중고마켓</ContentTitle>
         <Content>
-          중고 거래부터 반려동물 정보까지, 반려인과 함께해요.
+          중고 거래부터 반려동물 정보까지, 반려인들과 함께 나눠요.
           <br /> 내 새꾸 자랑도 하고 꿀팁도 얻어가세요 :)
         </Content>
         <Link href='/market/create'>
@@ -42,7 +42,8 @@ const Banner = () => {
 export default Banner;
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow-y: hidden;
 `;
 
@@ -53,11 +54,50 @@ const SliderItem = styled.img`
 
 const SlideContent = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: focus-in-expand-fwd 0.4s linear both;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 500px;
+  height: 250px;
+  margin: auto;
   text-align: center;
+  animation: focus-in-expand-fwd 0.4s linear both;
+
+  @-webkit-keyframes focus-in-expand-fwd {
+    0% {
+      letter-spacing: -0.5em;
+      -webkit-transform: translateZ(-800px);
+      transform: translateZ(-800px);
+      -webkit-filter: blur(12px);
+      filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-filter: blur(0);
+      filter: blur(0);
+      opacity: 1;
+    }
+  }
+  @keyframes focus-in-expand-fwd {
+    0% {
+      letter-spacing: -0.5em;
+      -webkit-transform: translateZ(-800px);
+      transform: translateZ(-800px);
+      -webkit-filter: blur(12px);
+      filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-filter: blur(0);
+      filter: blur(0);
+      opacity: 1;
+    }
+  }
 `;
 
 const ContentTitle = styled.span`
