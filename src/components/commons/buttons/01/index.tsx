@@ -4,6 +4,7 @@ import Link from 'next/link';
 interface IButtonProps {
   title: string;
   url?: string;
+  onMoveToElement?: () => void;
 }
 
 const Button01 = (props: IButtonProps) => {
@@ -16,7 +17,7 @@ const Button01 = (props: IButtonProps) => {
           </Link>
         </ButtonText>
       ) : (
-        <ButtonText>{props.title}</ButtonText>
+        <ButtonText onClick={props.onMoveToElement}>{props.title}</ButtonText>
       )}
     </Button>
   );

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import Button01 from '../../../commons/buttons/01';
 
-const AboutMarket = () => {
+const AboutMarket = (props: any) => {
   return (
     <Wrapper>
       <MarketWrapper>
@@ -12,8 +12,7 @@ const AboutMarket = () => {
           </MarketTitle>
           <MarketSpan>반려인들과의 따듯한 거래를 지금 경험해보세요 🤗 </MarketSpan>
           <ButtonWrapper>
-            {/* TODO: 인기 매물 보기 버튼 누르면 해당 스크롤 위치로 고정되게 */}
-            <Button01 url='/market' title='인기 매물 보기' />
+            <Button01 title='인기 매물 보기' onMoveToElement={props.onMoveToElement} />
             <Button01 url='/market' title='믿을 수 있는 중고거래' />
           </ButtonWrapper>
         </MarketInner>

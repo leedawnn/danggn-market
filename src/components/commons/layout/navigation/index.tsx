@@ -30,19 +30,19 @@ const Navigation = () => {
     }
   };
 
-  useEffect(() => {
-    const handleScroll = (e: any) => {
-      const { innerHeight } = window;
-      const { scrollHeight } = document.body;
-      const myScroll = e.srcElement.scrollingElement.scrollTop;
+  // useEffect(() => {
+  //   const handleScroll = (e: any) => {
+  //     const { innerHeight } = window;
+  //     const { scrollHeight } = document.body;
+  //     const myScroll = e.srcElement.scrollingElement.scrollTop;
 
-      if (myScroll) console.log('전체 body 의 높이 : ' + scrollHeight);
-      console.log('전체 스크롤바 높이 : ' + innerHeight);
-      console.log('현재 스크롤 위치 : ' + myScroll);
-    };
+  //     if (myScroll) console.log('전체 body 의 높이 : ' + scrollHeight);
+  //     console.log('전체 스크롤바 높이 : ' + innerHeight);
+  //     console.log('현재 스크롤 위치 : ' + myScroll);
+  //   };
 
-    window.addEventListener('scroll', handleScroll);
-  }, []);
+  //   window.addEventListener('scroll', handleScroll);
+  // }, []);
 
   const [logoutUser] = useMutation(LOGOUT_USER);
 

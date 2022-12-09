@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { IQuery } from '../../../../commons/types/generated/types';
 import { FETCH_USED_ITEMS_OF_THE_BEST } from './bestUsedItems.queries';
 
-const BestUsedItems = () => {
+const BestUsedItems = (props: any) => {
   const { data } = useQuery<Pick<IQuery, 'fetchUseditemsOfTheBest'>>(FETCH_USED_ITEMS_OF_THE_BEST);
 
   return (
-    <Wrapper>
+    <Wrapper ref={props.element}>
       <Title>베스트 중고 거래</Title>
       <BestUsedItemsWrapper>
         {data?.fetchUseditemsOfTheBest.map((el, index) => (
@@ -33,7 +33,7 @@ export default BestUsedItems;
 const Wrapper = styled.section`
   width: 100vw;
   background-color: #e5f2e5;
-  padding: 10rem 10rem;
+  padding: 8rem 8rem;
 `;
 
 const Title = styled.h1`
