@@ -41,6 +41,12 @@ export const globalStyles = css`
   li {
     list-style: none;
   }
+  input:focus {
+    outline: none;
+  }
+  textarea:focus {
+    outline: none;
+  }
 
   @font-face {
     font-family: 'SSShinb7';
