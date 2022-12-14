@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 
-interface IButtonProps {
+interface IButton01Props {
   title: string;
   url?: string;
   onMoveToElement?: () => void;
 }
 
-const Button01 = (props: IButtonProps) => {
+const Button01 = (props: IButton01Props) => {
   return (
     <Button>
       {props.url ? (
