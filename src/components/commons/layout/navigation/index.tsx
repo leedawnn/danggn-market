@@ -83,7 +83,7 @@ const Navigation = () => {
             <HeaderRightMenus>
               {/* accessToken 유무로 바꾸기 */}
               {!userInfo.name ? (
-                <Link href='/user/signin'>
+                <Link href='/auth/signin'>
                   <a>
                     <MenuItem isHome={isHome()}>Sign in</MenuItem>
                   </a>
@@ -93,12 +93,12 @@ const Navigation = () => {
                   Logout
                 </MenuItem>
               )}
-              <Link href='/user/join'>
+              <Link href='/auth/join'>
                 <a>
                   <MenuItem isHome={isHome()}>Join</MenuItem>
                 </a>
               </Link>
-              <Link href='/user/mypage'>
+              <Link href='/auth/mypage'>
                 <a>
                   <MenuItem isHome={isHome()}>My</MenuItem>
                 </a>

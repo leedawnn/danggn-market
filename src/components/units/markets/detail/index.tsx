@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import CreateProductsComment from '../../marketscomment/create';
-import CreateProductsCommentList from '../../marketscomment/list';
+import CreateProductsComment from '../../marketsComment/create';
+import CreateProductsCommentList from '../../marketsComment/list';
 import { FETCH_USED_ITEM, TOGGLE_USED_ITEM_PICK } from './DetailProduct.queries';
 import { FaRegHeart, FaHeart, FaMapMarkerAlt } from 'react-icons/fa';
 import { IUseditem } from '../../../../commons/types/generated/types';
