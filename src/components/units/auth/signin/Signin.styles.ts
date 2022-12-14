@@ -47,7 +47,7 @@ export const LoginInput = styled.input`
 `;
 
 export const FormDescription = styled.p`
-  font-size: 10px;
+  font-size: 11px;
   color: #adadad;
 `;
 

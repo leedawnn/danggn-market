@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 interface IButton02Props {
   title: string;
   kakao: boolean;
-  onClickLogin?: () => Promise<void>;
+  onClick: (() => Promise<void>) | (() => void);
 }
 
-const Button02 = ({ title, kakao, onClickLogin }: IButton02Props) => {
+const Button02 = ({ title, kakao, onClick }: IButton02Props) => {
   return (
-    <Button onClick={onClickLogin} kakao={kakao}>
+    <Button onClick={onClick} kakao={kakao}>
       {title}
     </Button>
   );
@@ -29,8 +29,8 @@ const Button = styled.button<IButtonColorProps>`
   cursor: pointer;
 
   :hover {
-    color: #000000;
-    background-color: #ffffff;
-    border: 1px solid #000000;
+    color: ${(props) => (props.kakao ? 'default' : '#000000')};
+    background-color: ${(props) => (props.kakao ? 'default' : '#ffffff')};
+    border: ${(props) => (props.kakao ? 'default' : '1px solid #000000')};
   }
 `;
