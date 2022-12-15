@@ -1,4 +1,4 @@
-schema: http://backend08.codebootcamp.co.kr/graphql/graphql03
+schema: http://backend08.codebootcamp.co.kr/graphql
 generates:
   ./src/commons/types/generated/types.ts:
     plugins:
