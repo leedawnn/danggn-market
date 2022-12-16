@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   align-items: center;
   width: 100vw;
   height: 100%;
-  margin-top: 12px;
+  margin: 60px 0;
 `;
 
 export const JoinForm = styled.form`
