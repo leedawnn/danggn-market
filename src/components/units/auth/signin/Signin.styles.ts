@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   width: 1200px;
   height: 100%;
   margin: 0px auto;
-  padding: 150px;
+  padding: 150px 150px 60px 150px;
 `;
 
 export const Container = styled.div`
@@ -65,6 +65,6 @@ export const UserSignin = styled.section`
   padding: 2rem;
 `;
 
-export const FormError = styled.span`
+export const LoginErrorMessage = styled.span`
   color: tomato;
 `;

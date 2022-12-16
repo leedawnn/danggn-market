@@ -3,7 +3,6 @@ import * as S from './Join.styles';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
 
 const schema = yup.object({
   email: yup.string().email('이메일 형식에 적합하지 않습니다.').required('이메일은 필수 입력입니다.'),
@@ -28,8 +27,6 @@ interface IJoinProps {
 }
 
 const JoinUI = ({ handleCreateUser }: IJoinProps) => {
-  const [isActive, setIsActive] = useState(false);
-
   const { register, handleSubmit, formState } = useForm<IJoinProps>({
     resolver: yupResolver(schema),
     mode: 'onChange',
@@ -37,7 +34,7 @@ const JoinUI = ({ handleCreateUser }: IJoinProps) => {
 
   return (
     <S.Wrapper>
-      <S.JoinForm onSubmitCapture={handleSubmit(handleCreateUser)}>
+      <S.JoinForm onSubmit={handleSubmit(handleCreateUser)}>
         <S.JoinHeader>
           <S.JoinTitle>반려인들과의 소통을 원하시면 가입하세요.</S.JoinTitle>
           <S.KakaoButton>Kakao로 로그인</S.KakaoButton>
@@ -65,7 +62,7 @@ const JoinUI = ({ handleCreateUser }: IJoinProps) => {
             <S.ErrorMessage>{formState.errors.name?.message}</S.ErrorMessage>
           </S.JoinInputWrapper>
           <S.ButtonWrapper>
-            <S.JoinButton type='reset' isValid={formState.isValid}>
+            <S.JoinButton type='submit' isValid={formState.isValid}>
               가입
             </S.JoinButton>
           </S.ButtonWrapper>

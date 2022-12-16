@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 interface IButton02Props {
   title: string;
   kakao: boolean;
-  onClick: (() => Promise<void>) | (() => void);
+  onClick: ((inputs: any) => Promise<void>) | (() => void);
 }
 
 const Button02 = ({ title, kakao, onClick }: IButton02Props) => {

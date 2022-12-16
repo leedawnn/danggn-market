@@ -1,71 +1,64 @@
 import { useApolloClient, useMutation } from '@apollo/client';
-import { ChangeEvent, useState } from 'react';
-import { Modal } from 'antd';
-import { result } from 'lodash';
+import { message } from 'antd';
 import { useRecoilState } from 'recoil';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 import { useRouter } from 'next/router';
 import { IMutation, IMutationLoginUserArgs } from '../../../../commons/types/generated/types';
 import SigninUI from './Signin.presenter';
 import { FETCH_USER_LOGGED_IN, LOGIN_USER } from './Signin.queries';
 import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
-import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
+
+interface ISigninInputType {
+  email: string;
+  password: string;
+}
 
 const SigninContainer = () => {
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-
   const router = useRouter();
   const client = useApolloClient();
 
+  const [, setAccessToken] = useRecoilState(accessTokenState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
   const [loginUser] = useMutation<Pick<IMutation, 'loginUser'>, IMutationLoginUserArgs>(LOGIN_USER);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const handleSigninUser = async (signinInputs: ISigninInputType) => {
+    try {
+      const result = await loginUser({
+        variables: { ...signinInputs },
+      });
 
-  const onChangeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
+      const accessToken = result.data?.loginUser.accessToken || '';
 
-  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
+      if (!accessToken) {
+        message.error({ content: '로그인에 실패하였습니다. 다시 시도해 주세요. 😢' });
+        return;
+      }
 
-  const onClickLogin = async () => {
-    const result = await loginUser({
-      variables: {
-        email,
-        password,
-      },
-    });
+      setAccessToken(accessToken);
 
-    const accessToken = result.data?.loginUser.accessToken;
-
-    if (!accessToken) {
-      Modal.error({ content: '로그인에 실패하였습니다. 다시 시도해 주세요. 😢' });
-      return;
-    }
-    const resultUserInfo = await client.query({
-      query: FETCH_USER_LOGGED_IN,
-      context: {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const { data } = await client.query({
+        query: FETCH_USER_LOGGED_IN,
+        context: {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-      },
-    });
+      });
 
-    const userInfo = resultUserInfo.data?.fetchUserLoggedIn;
+      if (!data) message.error({ content: '해당 유저 정보를 찾을 수 없습니다. 🥺' });
 
-    setAccessToken(accessToken);
-    setUserInfo(userInfo);
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      setUserInfo(data.fetchUserLoggedIn); // TODO: userInfo에 undefined로 담김,,,
 
-    router.push('/');
+      message.success({ content: `${data.fetchUserLoggedIn?.name}님, 반갑습니다! 😉` });
+      router.push('/');
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error.message;
+      }
+    }
   };
 
-  return <SigninUI onChangeEmail={onChangeEmail} onChangePassword={onChangePassword} onClickLogin={onClickLogin} />;
+  return <SigninUI handleSigninUser={handleSigninUser} />;
 };
 export default SigninContainer;

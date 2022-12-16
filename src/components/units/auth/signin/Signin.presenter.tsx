@@ -1,16 +1,28 @@
 import { useRouter } from 'next/router';
-import { ChangeEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import Button02 from '../../../commons/buttons/02';
 import * as S from './Signin.styles';
 
+const schema = yup.object({
+  email: yup.string().required('이메일을 입력해주세요.'),
+  password: yup.string().required('비밀번호를 입력해주세요.'),
+});
+
 interface ISigninProps {
-  onChangeEmail: (event: ChangeEvent<HTMLInputElement>) => void;
-  onChangePassword: (event: ChangeEvent<HTMLInputElement>) => void;
-  onClickLogin: () => Promise<void>;
+  email?: string;
+  password?: string;
+  handleSigninUser: (handleSigninUser: any) => Promise<void>;
 }
 
-const SigninUI = ({ onChangeEmail, onChangePassword, onClickLogin }: ISigninProps) => {
+const SigninUI = ({ handleSigninUser }: ISigninProps) => {
   const router = useRouter();
+
+  const { register, handleSubmit, formState } = useForm<ISigninProps>({
+    resolver: yupResolver(schema),
+    mode: 'onSubmit',
+  });
 
   const onClickMoveToJoin = () => {
     router.push('/auth/join');
@@ -27,10 +39,10 @@ const SigninUI = ({ onChangeEmail, onChangePassword, onClickLogin }: ISigninProp
               비밀번호는 대소문자를 구분합니다.
             </S.FormDescription>
           </S.LoginHeader>
-          <S.LoginForm>
-            <S.LoginInput type='text' placeholder='MEMBER EMAIL' onChange={onChangeEmail} />
-            <S.LoginInput type='password' placeholder='PASSWORD' onChange={onChangePassword} />
-            <Button02 onClick={onClickLogin} title='로그인' kakao={false} />
+          <S.LoginForm onSubmit={handleSubmit(handleSigninUser)}>
+            <S.LoginInput type='text' placeholder='MEMBER EMAIL' {...register('email')} />
+            <S.LoginInput type='password' placeholder='PASSWORD' {...register('password')} />
+            <Button02 onClick={handleSigninUser} title='로그인' kakao={false} />
           </S.LoginForm>
         </S.LoginWrapper>
         <S.UserSignin>
@@ -42,6 +54,8 @@ const SigninUI = ({ onChangeEmail, onChangePassword, onClickLogin }: ISigninProp
           <S.ButtonWrapper>
             <Button02 onClick={onClickMoveToJoin} title='회원가입' kakao={false} />
             <Button02 onClick={onClickMoveToJoin} title='카카오 1초 가입' kakao={true} />
+            <S.LoginErrorMessage>{formState.errors.email?.message}</S.LoginErrorMessage>
+            <S.LoginErrorMessage>{formState.errors.password?.message}</S.LoginErrorMessage>
           </S.ButtonWrapper>
         </S.UserSignin>
       </S.Container>

@@ -9,8 +9,6 @@ export const fetchLoggedInUserHook = () => {
   const [, setUserInfo] = useRecoilState(userInfoState);
   const { data } = useQuery<Pick<IQuery, 'fetchUserLoggedIn'>>(FETCH_USER_LOGGED_IN);
 
-  console.log(data);
-
   useEffect(() => {
     if (!data?.fetchUserLoggedIn) {
       setUserInfo(undefined);

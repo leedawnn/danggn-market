@@ -8,12 +8,12 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
 import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
+import { IMutation } from '../../../../commons/types/generated/types';
+import { message } from 'antd';
 
 const LOGOUT_USER = gql`
   mutation logoutUser {
-    logoutUser {
-      accessToken
-    }
+    logoutUser
   }
 `;
 
@@ -46,14 +46,17 @@ const Navigation = () => {
   //   window.addEventListener('scroll', handleScroll);
   // }, []);
 
-  const [logoutUser] = useMutation(LOGOUT_USER);
+  const [logoutUser] = useMutation<Pick<IMutation, 'logoutUser'>>(LOGOUT_USER);
 
   const onClickLogOut = async () => {
-    await logoutUser;
-    setAccessToken('');
-    localStorage.removeItem('userInfo');
-    localStorage.removeItem('accessToken');
-    location.reload();
+    try {
+      await logoutUser();
+      setUserInfo(undefined);
+      message.success({ content: '로그아웃 되었습니다. 👋' });
+      router.push('/');
+    } catch (error) {
+      if (error instanceof Error) throw error.message;
+    }
   };
 
   useEffect(() => {}, [accessToken]);
