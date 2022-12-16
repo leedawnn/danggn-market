@@ -6,7 +6,7 @@ const RollingBanner = () => {
       <SlideTextInner>
         {Array(10)
           .fill(1)
-          .map((_, index) => index <= 9 && <SlideText>NICE TO MEET YOU / DANGGEN</SlideText>)}
+          .map((_, index) => index <= 9 && <SlideText>NICE TO MEET YOU / DANGGN</SlideText>)}
       </SlideTextInner>
     </Wrapper>
   );

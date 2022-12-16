@@ -7,10 +7,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRouter } from 'next/router';
-import { accessTokenState, userInfoState } from '../../../../commons/store';
 import { IMutation, IMutationLoginUserArgs } from '../../../../commons/types/generated/types';
 import SigninUI from './Signin.presenter';
 import { FETCH_USER_LOGGED_IN, LOGIN_USER } from './Signin.queries';
+import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
 const SigninContainer = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);

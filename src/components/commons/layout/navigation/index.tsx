@@ -2,10 +2,12 @@ import styled from '@emotion/styled';
 import { HiOutlineHeart } from 'react-icons/hi';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
-import { accessTokenState, CartState, userInfoState } from '../../../../commons/store';
+import { CartState } from '../../../../commons/store';
 import { gql, useMutation } from '@apollo/client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
 const LOGOUT_USER = gql`
   mutation logoutUser {
@@ -82,7 +84,7 @@ const Navigation = () => {
           <HeaderRight>
             <HeaderRightMenus>
               {/* accessToken 유무로 바꾸기 */}
-              {!userInfo.name ? (
+              {!userInfo ? (
                 <Link href='/auth/signin'>
                   <a>
                     <MenuItem isHome={isHome()}>Sign in</MenuItem>

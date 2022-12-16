@@ -5,10 +5,11 @@ import Uploads01UI from './Uploads01.presenter';
 import { IUploads01Props } from './Uploads01.types';
 import { UPLOAD_FILE } from './Uploads01.queries';
 import { Modal } from 'antd';
+import { IMutation, IMutationUploadFileArgs } from '../../../../commons/types/generated/types';
 
 export default function Uploads01(props: IUploads01Props) {
   const fileRef = useRef<HTMLInputElement>(null);
-  const [uploadFile] = useMutation(UPLOAD_FILE);
+  const [uploadFile] = useMutation<Pick<IMutation, 'uploadFile'>, IMutationUploadFileArgs>(UPLOAD_FILE);
 
   const onClickUpload = () => {
     fileRef.current?.click();
@@ -16,13 +17,13 @@ export default function Uploads01(props: IUploads01Props) {
 
   const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log(file);
+
     const isValid = checkValidationImage(event.target.files?.[0]);
     if (!isValid) return;
 
     try {
       const result = await uploadFile({ variables: { file } });
-      props.onChangeFileUrls(result.data?.uploadFile.url, props.index);
+      props.onChangeFileUrls(String(result.data?.uploadFile.url), props.index);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }

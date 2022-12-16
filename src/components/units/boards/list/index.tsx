@@ -176,7 +176,7 @@ const Row = styled.div`
   cursor: pointer;
 
   :hover {
-    color: orange;
+    color: #ffa000;
   }
 `;
 
