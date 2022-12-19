@@ -6,7 +6,6 @@ import { CartState } from '../../../../commons/store';
 import { gql, useMutation } from '@apollo/client';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
 import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 import { IMutation } from '../../../../commons/types/generated/types';
 import { message } from 'antd';
@@ -88,6 +87,13 @@ const Navigation = () => {
             </a>
           </Link>
           <HeaderRight>
+            {userInfo && (
+              <UserWrapper>
+                <UserName>{userInfo?.name}님,</UserName>
+                <UserPoint>{userInfo?.userPoint.amount} Point </UserPoint>
+                <DivideBar>|</DivideBar>
+              </UserWrapper>
+            )}
             <HeaderRightMenus>
               {!userInfo ? (
                 <Link href='/auth/signin'>
@@ -158,6 +164,7 @@ const HeaderLeft = styled.header``;
 const Logo = styled.a<IsHomeProps>`
   font-family: 'SSShinb7';
   font-size: 36px;
+  margin-left: 3rem;
   color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
   cursor: pointer;
 `;
@@ -174,6 +181,24 @@ const HeaderMenu = styled.li<IsHomeProps>`
 
 const HeaderRight = styled.div`
   display: flex;
+`;
+
+const UserWrapper = styled.div`
+  display: flex;
+`;
+
+const UserName = styled.span`
+  color: #ffffff;
+  margin-right: 1rem;
+`;
+
+const UserPoint = styled.span`
+  color: #ffffff;
+  margin-right: 1rem;
+`;
+
+const DivideBar = styled.span`
+  color: #ffffff;
 `;
 
 const HeaderRightMenus = styled.ul`
