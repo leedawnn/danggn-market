@@ -5,7 +5,7 @@ import { IoIosArrowUp } from 'react-icons/io';
 const SideBar = () => {
   const router = useRouter();
 
-  const isAuth = router.asPath.includes('/auth/');
+  const isAuth = router.asPath.includes('auth');
 
   const onClickmoveToTop = () => (document.documentElement.scrollTop = 0);
 

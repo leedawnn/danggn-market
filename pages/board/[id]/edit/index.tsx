@@ -17,7 +17,7 @@ const FETCH_BOARD = gql`
 
 const EditBoards = () => {
   const router = useRouter();
-  console.log(router);
+
   const { data } = useQuery<Pick<IQuery, 'fetchBoard'>, IQueryFetchBoardArgs>(FETCH_BOARD, {
     variables: { boardId: String(router.query.id) },
   });

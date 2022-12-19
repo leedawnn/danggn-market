@@ -1,9 +1,13 @@
 import { atom } from 'recoil';
-import { IUser } from '../../types/generated/types';
 import { persistAtom } from '../persist';
 
-export const userInfoState = atom<IUser | undefined>({
+export const userInfoState = atom({
   key: 'userInfoState',
-  default: undefined,
+  default: {
+    email: '',
+    name: '',
+    picture: '',
+    userPoint: 0,
+  },
   effects_UNSTABLE: [persistAtom],
 });

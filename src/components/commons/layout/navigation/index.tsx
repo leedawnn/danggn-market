@@ -20,8 +20,9 @@ const LOGOUT_USER = gql`
 const Navigation = () => {
   const router = useRouter();
 
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  console.log('uuuuuussssseeerrrr', userInfo);
+
   const [cart, setCart] = useRecoilState(CartState);
 
   const isHome = () => {
@@ -50,7 +51,7 @@ const Navigation = () => {
 
   const onClickLogOut = async () => {
     try {
-      await logoutUser();
+      // await logoutUser();
       setUserInfo(undefined);
       message.success({ content: '로그아웃 되었습니다. 👋' });
       router.push('/');
@@ -59,7 +60,9 @@ const Navigation = () => {
     }
   };
 
-  useEffect(() => {}, [accessToken]);
+  useEffect(() => {}, [userInfo]);
+
+  console.log(userInfo);
 
   return (
     <Wrapper isHome={isHome()}>

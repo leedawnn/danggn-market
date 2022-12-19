@@ -6,7 +6,7 @@ import { getAccessToken } from '../libraries/getAccessToken';
 import { onError } from '@apollo/client/link/error';
 import { accessTokenState, restoreAccessTokenLoadable } from '../store/Auth/accessToken';
 import { userInfoState } from '../store/Auth/UserInfoState';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const APOLLO_CACHE = new InMemoryCache();
 
@@ -30,7 +30,7 @@ export default function ApolloSetting(props: IApolloSettingProps) {
       if (!newAccessToken) {
         setUserInfo(undefined);
       }
-      setAccessToken(newAccessToken);
+      setAccessToken(newAccessToken!);
     });
   }, []);
 
@@ -41,8 +41,8 @@ export default function ApolloSetting(props: IApolloSettingProps) {
       for (const err of graphQLErrors) {
         if (err.extensions.code === 'UNAUTHENTICATED') {
           return fromPromise(
-            getAccessToken().then((newAccessToken: string) => {
-              setAccessToken(newAccessToken);
+            getAccessToken().then((newAccessToken: string | undefined) => {
+              setAccessToken(newAccessToken!);
               operation.setContext({
                 headers: {
                   ...operation.getContext().headers,

@@ -4,7 +4,6 @@ import Uploads01 from '../../../commons/uploads/01/Uploads01.container';
 import { v4 as uuidv4 } from 'uuid';
 
 const CreateBoardUI = (props: ICreateBoardUIprops) => {
-  console.log(props.data?.fetchBoard);
   return (
     <S.Wrapper>
       <S.Container>

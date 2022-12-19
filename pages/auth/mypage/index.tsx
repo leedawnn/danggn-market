@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function MyPage() {
   const [baskets, setBaskets] = useState<IUseditem[]>([]);
-  console.log(baskets);
 
   useEffect(() => {
     const result = JSON.parse(localStorage.getItem('baskets') || '[]');

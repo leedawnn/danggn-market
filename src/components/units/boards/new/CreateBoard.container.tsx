@@ -141,7 +141,6 @@ const CreateBoard = (props: IBoardcreateProps) => {
           updateBoardInput,
         },
       });
-      console.log(result);
       router.push(`/board/${router.query.id}`);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
