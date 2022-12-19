@@ -86,7 +86,6 @@ const Navigation = () => {
           </Link>
           <HeaderRight>
             <HeaderRightMenus>
-              {/* accessToken 유무로 바꾸기 */}
               {!userInfo ? (
                 <Link href='/auth/signin'>
                   <a>

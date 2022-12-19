@@ -1,19 +1,26 @@
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { IoIosArrowUp } from 'react-icons/io';
 
 const SideBar = () => {
+  const router = useRouter();
+
+  const isAuth = router.asPath.includes('/auth/');
+
   const onClickmoveToTop = () => (document.documentElement.scrollTop = 0);
 
   return (
-    <Wrapper>
-      <SideBarWrapper>
-        <TopBar onClick={onClickmoveToTop}>
-          <ArrowUpIcon />
-        </TopBar>
-        {/* TODO: 배포 후 챗봇 연결 */}
-        {/* <ChatBot>챗봇</ChatBot> */}
-      </SideBarWrapper>
-    </Wrapper>
+    !isAuth && (
+      <Wrapper>
+        <SideBarWrapper>
+          <TopBar onClick={onClickmoveToTop}>
+            <ArrowUpIcon />
+          </TopBar>
+          {/* TODO: 배포 후 챗봇 연결 */}
+          {/* <ChatBot>챗봇</ChatBot> */}
+        </SideBarWrapper>
+      </Wrapper>
+    )
   );
 };
 export default SideBar;
