@@ -23,11 +23,11 @@ const DetailBoard = () => {
   const [dislikeBoard] = useMutation<Pick<IMutation, 'dislikeBoard'>, IMutationDislikeBoardArgs>(DISLIKE_BOARD);
 
   const onClickMoveToBoards = () => {
-    router.push('/boards');
+    router.push('/board');
   };
 
   const onClickMoveToEdit = () => {
-    router.push(`/boards/${router.query.id}/edit`);
+    router.push(`/board/${router.query.id}/edit`);
   };
 
   const onClickDelete = async () => {
@@ -38,7 +38,7 @@ const DetailBoard = () => {
         variables: { boardId: String(router.query.id) },
       });
       alert('게시물이 성공적으로 삭제되었습니다.'); // TODO: no면 상세 페이지로 되돌아가기
-      router.push('/');
+      router.push('/board');
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }

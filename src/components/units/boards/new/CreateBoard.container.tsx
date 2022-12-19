@@ -104,7 +104,7 @@ const CreateBoard = (props: IBoardcreateProps) => {
             },
           },
         });
-        router.push(`/boards/${result.data?.createBoard._id}`);
+        router.push(`/board/${result.data?.createBoard._id}`);
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });
       }
@@ -142,7 +142,7 @@ const CreateBoard = (props: IBoardcreateProps) => {
         },
       });
       console.log(result);
-      router.push(`/boards/${router.query.id}`);
+      router.push(`/board/${router.query.id}`);
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }
