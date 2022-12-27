@@ -5,8 +5,8 @@ import { getDate, putOnComma } from '../../src/commons/libraries/utils';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
-import { Button } from 'antd';
 import Link from 'next/link';
+import StickyBox from 'react-sticky-box';
 
 // TODO: 중고 상품 검색 기능 구현
 const FETCH_USED_ITEMS = gql`
@@ -52,48 +52,50 @@ export default function Home() {
   };
 
   return (
-    <>
+    <Wrapper>
       <MarketTitle>중고 거래 상품</MarketTitle>
       <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false}>
-        <Wrapper>
+        <ProductWrapper>
           {/* <Link href='/market/create'>
           <a>
             <Button>판매하기</Button>
           </a>
         </Link> */}
-          {data ? (
-            data?.fetchUseditems.map((el) => (
-              <ProductCard key={el._id} id={el._id} onClick={onClickMoveToDetail}>
-                <ProductImage src={`https://storage.googleapis.com/${el.images?.[0]}`} onError={handleImageError} />
-                <ProductDetailWrapper>
-                  <ProductTitle>{el.name}</ProductTitle>
-                  <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
-                  <ProductBottom>
-                    {getDate(el.createdAt)} · 관심 {el.pickedCount}
-                  </ProductBottom>
-                </ProductDetailWrapper>
-              </ProductCard>
-            ))
-          ) : (
-            <></>
-          )}
-        </Wrapper>
+          {data?.fetchUseditems.map((el) => (
+            <ProductCard key={el._id} id={el._id} onClick={onClickMoveToDetail}>
+              <ProductImage src={`https://storage.googleapis.com/${el.images?.[0]}`} onError={handleImageError} />
+              <ProductDetailWrapper>
+                <ProductTitle>{el.name}</ProductTitle>
+                <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
+                <ProductBottom>
+                  {getDate(el.createdAt)} · 관심 {el.pickedCount}
+                </ProductBottom>
+              </ProductDetailWrapper>
+            </ProductCard>
+          ))}
+        </ProductWrapper>
       </InfiniteScroll>
-    </>
+    </Wrapper>
   );
 }
 
-const Wrapper = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  row-gap: 20px;
-  padding-left: 25px;
+const Wrapper = styled.section`
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 `;
 
 const MarketTitle = styled.h2`
-  padding: 25px;
-  font-size: 32px;
+  font-size: 1.5rem;
+  padding: 25px 0;
+`;
+
+const ProductWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  row-gap: 1.5rem;
+  margin: 0 auto;
 `;
 
 const ProductCard = styled.div`
