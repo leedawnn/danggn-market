@@ -8,6 +8,7 @@ import { MouseEvent } from 'react';
 import { Button } from 'antd';
 import Link from 'next/link';
 
+// TODO: 중고 상품 검색 기능 구현
 const FETCH_USED_ITEMS = gql`
   query fetchUseditems($page: Int) {
     fetchUseditems(page: $page) {
@@ -49,6 +50,10 @@ export default function Home() {
     router.push(`/market/${event.currentTarget.id}`);
   };
 
+  const putOnComma = (price: number | null | undefined) => {
+    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   return (
     <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false}>
       <Wrapper>
@@ -63,7 +68,7 @@ export default function Home() {
               <ProductImage src={`https://storage.googleapis.com/${el.images?.[0]}`} onError={handleImageError} />
               <ProductDetailWrapper>
                 <ProductTitle>{el.name}</ProductTitle>
-                <ProductPrice>{el.price}</ProductPrice>
+                <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
                 <ProductCreatedAt>{getDate(el.createdAt)}</ProductCreatedAt>
               </ProductDetailWrapper>
             </ProductCard>
@@ -87,7 +92,7 @@ const Wrapper = styled.div`
 const ProductCard = styled.div`
   width: 250px;
   height: 320px;
-  border: 1px solid #555555;
+  border: 1px solid rgb(238, 238, 238);
   background-color: #ffffff;
   cursor: pointer;
 `;
