@@ -52,31 +52,34 @@ export default function Home() {
   };
 
   return (
-    <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false}>
-      <Wrapper>
-        <Link href='/market/create'>
+    <>
+      <MarketTitle>중고 거래 상품</MarketTitle>
+      <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false}>
+        <Wrapper>
+          {/* <Link href='/market/create'>
           <a>
             <Button>판매하기</Button>
           </a>
-        </Link>
-        {data ? (
-          data?.fetchUseditems.map((el) => (
-            <ProductCard key={el._id} id={el._id} onClick={onClickMoveToDetail}>
-              <ProductImage src={`https://storage.googleapis.com/${el.images?.[0]}`} onError={handleImageError} />
-              <ProductDetailWrapper>
-                <ProductTitle>{el.name}</ProductTitle>
-                <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
-                <ProductBottom>
-                  {getDate(el.createdAt)} · 관심 {el.pickedCount}
-                </ProductBottom>
-              </ProductDetailWrapper>
-            </ProductCard>
-          ))
-        ) : (
-          <></>
-        )}
-      </Wrapper>
-    </InfiniteScroll>
+        </Link> */}
+          {data ? (
+            data?.fetchUseditems.map((el) => (
+              <ProductCard key={el._id} id={el._id} onClick={onClickMoveToDetail}>
+                <ProductImage src={`https://storage.googleapis.com/${el.images?.[0]}`} onError={handleImageError} />
+                <ProductDetailWrapper>
+                  <ProductTitle>{el.name}</ProductTitle>
+                  <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
+                  <ProductBottom>
+                    {getDate(el.createdAt)} · 관심 {el.pickedCount}
+                  </ProductBottom>
+                </ProductDetailWrapper>
+              </ProductCard>
+            ))
+          ) : (
+            <></>
+          )}
+        </Wrapper>
+      </InfiniteScroll>
+    </>
   );
 }
 
@@ -86,6 +89,11 @@ const Wrapper = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   row-gap: 20px;
   padding-left: 25px;
+`;
+
+const MarketTitle = styled.h2`
+  padding: 25px;
+  font-size: 32px;
 `;
 
 const ProductCard = styled.div`

@@ -20,7 +20,6 @@ const Navigation = () => {
   const router = useRouter();
 
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  console.log('uuuuuussssseeerrrr', userInfo);
 
   const [cart, setCart] = useRecoilState(CartState);
 
@@ -140,7 +139,8 @@ const Wrapper = styled.div<IsHomeProps>`
   display: flex;
   width: 100%;
   height: 78px;
-  padding: ${(props) => (props.isHome ? '50px 100px' : '15px 100px')};
+  padding: ${(props) => (props.isHome ? '50px 100px' : '20px 100px')};
+  border-bottom: ${(props) => (props.isHome ? 'default' : '1px solid rgb(238, 238, 238)')};
   background-color: ${(props) => (props.isHome ? 'rgba(255, 255, 255, 0)' : '#ffffff')};
   opacity: ${(props) => (props.isHome ? 'default' : '0.7')};
   backdrop-filter: ${(props) => (props.isHome ? 'default' : 'blur(30px)')};
