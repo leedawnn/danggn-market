@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { gql, useQuery } from '@apollo/client';
 import { IQuery, IQueryFetchUseditemsArgs } from '../../src/commons/types/generated/types';
-import { getDate } from '../../src/commons/libraries/utils';
+import { getDate, putOnComma } from '../../src/commons/libraries/utils';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
@@ -49,10 +49,6 @@ export default function Home() {
   const onClickMoveToDetail = (event: MouseEvent<HTMLDivElement>) => {
     if (!(event.currentTarget instanceof HTMLDivElement)) return;
     router.push(`/market/${event.currentTarget.id}`);
-  };
-
-  const putOnComma = (price: number | null | undefined) => {
-    return price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
   return (

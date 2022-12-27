@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { putOnComma } from '../../../../commons/libraries/utils';
 import { IQuery } from '../../../../commons/types/generated/types';
 import { FETCH_USED_ITEMS_OF_THE_BEST } from './bestUsedItems.queries';
 
@@ -15,7 +16,7 @@ const BestUsedItems = (props: any) => {
           <BestUsedItem key={index}>
             <ItemPhoto src={`https://storage.googleapis.com/${el.images?.[0]}`} alt={el.remarks} />
             <ItemName>{el.name}</ItemName>
-            <ItemPrice>{el.price}원</ItemPrice>
+            <ItemPrice>{putOnComma(el.price)}원</ItemPrice>
             <ItemPickedCount>좋아요 {el.pickedCount}</ItemPickedCount>
           </BestUsedItem>
         ))}
