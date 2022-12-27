@@ -17,6 +17,7 @@ const FETCH_USED_ITEMS = gql`
       images
       price
       createdAt
+      pickedCount
     }
   }
 `;
@@ -69,7 +70,9 @@ export default function Home() {
               <ProductDetailWrapper>
                 <ProductTitle>{el.name}</ProductTitle>
                 <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
-                <ProductCreatedAt>{getDate(el.createdAt)}</ProductCreatedAt>
+                <ProductBottom>
+                  {getDate(el.createdAt)} · 관심 {el.pickedCount}
+                </ProductBottom>
               </ProductDetailWrapper>
             </ProductCard>
           ))
@@ -105,17 +108,19 @@ const ProductImage = styled.img`
 const ProductDetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 10px 10px;
 `;
 
 const ProductTitle = styled.span`
-  font-weight: 500;
+  font-weight: 700;
   color: #000000;
+  margin-bottom: 4px;
 `;
 
 const ProductPrice = styled.span`
   color: #000000;
 `;
 
-const ProductCreatedAt = styled.span`
+const ProductBottom = styled.span`
   color: #a9a9a9;
 `;
