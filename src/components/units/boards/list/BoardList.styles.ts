@@ -4,16 +4,24 @@ import { SearchOutlined } from '@ant-design/icons';
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100vw;
   height: 100%;
+`;
+
+export const BoardTitle = styled.div`
+  width: 85%;
+  font-size: 24px;
+  margin: 0 auto;
+  padding-top: 8px;
 `;
 
 export const Table = styled.section`
   display: flex;
   flex-direction: column;
-  width: 1300px;
-  margin: 10px 100px 100px 100px;
+  width: 100%;
+  padding: 0px 100px 100px 100px;
 `;
 
 export const Row = styled.div`
@@ -27,6 +35,12 @@ export const Row = styled.div`
   :hover {
     color: #ffa000;
   }
+`;
+
+export const ColumnHeaderNumber = styled.div`
+  width: 10%;
+  font-weight: 700;
+  text-align: center;
 `;
 
 export const ColumnHeaderBasic = styled.div`
@@ -47,6 +61,11 @@ export const TableRow = styled.div`
   height: 52px;
   line-height: 52px;
   border-bottom: 2px solid gray;
+`;
+
+export const ColumnNumber = styled.div`
+  width: 10%;
+  text-align: center;
 `;
 
 export const ColumnBasic = styled.div`

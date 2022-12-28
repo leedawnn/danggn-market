@@ -35,18 +35,27 @@ const BoardListUI = ({
   onChangeSearchbar,
   onClickMoveToCreate,
 }: IBoardListProps) => {
+  const autoIncrementNumber = (startNum: number) => {
+    const init = startNum;
+  };
+
   return (
     <>
       <S.Wrapper>
+        <S.BoardTitle>통합 자유게시판</S.BoardTitle>
+        {/* </S.BoardHeader> */}
         <S.Table>
           <S.TableRow>
+            <S.ColumnHeaderNumber>번호</S.ColumnHeaderNumber>
             <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
             <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
             <S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>
             <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
+            <S.ColumnHeaderNumber>좋아요 수</S.ColumnHeaderNumber>
           </S.TableRow>
-          {data?.fetchBoards.map((el) => (
+          {data?.fetchBoards.map((el, index) => (
             <S.Row key={el._id}>
+              <S.ColumnNumber>{index + 1}</S.ColumnNumber>
               <S.ColumnBasic>{String(el._id).slice(-4).toUpperCase()}</S.ColumnBasic>
               <S.ColumnTitle id={el._id} onClick={onClickMoveToDetail}>
                 {el.title
@@ -60,9 +69,9 @@ const BoardListUI = ({
               </S.ColumnTitle>
               <S.ColumnBasic>{el.writer}</S.ColumnBasic>
               <S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>
+              <S.ColumnNumber>{el.likeCount}</S.ColumnNumber>
             </S.Row>
           ))}
-          {/* TODO: prev, next 아이콘으로 바꾸기 */}
           <S.Footer>
             <S.Page onClick={onClickPrevPage}>{`<`}</S.Page>
             {Array(10)
