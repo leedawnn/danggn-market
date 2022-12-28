@@ -2,8 +2,9 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 import { IUseditem } from '../../../src/commons/types/generated/types';
 import { v4 as uuidv4 } from 'uuid';
+import { withAuth } from '../../../src/commons/libraries/withAuth';
 
-export default function MyPage() {
+const MyPage = () => {
   const [baskets, setBaskets] = useState<IUseditem[]>([]);
 
   useEffect(() => {
@@ -33,7 +34,8 @@ export default function MyPage() {
       ))}
     </Wrapper>
   );
-}
+};
+export default withAuth(MyPage);
 
 const Wrapper = styled.div`
   width: 100%;

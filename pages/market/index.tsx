@@ -5,7 +5,6 @@ import { getDate, putOnComma } from '../../src/commons/libraries/utils';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
-import Link from 'next/link';
 import StickyBox from 'react-sticky-box';
 
 // TODO: 중고 상품 검색 기능 구현
@@ -52,30 +51,34 @@ export default function Home() {
   };
 
   return (
-    <Wrapper>
-      <MarketTitle>중고 거래 상품</MarketTitle>
-      <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false}>
-        <ProductWrapper>
-          {/* <Link href='/market/create'>
-          <a>
-            <Button>판매하기</Button>
-          </a>
-        </Link> */}
-          {data?.fetchUseditems.map((el) => (
-            <ProductCard key={el._id} id={el._id} onClick={onClickMoveToDetail}>
-              <ProductImage src={`https://storage.googleapis.com/${el.images?.[0]}`} onError={handleImageError} />
-              <ProductDetailWrapper>
-                <ProductTitle>{el.name}</ProductTitle>
-                <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
-                <ProductBottom>
-                  {getDate(el.createdAt)} · 관심 {el.pickedCount}
-                </ProductBottom>
-              </ProductDetailWrapper>
-            </ProductCard>
-          ))}
-        </ProductWrapper>
-      </InfiniteScroll>
-    </Wrapper>
+    <>
+      <div>
+        <MarketTitle>중고 거래 상품</MarketTitle>
+        <MenuWrapper offsetTop={100}>
+          <SellMenu>asjdfkljsdkflajsfkdl</SellMenu>
+          <RecentProductMenu>asjdfkljsdkflajsfkdl</RecentProductMenu>
+          <LikeMenu>asjdfkljsdkflajsfkdl</LikeMenu>
+        </MenuWrapper>
+        <Wrapper>
+          <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false}>
+            <ProductWrapper>
+              {data?.fetchUseditems.map((el) => (
+                <ProductCard key={el._id} id={el._id} onClick={onClickMoveToDetail}>
+                  <ProductImage src={`https://storage.googleapis.com/${el.images?.[0]}`} onError={handleImageError} />
+                  <ProductDetailWrapper>
+                    <ProductTitle>{el.name}</ProductTitle>
+                    <ProductPrice>{putOnComma(el.price)}원</ProductPrice>
+                    <ProductBottom>
+                      {getDate(el.createdAt)} · 관심 {el.pickedCount}
+                    </ProductBottom>
+                  </ProductDetailWrapper>
+                </ProductCard>
+              ))}
+            </ProductWrapper>
+          </InfiniteScroll>
+        </Wrapper>
+      </div>
+    </>
   );
 }
 
@@ -83,12 +86,14 @@ const Wrapper = styled.section`
   width: 75%;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   margin: 0 auto;
 `;
 
 const MarketTitle = styled.h2`
   font-size: 1.5rem;
-  padding: 25px 0;
+  padding: 25px;
+  margin-left: 10rem;
 `;
 
 const ProductWrapper = styled.div`
@@ -101,6 +106,7 @@ const ProductWrapper = styled.div`
 const ProductCard = styled.div`
   width: 250px;
   height: 320px;
+  margin-right: 20px;
   border: 1px solid rgb(238, 238, 238);
   background-color: #ffffff;
   cursor: pointer;
@@ -129,4 +135,31 @@ const ProductPrice = styled.span`
 
 const ProductBottom = styled.span`
   color: #a9a9a9;
+`;
+
+const MenuWrapper = styled(StickyBox)`
+  display: flex;
+  flex: 1;
+  width: 120px;
+  height: 250px;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const SellMenu = styled.div`
+  height: 30px;
+  border: 1px solid blue;
+  cursor: pointer;
+`;
+
+const RecentProductMenu = styled.div`
+  height: 150px;
+  border: 1px solid tomato;
+  cursor: pointer;
+`;
+
+const LikeMenu = styled.div`
+  height: 50px;
+  border: 1px solid yellow;
+  cursor: pointer;
 `;

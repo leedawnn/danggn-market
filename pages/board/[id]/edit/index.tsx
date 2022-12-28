@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { withAuth } from '../../../../src/commons/libraries/withAuth';
 import { IQuery, IQueryFetchBoardArgs } from '../../../../src/commons/types/generated/types';
 import CreateBoard from '../../../../src/components/units/boards/new/CreateBoard.container';
 
@@ -24,4 +25,4 @@ const EditBoards = () => {
   return <CreateBoard isEdit={true} data={data} />;
 };
 
-export default EditBoards;
+export default withAuth(EditBoards);

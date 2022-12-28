@@ -1,5 +1,8 @@
 import CreateProducts from '../../../src/components/units/markets/create';
+import { withAuth } from '../../../src/commons/libraries/withAuth';
 
-export default function ProductsCreate() {
+const ProductsCreate = () => {
   return <CreateProducts isEdit={false} />;
-}
+};
+
+export default withAuth(ProductsCreate);

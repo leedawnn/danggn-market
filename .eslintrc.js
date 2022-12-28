@@ -20,5 +20,6 @@ module.exports = {
     'no-unneeded-ternary': 'off',
     'no-unused-vars': 'off',
     'no-undef': 'off',
+    'react/display-name': 'off',
   },
 };

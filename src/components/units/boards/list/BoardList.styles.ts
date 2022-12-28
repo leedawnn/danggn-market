@@ -11,7 +11,6 @@ export const Wrapper = styled.div`
 `;
 
 export const BoardTitle = styled.div`
-  /* width: 85%; */
   font-size: 1.5rem;
   margin-left: 10%;
   padding: 0px 25px 0 25px;
