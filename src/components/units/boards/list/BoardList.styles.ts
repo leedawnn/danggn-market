@@ -11,17 +11,18 @@ export const Wrapper = styled.div`
 `;
 
 export const BoardTitle = styled.div`
-  width: 85%;
-  font-size: 24px;
-  margin: 0 auto;
-  padding-top: 8px;
+  /* width: 85%; */
+  font-size: 1.5rem;
+  margin-left: 10%;
+  padding: 0px 25px 0 25px;
 `;
 
 export const Table = styled.section`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 0px 100px 100px 100px;
+  width: 90%;
+  padding: 5px 100px 100px 100px;
+  margin: 0 auto;
 `;
 
 export const Row = styled.div`
