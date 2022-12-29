@@ -7,12 +7,13 @@ import { FETCH_USED_ITEM, TOGGLE_USED_ITEM_PICK } from './DetailProduct.queries'
 import { FaRegHeart, FaHeart, FaMapMarkerAlt } from 'react-icons/fa';
 import { IUseditem } from '../../../../commons/types/generated/types';
 import { useEffect, useState } from 'react';
+import { putOnComma } from '../../../../commons/libraries/utils';
 
 declare const window: typeof globalThis & {
   kakao: any;
 };
 
-export default function DetailProduct() {
+const DetailProduct = () => {
   const router = useRouter();
 
   const { data } = useQuery(FETCH_USED_ITEM, {
@@ -106,17 +107,19 @@ export default function DetailProduct() {
           <ProductDetail1>
             <ProductName>{data?.fetchUseditem.name}</ProductName>
             <ProductPrice>
-              {data?.fetchUseditem.price}
+              {putOnComma(data?.fetchUseditem.price)}
               <PriceWon>원</PriceWon>
             </ProductPrice>
           </ProductDetail1>
           <ProductDetail2>
             <ProductRemarks>{data?.fetchUseditem.remarks}</ProductRemarks>
-            <ProductTags>
-              {data?.fetchUseditem.tags?.map((el: string) => (
-                <ProductTag key={el}>#{el}</ProductTag>
-              ))}
-            </ProductTags>
+            {data?.fetchUseditem.tags[0] && (
+              <ProductTags>
+                {data?.fetchUseditem.tags?.map((el: string) => (
+                  <ProductTag key={el}>#{el}</ProductTag>
+                ))}
+              </ProductTags>
+            )}
           </ProductDetail2>
           <ProductsButtonWrapper>
             <DipButton onClick={onClickDip}>
@@ -155,7 +158,8 @@ export default function DetailProduct() {
       </ProductBodyWrapper>
     </Wrapper>
   );
-}
+};
+export default DetailProduct;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -219,7 +223,7 @@ const ProductDetail2 = styled.div`
 `;
 
 const ProductRemarks = styled.p`
-  padding: 10px;
+  padding: 20px;
   cursor: auto;
 `;
 

@@ -5,7 +5,7 @@ import { getDate, putOnComma } from '../../src/commons/libraries/utils';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
-import StickyBox from 'react-sticky-box';
+import SideBar from '../../src/components/commons/sideBar';
 
 // TODO: 중고 상품 검색 기능 구현
 const FETCH_USED_ITEMS = gql`
@@ -54,11 +54,7 @@ export default function Home() {
     <>
       <div>
         <MarketTitle>중고 거래 상품</MarketTitle>
-        <MenuWrapper offsetTop={100}>
-          <SellMenu>asjdfkljsdkflajsfkdl</SellMenu>
-          <RecentProductMenu>asjdfkljsdkflajsfkdl</RecentProductMenu>
-          <LikeMenu>asjdfkljsdkflajsfkdl</LikeMenu>
-        </MenuWrapper>
+        <SideBar />
         <Wrapper>
           <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false} style={{ width: '100%' }}>
             <ProductWrapper>
@@ -135,31 +131,4 @@ const ProductPrice = styled.span`
 
 const ProductBottom = styled.span`
   color: #a9a9a9;
-`;
-
-const MenuWrapper = styled(StickyBox)`
-  display: flex;
-  flex: 1;
-  width: 120px;
-  height: 250px;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const SellMenu = styled.div`
-  height: 30px;
-  border: 1px solid blue;
-  cursor: pointer;
-`;
-
-const RecentProductMenu = styled.div`
-  height: 150px;
-  border: 1px solid tomato;
-  cursor: pointer;
-`;
-
-const LikeMenu = styled.div`
-  height: 50px;
-  border: 1px solid yellow;
-  cursor: pointer;
 `;
