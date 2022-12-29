@@ -5,7 +5,7 @@ export const globalStyles = css`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'InfinitySans';
+    font-family: 'InfinitySans', '돋움', 'AppleGothic, sans-serif';
   }
   html {
     font-size: 16px;
@@ -16,7 +16,7 @@ export const globalStyles = css`
     position: relative;
   }
   h1 {
-    font-family: 'SSShinb7';
+    font-family: 'SSShinb7', '돋움', 'AppleGothic, sans-serif';
   }
   h2,
   h3,
