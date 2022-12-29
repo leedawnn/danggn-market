@@ -60,7 +60,7 @@ export default function Home() {
           <LikeMenu>asjdfkljsdkflajsfkdl</LikeMenu>
         </MenuWrapper>
         <Wrapper>
-          <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false}>
+          <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false} style={{ width: '100%' }}>
             <ProductWrapper>
               {data?.fetchUseditems.map((el) => (
                 <ProductCard key={el._id} id={el._id} onClick={onClickMoveToDetail}>
