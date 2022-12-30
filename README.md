@@ -1,11 +1,11 @@
-# 🐶 ddanggn-market
+# 🐶 danggn-market
 
 <div align="center">
   <img src="/public/logo.png" width="350" />
 </div>
 
-<div align="left">
-  <a href="https://danggn.shop/">🔗 서비스</a> &nbsp;&nbsp;
+<div align="center">
+  <a href="https://danggn.shop/">🔗 서비스</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://github.com/leedawnn/danggn-market/wiki">🔗 Wiki</a>
 </div>
 
