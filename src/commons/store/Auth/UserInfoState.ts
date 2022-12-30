@@ -1,13 +1,15 @@
 import { atom } from 'recoil';
 import { persistAtom } from '../persist';
 
-export const userInfoState = atom({
+interface IUserInfo {
+  email: string;
+  name: string;
+  picture: string;
+  userPoint: number;
+}
+
+export const userInfoState = atom<IUserInfo | undefined>({
   key: 'userInfoState',
-  default: {
-    email: '',
-    name: '',
-    picture: '',
-    userPoint: 0,
-  },
+  default: undefined,
   effects_UNSTABLE: [persistAtom],
 });

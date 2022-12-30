@@ -48,13 +48,18 @@ const SigninContainer = () => {
 
       if (!data) message.error({ content: '해당 유저 정보를 찾을 수 없습니다. 🥺' });
 
-      setUserInfo(data.fetchUserLoggedIn); // TODO: userInfo에 undefined로 담김,,,
+      setUserInfo({
+        email: data.fetchUserLoggedIn?.email,
+        name: data.fetchUserLoggedIn?.name,
+        picture: data.fetchUserLoggedIn?.picture,
+        userPoint: data.fetchUserLoggedIn?.userPoint.amount,
+      });
 
       message.success({ content: `${data.fetchUserLoggedIn?.name}님, 반갑습니다! 😉` });
       router.push('/');
     } catch (error) {
       if (error instanceof Error) {
-        throw error.message;
+        console.log(error.message);
       }
     }
   };

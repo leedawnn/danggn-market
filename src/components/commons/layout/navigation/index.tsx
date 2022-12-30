@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 import { IMutation } from '../../../../commons/types/generated/types';
 import { message } from 'antd';
+import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
 
 const LOGOUT_USER = gql`
   mutation logoutUser {
@@ -19,8 +20,9 @@ const LOGOUT_USER = gql`
 const Navigation = () => {
   const router = useRouter();
 
+  const [accessToken, _] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-
+  console.log('nnnoooooowwwwww', userInfo);
   const [cart, setCart] = useRecoilState(CartState);
 
   const isHome = () => {
@@ -31,36 +33,20 @@ const Navigation = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const handleScroll = (e: any) => {
-  //     const { innerHeight } = window;
-  //     const { scrollHeight } = document.body;
-  //     const myScroll = e.srcElement.scrollingElement.scrollTop;
-
-  //     if (myScroll) console.log('전체 body 의 높이 : ' + scrollHeight);
-  //     console.log('전체 스크롤바 높이 : ' + innerHeight);
-  //     console.log('현재 스크롤 위치 : ' + myScroll);
-  //   };
-
-  //   window.addEventListener('scroll', handleScroll);
-  // }, []);
-
   const [logoutUser] = useMutation<Pick<IMutation, 'logoutUser'>>(LOGOUT_USER);
 
   const onClickLogOut = async () => {
     try {
-      // await logoutUser();
       setUserInfo(undefined);
+      await logoutUser();
       message.success({ content: '로그아웃 되었습니다. 👋' });
       router.push('/');
     } catch (error) {
-      if (error instanceof Error) throw error.message;
+      if (error instanceof Error) console.log(error.message);
     }
   };
 
   useEffect(() => {}, [userInfo]);
-
-  console.log(userInfo);
 
   return (
     <Wrapper isHome={isHome()}>
@@ -88,9 +74,9 @@ const Navigation = () => {
           <HeaderRight>
             {userInfo && (
               <UserWrapper>
-                <UserName>{userInfo?.name}님,</UserName>
-                <UserPoint>{userInfo?.userPoint.amount} Point </UserPoint>
-                <DivideBar>|</DivideBar>
+                <UserName isHome={isHome()}>{userInfo?.name}님,</UserName>
+                <UserPoint isHome={isHome()}>{userInfo?.userPoint} Point </UserPoint>
+                <DivideBar isHome={isHome()}>|</DivideBar>
               </UserWrapper>
             )}
             <HeaderRightMenus>
@@ -187,18 +173,18 @@ const UserWrapper = styled.div`
   display: flex;
 `;
 
-const UserName = styled.span`
-  color: #ffffff;
+const UserName = styled.span<IsHomeProps>`
+  color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
   margin-right: 1rem;
 `;
 
-const UserPoint = styled.span`
-  color: #ffffff;
+const UserPoint = styled.span<IsHomeProps>`
+  color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
   margin-right: 1rem;
 `;
 
-const DivideBar = styled.span`
-  color: #ffffff;
+const DivideBar = styled.span<IsHomeProps>`
+  color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
 `;
 
 const HeaderRightMenus = styled.ul`

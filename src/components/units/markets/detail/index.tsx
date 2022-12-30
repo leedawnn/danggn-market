@@ -5,7 +5,7 @@ import CreateProductsComment from '../../marketsComment/create';
 import CreateProductsCommentList from '../../marketsComment/list';
 import { FETCH_USED_ITEM, TOGGLE_USED_ITEM_PICK } from './DetailProduct.queries';
 import { FaRegHeart, FaHeart, FaMapMarkerAlt } from 'react-icons/fa';
-import { IUseditem } from '../../../../commons/types/generated/types';
+import { IMutation, IMutationToggleUseditemPickArgs, IUseditem } from '../../../../commons/types/generated/types';
 import { useEffect, useState } from 'react';
 import { putOnComma } from '../../../../commons/libraries/utils';
 
@@ -20,7 +20,9 @@ const DetailProduct = () => {
     variables: { useditemId: String(router.query.productId) },
   });
 
-  const [toggleUseditemPick] = useMutation(TOGGLE_USED_ITEM_PICK); // TODO: 찜 이걸로 다시 만들기
+  const [toggleUseditemPick] = useMutation<Pick<IMutation, 'toggleUseditemPick'>, IMutationToggleUseditemPickArgs>(
+    TOGGLE_USED_ITEM_PICK
+  );
 
   const [baskets, setBaskets] = useState<IUseditem[]>([]);
 

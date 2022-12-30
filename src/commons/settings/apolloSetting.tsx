@@ -1,12 +1,12 @@
 import { ApolloClient, ApolloLink, ApolloProvider, fromPromise, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { ReactNode, useEffect } from 'react';
-import { useRecoilState, useRecoilValueLoadable } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { getAccessToken } from '../libraries/getAccessToken';
 import { onError } from '@apollo/client/link/error';
-import { accessTokenState, restoreAccessTokenLoadable } from '../store/Auth/accessToken';
+import { accessTokenState } from '../store/Auth/accessToken';
 import { userInfoState } from '../store/Auth/UserInfoState';
-import { useRouter } from 'next/router';
+import { FetchLoggedInUserHook } from '../libraries/fetchLoggedInUserHook';
 
 const APOLLO_CACHE = new InMemoryCache();
 
@@ -15,34 +15,24 @@ interface IApolloSettingProps {
 }
 
 export default function ApolloSetting(props: IApolloSettingProps) {
-  const router = useRouter();
-
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
-  const restoreToken = useRecoilValueLoadable(restoreAccessTokenLoadable);
-
   useEffect(() => {
-    if (router.asPath.includes('auth')) return;
-    if (!userInfo) return;
-
-    restoreToken.toPromise().then((newAccessToken) => {
-      if (!newAccessToken) {
-        setUserInfo(undefined);
-      }
-      setAccessToken(newAccessToken!);
+    getAccessToken().then((newAccessToken) => {
+      setAccessToken(newAccessToken);
     });
   }, []);
 
   const errorLink = onError(({ graphQLErrors, operation, forward }) => {
     if (!userInfo) return;
-
     if (graphQLErrors) {
       for (const err of graphQLErrors) {
         if (err.extensions.code === 'UNAUTHENTICATED') {
           return fromPromise(
-            getAccessToken().then((newAccessToken: string | undefined) => {
-              setAccessToken(newAccessToken!);
+            getAccessToken().then((newAccessToken: string) => {
+              setAccessToken(newAccessToken);
+
               operation.setContext({
                 headers: {
                   ...operation.getContext().headers,
@@ -67,11 +57,10 @@ export default function ApolloSetting(props: IApolloSettingProps) {
     cache: APOLLO_CACHE,
     connectToDevTools: true,
   });
-
-  // prettier-ignore
   return (
     <ApolloProvider client={client}>
-        {props.children}
+      <FetchLoggedInUserHook />
+      {props.children}
     </ApolloProvider>
-  )
+  );
 }

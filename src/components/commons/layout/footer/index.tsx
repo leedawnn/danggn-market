@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FiInstagram } from 'react-icons/fi';
 
-export default function Footer() {
+const Footer = () => {
   const router = useRouter();
 
   const isHome = router.asPath === '/' ? true : false;
@@ -41,7 +41,8 @@ export default function Footer() {
       </Wrapper>
     )
   );
-}
+};
+export default Footer;
 
 interface IsHomeProps {
   isHome: boolean;
