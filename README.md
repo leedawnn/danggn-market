@@ -4,7 +4,7 @@
   <img src="/public/logo.png" width="350" />
 </div>
 
-<div align="center">
+<div align="left">
   <a href="https://danggn.shop/">🔗 서비스</a> &nbsp;&nbsp;
   <a href="https://github.com/leedawnn/danggn-market/wiki">🔗 Wiki</a>
 </div>
