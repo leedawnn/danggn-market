@@ -7,18 +7,6 @@ export const accessTokenState = atom({
   default: '',
 });
 
-// export const restoreAccessTokenLoadable = selector({
-//   key: 'restoreAccessTokenLoadable',
-//   get: async ({ get }) => {
-//     if (!get(userInfoState)) return;
-//     const newAccessToken = await getAccessToken();
-
-//     return newAccessToken;
-//   },
-
-//   set: ({ set }, newToken) => set(accessTokenState, newToken),
-// });
-
 export const restoreAccessTokenLoadable = selector({
   key: 'restoreAccessTokenLoadable',
   get: async () => {

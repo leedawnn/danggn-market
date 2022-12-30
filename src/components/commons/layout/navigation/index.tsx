@@ -22,7 +22,7 @@ const Navigation = () => {
 
   const [accessToken, _] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-  console.log('nnnoooooowwwwww', userInfo);
+
   const [cart, setCart] = useRecoilState(CartState);
 
   const isHome = () => {
@@ -36,10 +36,10 @@ const Navigation = () => {
   const [logoutUser] = useMutation<Pick<IMutation, 'logoutUser'>>(LOGOUT_USER);
 
   const onClickLogOut = async () => {
+    message.success({ content: '로그아웃 되었습니다. 👋' });
     try {
       setUserInfo(undefined);
       await logoutUser();
-      message.success({ content: '로그아웃 되었습니다. 👋' });
       router.push('/');
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
@@ -91,11 +91,13 @@ const Navigation = () => {
                   Logout
                 </MenuItem>
               )}
-              <Link href='/auth/join'>
-                <a>
-                  <MenuItem isHome={isHome()}>Join</MenuItem>
-                </a>
-              </Link>
+              {!userInfo && (
+                <Link href='/auth/join'>
+                  <a>
+                    <MenuItem isHome={isHome()}>Join</MenuItem>
+                  </a>
+                </Link>
+              )}
               <Link href='/auth/mypage'>
                 <a>
                   <MenuItem isHome={isHome()}>My</MenuItem>
@@ -155,7 +157,7 @@ const Logo = styled.a<IsHomeProps>`
   cursor: pointer;
 `;
 
-const HeaderMenus = styled.ul`
+const HeaderMenus = styled.div`
   display: flex;
 `;
 
@@ -171,6 +173,8 @@ const HeaderRight = styled.div`
 
 const UserWrapper = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const UserName = styled.span<IsHomeProps>`
@@ -187,14 +191,14 @@ const DivideBar = styled.span<IsHomeProps>`
   color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
 `;
 
-const HeaderRightMenus = styled.ul`
+const HeaderRightMenus = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   color: #ffffff;
 `;
 
-const MenuItem = styled.li<IsHomeProps>`
+const MenuItem = styled.div<IsHomeProps>`
   display: flex;
   justify-content: center;
   align-items: center;
