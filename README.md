@@ -11,7 +11,7 @@
 
 <br />
 
-> 오직 반려동물만을 위한 커뮤니티 겸 중고거래 서비스, 댕근마켓
+> 오직 반려동물만을 위한 커뮤니티 겸 중고거래 서비스, **댕근마켓**
 
 댕근마켓은 누구나 반려동물을 키우는 집사라면 편리하게 이용할 수 있는 웹 기반 서비스입니다.  
 반려동물 육아에 있어 필요한 상품들을 댕근마켓에서 찾을 수 있습니다.  
@@ -30,7 +30,7 @@
 step1) 댕근마켓 레포를 클론합니다.
 
 ```terminal
-$ git clone https://github.com/dang-der/dangder-client.git
+$ git clone https://github.com/leedawnn/danggn-market.git
 ```
 
 step2) 클론한 폴더로 이동하여 패키지를 설치합니다.
