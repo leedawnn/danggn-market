@@ -1,10 +1,10 @@
 import { ApolloClient, ApolloLink, ApolloProvider, fromPromise, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
 import { ReactNode, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { getAccessToken } from '../libraries/getAccessToken';
 import { onError } from '@apollo/client/link/error';
-import { accessTokenState } from '../store/Auth/accessToken';
+import { accessTokenState, restoreAccessTokenLoadable } from '../store/Auth/accessToken';
 import { userInfoState } from '../store/Auth/UserInfoState';
 import { FetchLoggedInUserHook } from '../libraries/fetchLoggedInUserHook';
 
@@ -47,7 +47,7 @@ export default function ApolloSetting(props: IApolloSettingProps) {
   });
 
   const uploadLink = createUploadLink({
-    uri: 'http://backend08.codebootcamp.co.kr/graphql',
+    uri: 'https://backend08.codebootcamp.co.kr/graphql',
     headers: { Authorization: `Bearer ${accessToken}` },
     credentials: 'include',
   });
