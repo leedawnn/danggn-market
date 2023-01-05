@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 const NotFoundPage = () => {
   return (
     <Wrapper>
-      <Header>페이지를 찾을 수 없습니다 🥲</Header>
       <ErrorImg src='/404.png' />
     </Wrapper>
   );
