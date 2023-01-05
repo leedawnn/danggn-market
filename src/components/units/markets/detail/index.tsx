@@ -8,6 +8,9 @@ import { FaRegHeart, FaHeart, FaMapMarkerAlt } from 'react-icons/fa';
 import { IMutation, IMutationToggleUseditemPickArgs, IUseditem } from '../../../../commons/types/generated/types';
 import { useEffect, useState } from 'react';
 import { putOnComma } from '../../../../commons/libraries/utils';
+import { useRecoilState } from 'recoil';
+import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
+import { Modal } from 'antd';
 
 declare const window: typeof globalThis & {
   kakao: any;
@@ -15,6 +18,8 @@ declare const window: typeof globalThis & {
 
 const DetailProduct = () => {
   const router = useRouter();
+
+  const [accessToken, _] = useRecoilState(accessTokenState);
 
   const { data } = useQuery(FETCH_USED_ITEM, {
     variables: { useditemId: String(router.query.productId) },
@@ -31,17 +36,25 @@ const DetailProduct = () => {
   };
 
   const onClickDip = async () => {
-    await toggleUseditemPick({
-      variables: {
-        useditemId: String(router.query.productId),
-      },
-      refetchQueries: [
-        {
-          query: FETCH_USED_ITEM,
-          variables: { useditemId: String(router.query.productId) },
+    if (typeof router.query.productId !== 'string') return;
+
+    if (!accessToken) Modal.info({ content: '로그인이 필요한 기능입니다!' });
+
+    try {
+      await toggleUseditemPick({
+        variables: {
+          useditemId: router.query.productId,
         },
-      ],
-    });
+        refetchQueries: [
+          {
+            query: FETCH_USED_ITEM,
+            variables: { useditemId: router.query.productId },
+          },
+        ],
+      });
+    } catch (error) {
+      throw Error;
+    }
   };
 
   useEffect(() => {
@@ -64,7 +77,7 @@ const DetailProduct = () => {
     localStorage.setItem('baskets', JSON.stringify(baskets));
     const move = confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?');
     if (move) {
-      router.push('/user/mypage');
+      router.replace('/auth/cart');
     }
   };
 
@@ -125,7 +138,8 @@ const DetailProduct = () => {
           </ProductDetail2>
           <ProductsButtonWrapper>
             <DipButton onClick={onClickDip}>
-              {data?.fetchUseditem?.pickedCount !== 0 ? <FillHeartIcon /> : <EmptyHeartIcon />}찜
+              {console.log('count', data?.fetchUseditem.pickedCount)}
+              {data?.fetchUseditem.pickedCount ? <FillHeartIcon /> : <EmptyHeartIcon />}찜
             </DipButton>
             <BasketButton onClick={onClickBasket(data)}>장바구니</BasketButton>
             <PurchaseButton>바로구매</PurchaseButton>
@@ -171,7 +185,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   justify-content: center;
   padding: 0px 200px;
-  margin-top: 20px;
+  margin-top: 2.2rem;
 `;
 
 const ProductDetailWrapper = styled.div`
