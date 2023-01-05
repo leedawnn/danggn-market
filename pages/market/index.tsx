@@ -116,13 +116,17 @@ const ProductImage = styled.img`
 const ProductDetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 10px;
+  justify-content: space-between;
+  padding: 15px;
 `;
 
 const ProductTitle = styled.span`
   font-weight: 700;
   color: #000000;
   margin-bottom: 4px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const ProductPrice = styled.span`
