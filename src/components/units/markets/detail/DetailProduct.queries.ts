@@ -3,7 +3,6 @@ import { gql } from '@apollo/client';
 export const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
     fetchUseditem(useditemId: $useditemId) {
-      _id
       name
       remarks
       contents
@@ -33,6 +32,22 @@ export const TOGGLE_USED_ITEM_PICK = gql`
 
 export const FETCH_USED_ITEMS_I_PICKED = gql`
   query fetchUseditemsIPicked($search: String, $page: Int) {
-    fetchUseditemsIPicked(search: $search, page: $page)
+    fetchUseditemsIPicked(search: $search, page: $page) {
+      name
+      remarks
+      price
+      images
+      createdAt
+      soldAt
+    }
+  }
+`;
+
+export const CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING = gql`
+  mutation createPointTransactionOfBuyingAndSelling($useritemId: ID!) {
+    createPointTransactionOfBuyingAndSelling(useritemId: $useritemId) {
+      name
+      price
+    }
   }
 `;

@@ -3,14 +3,23 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import CreateProductsComment from '../../marketsComment/create';
 import CreateProductsCommentList from '../../marketsComment/list';
-import { FETCH_USED_ITEM, TOGGLE_USED_ITEM_PICK } from './DetailProduct.queries';
+import {
+  CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING,
+  FETCH_USED_ITEM,
+  TOGGLE_USED_ITEM_PICK,
+} from './DetailProduct.queries';
 import { FaRegHeart, FaHeart, FaMapMarkerAlt } from 'react-icons/fa';
-import { IMutation, IMutationToggleUseditemPickArgs, IUseditem } from '../../../../commons/types/generated/types';
+import {
+  IMutation,
+  IMutationCreatePointTransactionOfBuyingAndSellingArgs,
+  IMutationToggleUseditemPickArgs,
+  IUseditem,
+} from '../../../../commons/types/generated/types';
 import { useEffect, useState } from 'react';
 import { putOnComma } from '../../../../commons/libraries/utils';
 import { useRecoilState } from 'recoil';
 import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 
 declare const window: typeof globalThis & {
   kakao: any;
@@ -31,14 +40,22 @@ const DetailProduct = () => {
 
   const [baskets, setBaskets] = useState<IUseditem[]>([]);
 
+  const [createPointTransactionOfBuyingAndSelling] = useMutation<
+    Pick<IMutation, 'createPointTransactionOfBuyingAndSelling'>,
+    IMutationCreatePointTransactionOfBuyingAndSellingArgs
+  >(CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING);
+
   const handleImageError = (event: any) => {
     event.target.src = '/default.png';
   };
 
   const onClickDip = async () => {
-    if (typeof router.query.productId !== 'string') return;
+    if (!accessToken) {
+      Modal.info({ content: '로그인이 필요한 기능입니다!' });
+      return;
+    }
 
-    if (!accessToken) Modal.info({ content: '로그인이 필요한 기능입니다!' });
+    if (typeof router.query.productId !== 'string') return;
 
     try {
       await toggleUseditemPick({
@@ -57,17 +74,41 @@ const DetailProduct = () => {
     }
   };
 
+  const onClickPurchase = async () => {
+    if (!accessToken) {
+      Modal.info({ content: '로그인이 필요한 기능입니다!' });
+      return;
+    }
+
+    try {
+      await createPointTransactionOfBuyingAndSelling({
+        variables: { useritemId: String(router.query.productId) },
+      });
+
+      Modal.success({
+        content: `${data?.fetchUseditem.name} 구매가 완료되었습니다.`,
+      });
+    } catch (error) {
+      if (error instanceof Error) Modal.error({ content: error.message });
+    }
+  };
+
   useEffect(() => {
     const baskets = JSON.parse(localStorage.getItem('baskets') || '[]');
     setBaskets(baskets);
   }, []);
 
   const onClickBasket = (basket: IUseditem) => () => {
+    if (!accessToken) {
+      Modal.info({ content: '로그인이 필요한 기능입니다!' });
+      return;
+    }
+
     const baskets = JSON.parse(localStorage.getItem('baskets') || '[]');
 
-    const temp = baskets.filter((el) => el._id === baskets._id);
+    const temp = baskets.filter((el: any) => el._id === baskets._id);
     if (temp.length === 1) {
-      alert('이미 담으신 물품입니다!');
+      message.info({ content: '이미 담으신 물품입니다!' });
       return;
     }
 
@@ -142,7 +183,7 @@ const DetailProduct = () => {
               {data?.fetchUseditem.pickedCount ? <FillHeartIcon /> : <EmptyHeartIcon />}찜
             </DipButton>
             <BasketButton onClick={onClickBasket(data)}>장바구니</BasketButton>
-            <PurchaseButton>바로구매</PurchaseButton>
+            <PurchaseButton onClick={onClickPurchase}>바로구매</PurchaseButton>
           </ProductsButtonWrapper>
         </ProductDescription>
       </ProductDetailWrapper>
@@ -150,7 +191,7 @@ const DetailProduct = () => {
         <ProductBodyLeftWrapper>
           <ProductBodySpan>상품정보</ProductBodySpan>
           <DivideLine />
-          {data?.fetchUseditem.contents}
+          <ProductContents>{data?.fetchUseditem.contents}</ProductContents>
           <ProductMapWrapper>
             <ProductMapSpan>
               <FaMapMarkerAlt />
@@ -161,7 +202,7 @@ const DetailProduct = () => {
         </ProductBodyLeftWrapper>
         <ProductBodyRightWrapper>
           <ProductSellerWrapper>
-            <ProductBodySpan>상점정보</ProductBodySpan>
+            <ProductBodySpan>판매자명</ProductBodySpan>
             <DivideLine />
             <SellerProfileWrapper>
               <ProductSellerProfile />
@@ -202,8 +243,8 @@ const ProductDescription = styled.div`
 `;
 
 const ProductImg = styled.img`
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
 `;
 
 const ProductDetail1 = styled.div`
@@ -327,6 +368,11 @@ const ProductBodyLeftWrapper = styled.div`
 
 const DivideLine = styled.hr`
   border-bottom: 2px solid #555555;
+`;
+
+const ProductContents = styled.p`
+  margin-top: 1rem;
+  overflow-y: scroll;
 `;
 
 const ProductBodySpan = styled.p`
