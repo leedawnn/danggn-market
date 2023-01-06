@@ -16,9 +16,9 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 1200px;
+  width: 80%;
   border: 1px solid #e5e5e5;
-  box-shadow: 0px 4px 20px 0px #00000033;
+  box-shadow: 0px 4px 16px 0px #00000033;
   padding: 10px 100px;
 `;
 
@@ -88,6 +88,12 @@ export const BoardLike = styled.div`
   justify-content: space-between;
   padding: 30px;
   cursor: pointer;
+`;
+
+export const LikesWrapper = styled.div`
+  width: 80px;
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 export const LikeIcon = styled(GrLike)`

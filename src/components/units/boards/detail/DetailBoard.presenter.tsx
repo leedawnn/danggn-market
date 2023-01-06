@@ -26,10 +26,14 @@ const DetailBoardUI = (props: IDetailBoardUIProps) => {
             <S.Content>{props.data?.fetchBoard?.contents}</S.Content>
           </S.BoardContents>
           <S.BoardLike>
-            <S.LikeIcon onClick={props.onClickLike} />
-            <S.LikeCount>{props.data?.fetchBoard.likeCount}</S.LikeCount>
-            <S.DisLikeIcon onClick={props.onClickDislike} />
-            <S.DisLikeCount>{props.data?.fetchBoard.dislikeCount}</S.DisLikeCount>
+            <S.LikesWrapper>
+              <S.LikeIcon onClick={props.onClickLike} />
+              <S.LikeCount>{props.data?.fetchBoard.likeCount}</S.LikeCount>
+            </S.LikesWrapper>
+            <S.LikesWrapper>
+              <S.DisLikeIcon onClick={props.onClickDislike} />
+              <S.DisLikeCount>{props.data?.fetchBoard.dislikeCount}</S.DisLikeCount>
+            </S.LikesWrapper>
           </S.BoardLike>
         </S.Container>
         <S.BtnWrapper>

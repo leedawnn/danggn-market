@@ -22,6 +22,7 @@ const DetailBoard = () => {
   const [likeBoard] = useMutation<Pick<IMutation, 'likeBoard'>, IMutationLikeBoardArgs>(LIKE_BOARD);
   const [dislikeBoard] = useMutation<Pick<IMutation, 'dislikeBoard'>, IMutationDislikeBoardArgs>(DISLIKE_BOARD);
 
+  // TODO: 좋아요나 싫어요 한 번만 누를 수 있게 변경하기
   const onClickMoveToBoards = () => {
     router.push('/board');
   };

@@ -36,11 +36,11 @@ const Navigation = () => {
   const [logoutUser] = useMutation<Pick<IMutation, 'logoutUser'>>(LOGOUT_USER);
 
   const onClickLogOut = async () => {
-    message.success({ content: '로그아웃 되었습니다. 👋' });
     try {
-      setUserInfo(undefined);
       await logoutUser();
+      setUserInfo(undefined);
       router.push('/');
+      message.success({ content: '로그아웃 되었습니다. 👋' });
     } catch (error) {
       if (error instanceof Error) console.log(error.message);
     }
@@ -72,7 +72,7 @@ const Navigation = () => {
             </a>
           </Link>
           <HeaderRight>
-            {userInfo && (
+            {accessToken && (
               <UserWrapper>
                 <UserName isHome={isHome()}>{userInfo?.name}님,</UserName>
                 <UserPoint isHome={isHome()}>{userInfo?.userPoint} Point </UserPoint>
@@ -80,7 +80,7 @@ const Navigation = () => {
               </UserWrapper>
             )}
             <HeaderRightMenus>
-              {!userInfo ? (
+              {!accessToken ? (
                 <Link href='/auth/signin'>
                   <a>
                     <MenuItem isHome={isHome()}>Sign in</MenuItem>
@@ -91,7 +91,7 @@ const Navigation = () => {
                   Logout
                 </MenuItem>
               )}
-              {!userInfo && (
+              {!accessToken && (
                 <Link href='/auth/join'>
                   <a>
                     <MenuItem isHome={isHome()}>Join</MenuItem>
@@ -103,11 +103,18 @@ const Navigation = () => {
                   <MenuItem isHome={isHome()}>My</MenuItem>
                 </a>
               </Link>
-              <MenuItem isHome={isHome()}>
-                Order <HiOutlineHeart style={{ marginRight: '2px' }} />
-              </MenuItem>
-
-              <MenuItem isHome={isHome()}>Cart({cart})</MenuItem>
+              <Link href='/auth/order'>
+                <a>
+                  <MenuItem isHome={isHome()}>
+                    Order <HiOutlineHeart style={{ marginRight: '2px' }} />
+                  </MenuItem>
+                </a>
+              </Link>
+              <Link href='/auth/cart'>
+                <a>
+                  <MenuItem isHome={isHome()}>Cart({cart})</MenuItem>
+                </a>
+              </Link>
             </HeaderRightMenus>
           </HeaderRight>
         </HeaderTopinner>
