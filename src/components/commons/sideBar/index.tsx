@@ -1,7 +1,8 @@
-import { useMutation, gql } from '@apollo/client';
 import styled from '@emotion/styled';
-import { message } from 'antd';
 import Link from 'next/link';
+import Script from 'next/script';
+import { useMutation, gql } from '@apollo/client';
+import { message } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
@@ -9,9 +10,7 @@ import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../../commons/store/Auth/UserInfoState';
 import { IMutation, IMutationCreatePointTransactionOfLoadingArgs } from '../../../commons/types/generated/types';
 import { AiOutlineClose } from 'react-icons/ai';
-import Head from 'next/head';
 import { accessTokenState } from '../../../commons/store/Auth/accessToken';
-import Script from 'next/script';
 import Modal from 'react-modal';
 
 declare const window: typeof globalThis & {
@@ -48,10 +47,6 @@ const SideBar = () => {
   //   if (!arr.includes(product[0].id))
   // }, [])
 
-  useEffect(() => {
-    setCharged(Boolean(accessToken));
-  }, [charged]);
-
   const [createPointTransactionOfLoading] = useMutation<
     Pick<IMutation, 'createPointTransactionOfLoading'>,
     IMutationCreatePointTransactionOfLoadingArgs
@@ -82,7 +77,7 @@ const SideBar = () => {
     }
 
     const IMP = window.IMP;
-    IMP.init('imp87153765');
+    IMP.init('imp49910675');
 
     IMP.request_pay(
       {
@@ -97,31 +92,35 @@ const SideBar = () => {
       async (rsp: any) => {
         if (rsp.success) {
           try {
-            const { data } = await createPointTransactionOfLoading({
+            await createPointTransactionOfLoading({
               variables: { impUid: rsp.imp_uid },
             });
-            console.log('결제ㅔㅔㅔㅔㅔㅔㅔㅔ', data);
+
             setModalIsOpen(false);
             setCharged(true);
-            router.push('/market');
+            router.push(`/auth/mypage`);
             message.success('결제가 완료되었습니다.');
           } catch (error) {
             if (error instanceof Error) message.error(error.message);
           }
+        } else {
+          message.error('결제에 실패했습니다. 다시 시도해주세요.');
         }
       }
     );
   };
+
+  useEffect(() => {
+    setCharged(Boolean(accessToken));
+  }, [charged]);
 
   // TODO: 랜딩페이지용 상단바 따로 만들기
   const onClickmoveToTop = () => (document.documentElement.scrollTop = 0);
 
   return (
     <>
-      <Head>
-        <Script type='text/javascript' src='https://code.jquery.com/jquery-1.12.4.min.js' />
-        <Script type='text/javascript' src='https://cdn.iamport.kr/js/iamport.payment-1.1.5.js' />
-      </Head>
+      <Script type='text/javascript' src='https://code.jquery.com/jquery-1.12.4.min.js' />
+      <Script type='text/javascript' src='https://cdn.iamport.kr/js/iamport.payment-1.2.0.js' />
 
       <MenuWrapper>
         <Link href='/market/create'>
@@ -141,7 +140,7 @@ const SideBar = () => {
         </PointMenu>
         <ModalStyle isOpen={modalIsOpen}>
           <ModalCloseButton onClick={() => setModalIsOpen(false)}>
-            <AiOutlineClose style={{ width: '16px', height: '16px' }} />
+            <AiOutlineClose style={{ fontSize: '16px' }} />
           </ModalCloseButton>
           <ModalTitle>충전하실 금액을 선택해주세요!</ModalTitle>
           <ModalSelect value={selectedAmount} onChange={onChangeSelect}>
@@ -269,20 +268,18 @@ const ModalStyle = styled(Modal)`
 const ModalCloseButton = styled.button`
   width: 16px;
   height: 16px;
-
   background-color: transparent;
   border: none;
-  margin: 20px 0px 20px 400px;
+  margin: 0px 0px 50px 400px;
   cursor: pointer;
 `;
 
 const ModalTitle = styled.div`
+  width: 464px;
+  height: 29px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-
-  width: 464px;
-  height: 29px;
   font-weight: 700;
   font-size: 20px;
   margin-bottom: 20px;
@@ -295,6 +292,7 @@ const ModalSelect = styled.select`
   border-bottom: 2px solid #000000;
   margin-bottom: 30px;
   outline: none;
+  cursor: pointer;
 
   ::placeholder {
     font-weight: 400;
