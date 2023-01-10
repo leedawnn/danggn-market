@@ -179,8 +179,8 @@ const DetailProduct = () => {
           </ProductDetail2>
           <ProductsButtonWrapper>
             <DipButton onClick={onClickDip}>
-              {console.log('count', data?.fetchUseditem.pickedCount)}
-              {data?.fetchUseditem.pickedCount ? <FillHeartIcon /> : <EmptyHeartIcon />}찜
+              <FillHeartIcon />
+              &nbsp;{data?.fetchUseditem.pickedCount}
             </DipButton>
             <BasketButton onClick={onClickBasket(data)}>장바구니</BasketButton>
             <PurchaseButton onClick={onClickPurchase}>바로구매</PurchaseButton>
