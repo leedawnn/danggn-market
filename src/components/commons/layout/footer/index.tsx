@@ -7,10 +7,10 @@ const Footer = () => {
   const router = useRouter();
 
   const isHome = router.asPath === '/' ? true : false;
-  const isMarket = router.asPath === '/market/';
+  const isShow = router.asPath === '/market/' || '/auth/';
 
   return (
-    !isMarket && (
+    !isShow && (
       <Wrapper isHome={isHome}>
         <FooterHeader>
           <HeaderUl>
