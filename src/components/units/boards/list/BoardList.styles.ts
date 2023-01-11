@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
 
 export const BoardTitle = styled.div`
   font-size: 1.5rem;
+  margin-top: 1rem;
   margin-left: 10%;
   padding: 0px 25px 0 25px;
 `;
@@ -20,7 +21,8 @@ export const Table = styled.section`
   display: flex;
   flex-direction: column;
   width: 90%;
-  padding: 5px 100px 100px 100px;
+  height: 500px;
+  padding: 2px 100px 0px 100px;
   margin: 0 auto;
 `;
 
@@ -90,7 +92,7 @@ interface IPageProps {
 export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1rem;
 `;
 
 export const Page = styled.span<IPageProps>`
