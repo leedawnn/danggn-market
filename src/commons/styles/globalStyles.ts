@@ -8,12 +8,14 @@ export const globalStyles = css`
     font-family: 'InfinitySans', '돋움', 'AppleGothic, sans-serif';
   }
   html {
+    height: 100%;
     font-size: 16px;
     scroll-behavior: smooth;
   }
   body {
-    cursor: default;
+    height: 100%;
     position: relative;
+    cursor: default;
   }
   h1 {
     font-family: 'SSShinb7', '돋움', 'AppleGothic, sans-serif';

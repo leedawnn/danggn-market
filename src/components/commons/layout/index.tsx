@@ -18,6 +18,7 @@ export default function Layout(props: ILayoutProps) {
     '/auth/join',
     '/auth/signin',
     '/auth/mypage',
+    '/auth/mypage/profile',
     '/auth/order',
     '/auth/cart',
     '/board/[id]/edit',
@@ -25,6 +26,7 @@ export default function Layout(props: ILayoutProps) {
     '/market',
     '/market/create',
   ];
+
   const isShowSideBar = HIDE_SIDEBAR.includes(router.pathname);
 
   return (
