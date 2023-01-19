@@ -108,7 +108,7 @@ const DetailProduct = () => {
     const temp = baskets.filter((el) => el._id === basket._id);
 
     if (temp.length === 1) {
-      alert('이미 담으신 물품입니다!!!');
+      Modal.info({ content: '이미 담으신 물품입니다!' });
       return;
     }
 
@@ -116,7 +116,7 @@ const DetailProduct = () => {
     baskets.push(newBasket);
     localStorage.setItem('baskets', JSON.stringify(baskets));
 
-    const move = confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?');
+    const move = Modal.success({ content: '장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?' });
     if (move) {
       router.replace('/auth/cart');
     }
@@ -172,7 +172,9 @@ const DetailProduct = () => {
             {data?.fetchUseditem.tags[0] && (
               <ProductTags>
                 {data?.fetchUseditem.tags?.map((el: string) => (
-                  <ProductTag key={el}>#{el}</ProductTag>
+                  <ProductTag key={el}>
+                    <TagSpan>#{el}</TagSpan>
+                  </ProductTag>
                 ))}
               </ProductTags>
             )}
@@ -280,11 +282,13 @@ const ProductDetail2 = styled.div`
 `;
 
 const ProductRemarks = styled.p`
+  font-size: 1rem;
   padding: 20px;
   cursor: auto;
 `;
 
 const ProductTags = styled.div`
+  width: 400px;
   display: flex;
   justify-content: space-between;
   padding: 20px;
@@ -292,11 +296,10 @@ const ProductTags = styled.div`
 `;
 
 const ProductTag = styled.div`
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 40px;
   font-size: 16px;
   color: #000000;
   border: none;
@@ -304,6 +307,13 @@ const ProductTag = styled.div`
   padding: 5px;
   margin-right: 10px;
   background-color: #ffe004;
+`;
+
+const TagSpan = styled.span`
+  width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 const ProductsButtonWrapper = styled.div`
@@ -325,10 +335,6 @@ const DipButton = styled.button`
   font-weight: 700;
   background-color: #c9c9c9;
   cursor: pointer;
-`;
-
-const EmptyHeartIcon = styled(FaRegHeart)`
-  margin-right: 4px;
 `;
 
 const FillHeartIcon = styled(FaHeart)`
