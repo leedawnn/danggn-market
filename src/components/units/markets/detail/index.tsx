@@ -88,6 +88,7 @@ const DetailProduct = () => {
       Modal.success({
         content: `${data?.fetchUseditem.name} 구매가 완료되었습니다.`,
       });
+      router.replace('/market');
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }
