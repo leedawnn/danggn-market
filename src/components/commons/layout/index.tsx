@@ -41,4 +41,5 @@ export default function Layout(props: ILayoutProps) {
 
 const Wrapper = styled.div`
   height: 100%;
+  min-height: 100%;
 `;
