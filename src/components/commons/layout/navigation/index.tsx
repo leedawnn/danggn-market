@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import { CartState } from '../../../../commons/store';
 import { gql, useMutation } from '@apollo/client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 import { IMutation } from '../../../../commons/types/generated/types';
@@ -23,7 +23,7 @@ const Navigation = () => {
   const [accessToken, _] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
-  const [cart, setCart] = useRecoilState(CartState);
+  const [cartCount, setCartCount] = useState(0);
 
   const isHome = () => {
     if (router.asPath === '/') {
@@ -47,6 +47,12 @@ const Navigation = () => {
   };
 
   useEffect(() => {}, [userInfo]);
+
+  useEffect(() => {
+    const basketsData = JSON.parse(localStorage.getItem('baskets') || '[]');
+
+    setCartCount(basketsData.length);
+  }, [cartCount]);
 
   return (
     <Wrapper isHome={isHome()}>
@@ -112,7 +118,7 @@ const Navigation = () => {
               </Link>
               <Link href='/auth/cart'>
                 <a>
-                  <MenuItem isHome={isHome()}>Cart({cart})</MenuItem>
+                  <MenuItem isHome={isHome()}>Cart({cartCount})</MenuItem>
                 </a>
               </Link>
             </HeaderRightMenus>
