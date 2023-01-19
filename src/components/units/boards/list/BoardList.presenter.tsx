@@ -43,7 +43,6 @@ const BoardListUI = ({
     <>
       <S.Wrapper>
         <S.BoardTitle>통합 자유게시판</S.BoardTitle>
-        {/* </S.BoardHeader> */}
         <S.Table>
           <S.TableRow>
             <S.ColumnHeaderNumber>번호</S.ColumnHeaderNumber>

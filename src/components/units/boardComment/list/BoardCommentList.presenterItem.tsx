@@ -7,6 +7,7 @@ import { DELETE_BOARD_COMMENT, FETCH_BOARD_COMMENTS } from './BoardCommentList.q
 import * as S from './BoardCommentList.styles';
 import { IBoardCommentListUIItemProps } from './BoardCommentList.types';
 import { IMutation, IMutationDeleteBoardCommentArgs } from '../../../../commons/types/generated/types';
+import { getDate } from '../../../../commons/libraries/utils';
 
 export default function BoardCommentListUIItem(props: IBoardCommentListUIItemProps) {
   const router = useRouter();
@@ -73,7 +74,7 @@ export default function BoardCommentListUIItem(props: IBoardCommentListUIItemPro
               <S.DeleteIcon onClick={onClickOpenDeleteModal} />
             </S.OptionWrapper>
           </S.FlexWrapper>
-          <S.DateString>{props.el?.createdAt}</S.DateString>
+          <S.DateString>{getDate(props.el?.createdAt)}</S.DateString>
         </S.ItemWrapper>
       )}
       {isEdit && <BoardCommentWrite isEdit={true} setIsEdit={setIsEdit} el={props.el} />}

@@ -20,11 +20,16 @@ const CreateBoard = (props: IBoardcreateProps) => {
   const [contents, setContents] = useState('');
   const [youtubeUrl, setYoutubeUrl] = useState('');
   const [fileUrls, setFileUrls] = useState(['', '', '']);
+  const [zipcode, setZipcode] = useState('');
+  const [address, setAddress] = useState('');
+  const [addressDetail, setAddressDetail] = useState('');
 
   const [writerError, setWriterError] = useState('');
   const [PwError, setPwError] = useState('');
   const [titleError, setTitleError] = useState('');
   const [contentError, setContentsError] = useState('');
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const [createBoard] = useMutation<Pick<IMutation, 'createBoard'>, IMutationCreateBoardArgs>(CREATE_BOARD);
   const [updateBoard] = useMutation<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
@@ -41,18 +46,32 @@ const CreateBoard = (props: IBoardcreateProps) => {
     setTitle(event.target.value);
   };
 
-  const onChangeContents = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(event.target.value);
   };
 
   const onChangeYoutubeUrl = (event: ChangeEvent<HTMLInputElement>) => {
-    setYoutubeUrl(event?.target.value);
+    setYoutubeUrl(event.target.value);
   };
 
   const onChangeFileUrls = (fileUrl: string, index: number) => {
     const newFileUrls = [...fileUrls];
     newFileUrls[index] = fileUrl;
     setFileUrls(newFileUrls);
+  };
+
+  const onChangeAddressDetail = (event: ChangeEvent<HTMLInputElement>) => {
+    setAddressDetail(event.target.value);
+  };
+
+  const onClickAddressSearch = () => {
+    setIsOpen(true);
+  };
+
+  const onCompleteAddressSearch = (data: any) => {
+    setAddress(data.address);
+    setZipcode(data.zonecode);
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -100,6 +119,11 @@ const CreateBoard = (props: IBoardcreateProps) => {
               title,
               contents,
               youtubeUrl,
+              boardAddress: {
+                zipcode,
+                address,
+                addressDetail,
+              },
               images: [...fileUrls],
             },
           },
@@ -116,13 +140,13 @@ const CreateBoard = (props: IBoardcreateProps) => {
     const defaultFiles = JSON.stringify(props.data?.fetchBoard.images);
     const isChangedFiles = currentFiles !== defaultFiles;
 
-    if (!title && !contents && !youtubeUrl) {
-      alert('수정한 내용이 없습니다.');
+    if (!title && !contents && !youtubeUrl && !address && !addressDetail && !zipcode && !isChangedFiles) {
+      Modal.info({ content: '수정한 내용이 없습니다.' });
       return;
     }
 
     if (!password) {
-      alert('비밀번호를 입력해주세요.');
+      Modal.error({ content: '비밀번호를 입력해주세요.' });
       return;
     }
 
@@ -130,6 +154,13 @@ const CreateBoard = (props: IBoardcreateProps) => {
     if (title) updateBoardInput.title = title;
     if (contents) updateBoardInput.contents = contents;
     if (youtubeUrl) updateBoardInput.youtubeUrl = youtubeUrl;
+    if (zipcode || address || addressDetail) {
+      updateBoardInput.boardAddress = {};
+
+      if (zipcode) updateBoardInput.boardAddress.zipcode = zipcode;
+      if (address) updateBoardInput.boardAddress.address = address;
+      if (addressDetail) updateBoardInput.boardAddress.addressDetail = addressDetail;
+    }
     if (isChangedFiles) updateBoardInput.images = fileUrls;
 
     try {
@@ -159,6 +190,9 @@ const CreateBoard = (props: IBoardcreateProps) => {
         onChangeTitle={onChangeTitle}
         onChangeContents={onChangeContents}
         onChangeYoutubeUrl={onChangeYoutubeUrl}
+        onChangeAddressDetail={onChangeAddressDetail}
+        onClickAddressSearch={onClickAddressSearch}
+        onCompleteAddressSearch={onCompleteAddressSearch}
         onChangeFileUrls={onChangeFileUrls}
         onClickValidation={onClickValidation}
         onClickUpdate={onClickUpdate}

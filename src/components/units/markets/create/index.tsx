@@ -52,6 +52,7 @@ export default function CreateProducts(props: IProductcreateProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [fileUrls, setFileUrls] = useState(['', '']);
 
+  // reset 기능 알아보기
   const { register, formState, handleSubmit, setValue, trigger } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',

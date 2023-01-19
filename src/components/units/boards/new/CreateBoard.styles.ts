@@ -13,9 +13,10 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 1200px;
-  border: 1px solid black;
-  box-shadow: 0px 4px 20px 0px #00000033;
+  width: 80%;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0px 4px 16px 0px #00000033;
+  padding: 10px 100px;
 `;
 
 export const Title = styled.span`
@@ -47,13 +48,12 @@ export const UserContainer = styled.div`
 export const UserName = styled.div`
   display: flex;
   flex-direction: column;
-  width: 486px;
+  flex: 1;
   height: 92px;
   margin-right: 24px;
 `;
 
 export const UserInput = styled.input`
-  width: 486px;
   height: 52px;
   border: 1px solid #bdbdbd;
   padding: 16px;
@@ -63,13 +63,13 @@ export const UserSpan = styled.span`
   color: #000000;
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+  padding-bottom: 12px;
 `;
 
 export const UserPw = styled.div`
   display: flex;
   flex-direction: column;
-  width: 486px;
+  flex: 1;
   height: 92px;
 `;
 
@@ -79,18 +79,17 @@ export const TitleContainer = styled.div`
   justify-content: center;
   width: 100%;
   height: 92px;
-  margin-bottom: 18px;
+  margin: 18px 0;
 `;
 
 export const TitleSpan = styled.span`
   color: #000000;
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+  padding-bottom: 12px;
 `;
 
 export const TitleInput = styled.input`
-  width: 996px;
   height: 52px;
   border: 1px solid #bdbdbd;
   padding: 16px;
@@ -100,7 +99,6 @@ export const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 996px;
   height: 520px;
 `;
 
@@ -112,7 +110,6 @@ export const ContentsSpan = styled.span`
 `;
 
 export const ContentsInput = styled.textarea`
-  width: 996px;
   height: 480px;
   padding: 16px;
   border: 1px solid #bdbdbd;
@@ -155,9 +152,9 @@ export const AddressBtn = styled.button`
 `;
 
 export const AddressInput = styled.input`
-  width: 996px;
   height: 52px;
   margin-bottom: 16px;
+  padding: 16px;
   border: 1px solid #bdbdbd;
 `;
 
@@ -174,11 +171,10 @@ export const YoutubeSpan = styled.span`
   color: #000000;
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+  margin: 16px 0px;
 `;
 
 export const YoutubeInput = styled.input`
-  width: 996px;
   height: 52px;
   border: 1px solid #bdbdbd;
   padding: 16px;
@@ -196,7 +192,7 @@ export const PhotoSpan = styled.span`
   color: #000000;
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 16px;
+  margin: 16px 0px;
 `;
 
 export const PhotoItems = styled.div`
@@ -219,7 +215,7 @@ export const MainSetting = styled.div`
   flex-direction: column;
   justify-content: left;
   align-items: left;
-  margin-bottom: 30px;
+  margin-top: 30px;
 `;
 
 export const MainSettingSpan = styled.span`
@@ -232,6 +228,14 @@ export const MainSettingSpan = styled.span`
 export const SettingInputs = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const SettingRadioButton = styled.input`
+  margin: 0 6px;
+
+  :first-child {
+    margin: 0 6px 0 0;
+  }
 `;
 
 export const BtnContainer = styled.div`
@@ -247,11 +251,11 @@ export const RegisterBtn = styled.button`
   color: #000000;
   font-size: 14px;
   font-weight: 600;
-  border: 1px solid #000000;
   background-color: #ffd600;
   cursor: pointer;
 `;
 
 export const ErrorMsg = styled.div`
   color: tomato;
+  margin-top: 4px;
 `;

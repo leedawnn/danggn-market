@@ -21,7 +21,6 @@ export const Table = styled.section`
   display: flex;
   flex-direction: column;
   width: 90%;
-  height: 500px;
   padding: 2px 100px 0px 100px;
   margin: 0 auto;
 `;

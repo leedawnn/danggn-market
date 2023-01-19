@@ -3,7 +3,7 @@ import { Rate } from 'antd';
 import { AiOutlineComment } from 'react-icons/ai';
 
 export const Wrapper = styled.div`
-  width: 1200px;
+  width: 70%;
   margin: 0 auto;
 `;
 

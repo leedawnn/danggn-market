@@ -10,6 +10,11 @@ export interface IUpdateBoardInput {
   title?: string;
   contents?: string;
   youtubeUrl?: string;
+  boardAddress?: {
+    zipcode?: string;
+    address?: string;
+    addressDetail?: string;
+  };
   images?: string[];
 }
 
@@ -29,8 +34,14 @@ export interface ICreateBoardUIprops {
   onChangeTitle: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeContents: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeYoutubeUrl: (event: ChangeEvent<HTMLInputElement>) => void;
+  onClickAddressSearch: () => void;
+  onCompleteAddressSearch: (data: any) => void;
   onChangeFileUrls: (fileUrls: string, index: number) => void;
   onClickValidation: () => void;
   onClickUpdate: () => void;
+  isOpen: boolean;
+  zipcode: string;
+  address: string;
+  addressDetail: string;
   fileUrls: string[];
 }

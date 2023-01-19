@@ -5,9 +5,9 @@ import { BsPencilSquare } from 'react-icons/bs';
 import { MdDeleteOutline } from 'react-icons/md';
 
 export const ItemWrapper = styled.div`
-  width: 1200px;
+  width: 70%;
   margin: 0 auto;
-  padding-top: 20px;
+  padding: 30px 0;
   height: 128px;
   border-bottom: 1px solid lightgray;
 `;

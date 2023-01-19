@@ -51,10 +51,8 @@ interface IsHomeProps {
 }
 
 const Wrapper = styled.footer<IsHomeProps>`
-  height: 154px;
   position: relative;
-  transform: translateY(-100%);
-  padding-bottom: 60px;
+  height: 154px;
   padding: ${(props) => (props.isHome ? '100px 0' : '50px 0')};
 `;
 

@@ -113,11 +113,11 @@ export const DisLikeCount = styled.div`
 `;
 
 export const BtnWrapper = styled.div`
-  width: 1200px;
+  width: 80%;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid #bdbdbd;
-  margin: 80px 0px;
+  margin: 80px 0 10px 0;
   padding-bottom: 80px;
 `;
 

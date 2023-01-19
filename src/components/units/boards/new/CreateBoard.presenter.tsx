@@ -2,8 +2,12 @@ import * as S from './CreateBoard.styles';
 import { ICreateBoardUIprops } from './CreateBoard.types';
 import Uploads01 from '../../../commons/uploads/01/Uploads01.container';
 import { v4 as uuidv4 } from 'uuid';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
 const CreateBoardUI = (props: ICreateBoardUIprops) => {
+  const [userInfo] = useRecoilState(userInfoState);
+
   return (
     <S.Wrapper>
       <S.Container>
@@ -16,8 +20,8 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
                 type='text'
                 placeholder='이름을 적어주세요.'
                 onChange={props.onChangeWriter}
-                defaultValue={props.data?.fetchBoard.writer || ''}
-                readOnly={!!props.data?.fetchBoard.writer}
+                defaultValue={userInfo?.name || ''}
+                readOnly={!!userInfo?.name}
               />
               <S.ErrorMsg>{props.writerError}</S.ErrorMsg>
             </S.UserName>
@@ -49,14 +53,29 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
           </S.ContentsContainer>
           <S.AddressSpan>주소</S.AddressSpan>
           <S.AddressContainer>
-            <S.AddressNumber placeholder='07250' />
-            <S.AddressBtn>우편번호 검색</S.AddressBtn>
+            <S.AddressNumber
+              placeholder='07250'
+              value={props.zipcode || props.data?.fetchBoard.boardAddress?.zipcode || ''}
+            />
+            <S.AddressBtn onClick={props.onClickAddressSearch}>우편번호 검색</S.AddressBtn>
           </S.AddressContainer>
-          <S.AddressInput />
-          <S.AddressInput />
+          <S.AddressInput
+            type='text'
+            placeholder='주소'
+            defaultValue={props.data?.fetchBoard.boardAddress?.address || ''}
+          />
+          <S.AddressInput
+            type='text'
+            placeholder='상세 주소'
+            defaultValue={props.data?.fetchBoard.boardAddress?.addressDetail || ''}
+          />
           <S.YoutubeContainer>
             <S.YoutubeSpan onChange={props.onChangeYoutubeUrl}>유튜브</S.YoutubeSpan>
-            <S.YoutubeInput type='text' placeholder='링크를 복사해주세요.' />
+            <S.YoutubeInput
+              type='text'
+              placeholder='링크를 복사해주세요.'
+              defaultValue={props.data?.fetchBoard.youtubeUrl || ''}
+            />
           </S.YoutubeContainer>
           <S.PhotoContainer>
             <S.PhotoSpan>사진 첨부</S.PhotoSpan>
@@ -69,8 +88,8 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
           <S.MainSetting>
             <S.MainSettingSpan>메인 설정</S.MainSettingSpan>
             <S.SettingInputs>
-              <input type='radio' /> 유튜브
-              <input type='radio' /> 사진
+              <S.SettingRadioButton type='radio' id='youtube' name='chk_main' checked /> 유튜브
+              <S.SettingRadioButton type='radio' id='image' name='chk_main' /> 사진
             </S.SettingInputs>
           </S.MainSetting>
           <S.BtnContainer>
