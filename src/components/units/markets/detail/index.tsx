@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 import { putOnComma } from '../../../../commons/libraries/utils';
 import { useRecoilState } from 'recoil';
 import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
-import { message, Modal } from 'antd';
+import { Modal } from 'antd';
 
 declare const window: typeof globalThis & {
   kakao: any;
@@ -93,29 +93,29 @@ const DetailProduct = () => {
     }
   };
 
-  useEffect(() => {
-    const baskets = JSON.parse(localStorage.getItem('baskets') || '[]');
-    setBaskets(baskets);
-  }, []);
-
   const onClickBasket = (basket: IUseditem) => () => {
     if (!accessToken) {
       Modal.info({ content: '로그인이 필요한 기능입니다!' });
       return;
     }
 
-    const baskets = JSON.parse(localStorage.getItem('baskets') || '[]');
+    console.log(basket);
 
-    const temp = baskets.filter((el: any) => el._id === baskets._id);
+    const baskets: Pick<IUseditem, '_id' | 'name' | 'price' | 'contents' | 'images'>[] = JSON.parse(
+      localStorage.getItem('baskets') || '[]'
+    );
+
+    const temp = baskets.filter((el) => el._id === basket._id);
+
     if (temp.length === 1) {
-      message.info({ content: '이미 담으신 물품입니다!' });
+      alert('이미 담으신 물품입니다!!!');
       return;
     }
 
     const { __typename, ...newBasket } = basket;
     baskets.push(newBasket);
-
     localStorage.setItem('baskets', JSON.stringify(baskets));
+
     const move = confirm('장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?');
     if (move) {
       router.replace('/auth/cart');
@@ -182,7 +182,7 @@ const DetailProduct = () => {
               <FillHeartIcon />
               &nbsp;{data?.fetchUseditem.pickedCount}
             </DipButton>
-            <BasketButton onClick={onClickBasket(data)}>장바구니</BasketButton>
+            <BasketButton onClick={onClickBasket(data?.fetchUseditem)}>장바구니</BasketButton>
             <PurchaseButton onClick={onClickPurchase}>바로구매</PurchaseButton>
           </ProductsButtonWrapper>
         </ProductDescription>
