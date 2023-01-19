@@ -81,7 +81,9 @@ const Navigation = () => {
             {accessToken && (
               <UserWrapper>
                 <UserName isHome={isHome()}>{userInfo?.name}님,</UserName>
-                <UserPoint isHome={isHome()}>{userInfo?.userPoint} Point </UserPoint>
+                <UserPoint isHome={isHome()} onClick={() => router.push('/auth/mypage')}>
+                  {userInfo?.userPoint} Point{' '}
+                </UserPoint>
                 <DivideBar isHome={isHome()}>|</DivideBar>
               </UserWrapper>
             )}
@@ -198,6 +200,7 @@ const UserName = styled.span<IsHomeProps>`
 const UserPoint = styled.span<IsHomeProps>`
   color: ${(props) => (props.isHome ? '#ffffff' : '#000000')};
   margin-right: 1rem;
+  cursor: pointer;
 `;
 
 const DivideBar = styled.span<IsHomeProps>`
