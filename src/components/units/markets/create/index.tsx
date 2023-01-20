@@ -234,7 +234,7 @@ export default function CreateProducts(props: IProductcreateProps) {
           <ProductMapWrapper>
             <ProductMapLeft>
               <ProductLabel>거래 위치</ProductLabel>
-              <div id='map' style={{ width: '384px', height: '252px' }}></div>
+              <ProductLocationMap id='map'></ProductLocationMap>
             </ProductMapLeft>
             <ProductMapRight>
               <ZipcodeWrapper>
@@ -298,6 +298,12 @@ const ProductLabel = styled.label`
   width: 100px;
   font-size: 22px;
   font-weight: 500;
+`;
+
+const ProductLocationMap = styled.div`
+  width: 384px;
+  height: 252px;
+  z-index: -1;
 `;
 
 const ProductInput = styled.input`

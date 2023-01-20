@@ -82,7 +82,7 @@ const Navigation = () => {
               <UserWrapper>
                 <UserName isHome={isHome()}>{userInfo?.name}님,</UserName>
                 <UserPoint isHome={isHome()} onClick={() => router.push('/auth/mypage')}>
-                  {userInfo?.userPoint} Point{' '}
+                  {userInfo?.userPoint} Point
                 </UserPoint>
                 <DivideBar isHome={isHome()}>|</DivideBar>
               </UserWrapper>
