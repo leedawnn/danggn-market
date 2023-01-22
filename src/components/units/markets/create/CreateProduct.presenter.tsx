@@ -26,6 +26,7 @@ interface ICreateProductProps {
   onCompletePostCode: (data: any) => void;
   onChangeAddressDetail: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeFileUrls: (fileUrl: string, index: number) => void;
+  onClickCancleForm: () => void;
 }
 
 const CreateProductUI = ({
@@ -45,6 +46,7 @@ const CreateProductUI = ({
   onChangeAddressDetail,
   fileUrls,
   onChangeFileUrls,
+  onClickCancleForm,
 }: ICreateProductProps) => {
   return (
     <>
@@ -68,7 +70,7 @@ const CreateProductUI = ({
             <ReactQuill
               placeholder='상품을 설명해주세요.'
               onChange={onChangeContents}
-              style={{ width: '1117px', height: '431px', marginBottom: '40px' }}
+              style={{ width: '1200px', height: '431px', marginBottom: '40px' }}
             />
             <S.ValidErrorMsg>{formState.errors.contents?.message}</S.ValidErrorMsg>
           </S.ProductItem>
@@ -82,36 +84,40 @@ const CreateProductUI = ({
             <S.ProductInput type='text' placeholder='#태그 #태그 #태그' {...register('tags')} />
           </S.ProductItem>
           <S.ProductMapWrapper>
-            <S.ProductMapLeft>
-              <S.ProductLabel>거래 위치</S.ProductLabel>
-              <S.ProductLocationMap id='map'></S.ProductLocationMap>
-            </S.ProductMapLeft>
-            <S.ProductMapRight>
-              <S.ZipcodeWrapper>
-                <S.ZipcodeInput type='text' placeholder='07250' defaultValue={zipcode || ''} />
-                <S.ZipcodeSearchButton onClick={onToggleModal}>우편번호 검색</S.ZipcodeSearchButton>
-                {isModalVisible && (
-                  <Modal visible={true} onOk={onToggleModal} onCancel={onToggleModal}>
-                    <DaumPostcodeEmbed onComplete={onCompletePostCode} />
-                  </Modal>
-                )}
-              </S.ZipcodeWrapper>
-              <S.ZipcodeInputWrapper>
-                <S.AddressInput type='text' defaultValue={address || ''} />
-                <S.AddressInput type='text' onChange={onChangeAddressDetail} />
-              </S.ZipcodeInputWrapper>
-            </S.ProductMapRight>
+            <S.ProductLabel>거래 위치</S.ProductLabel>
+            <S.ProductMapInner>
+              <S.ProductMapLeft>
+                <S.ProductLocationMap id='map'></S.ProductLocationMap>
+              </S.ProductMapLeft>
+              <S.ProductMapRight>
+                <S.ZipcodeWrapper>
+                  <S.ZipcodeInput type='text' placeholder='07250' defaultValue={zipcode || ''} />
+                  <S.ZipcodeSearchButton onClick={onToggleModal}>우편번호 검색</S.ZipcodeSearchButton>
+                  {isModalVisible && (
+                    <Modal visible={true} onOk={onToggleModal} onCancel={onToggleModal}>
+                      <DaumPostcodeEmbed onComplete={onCompletePostCode} />
+                    </Modal>
+                  )}
+                </S.ZipcodeWrapper>
+                <S.ZipcodeInputWrapper>
+                  <S.AddressInput type='text' defaultValue={address || ''} placeholder='주소' />
+                  <S.AddressInput type='text' onChange={onChangeAddressDetail} placeholder='상세 주소' />
+                </S.ZipcodeInputWrapper>
+              </S.ProductMapRight>
+            </S.ProductMapInner>
           </S.ProductMapWrapper>
           <S.ProductPhotoWrapper>
+            <S.ProductLabel>사진 첨부</S.ProductLabel>
             <S.ProductPhoto>
-              <S.ProductLabel>사진 첨부</S.ProductLabel>
               {fileUrls.map((el, index) => (
                 <Uploads01 key={uuidv4()} index={index} fileUrl={el} onChangeFileUrls={onChangeFileUrls} />
               ))}
             </S.ProductPhoto>
           </S.ProductPhotoWrapper>
           <S.Footer>
-            <S.FormButton isCancle={true}>취소</S.FormButton>
+            <S.FormButton onClick={onClickCancleForm} isCancle={true}>
+              취소
+            </S.FormButton>
             <S.FormButton isCancle={false}>등록</S.FormButton>
           </S.Footer>
         </S.Form>

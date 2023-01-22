@@ -194,6 +194,10 @@ const CreateProductContainer = (props: IProductcreateProps) => {
     }
   };
 
+  const onClickCancleForm = () => {
+    router.push('/market');
+  };
+
   return (
     <CreateProductUI
       isEdit={props.isEdit}
@@ -212,6 +216,7 @@ const CreateProductContainer = (props: IProductcreateProps) => {
       onChangeAddressDetail={onChangeAddressDetail}
       fileUrls={fileUrls}
       onChangeFileUrls={onChangeFileUrls}
+      onClickCancleForm={onClickCancleForm}
     />
   );
 };

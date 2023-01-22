@@ -2,14 +2,13 @@ import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
   width: 1200px;
-  padding: 50px 100px 80px;
+  padding: 30px 100px 30px;
   margin: 0 auto;
   box-sizing: content-box;
 `;
 
 export const Header = styled.header`
   border-bottom: 2px solid #555555;
-  padding-bottom: 20px;
 `;
 
 export const CreateProductTitle = styled.h1`
@@ -19,19 +18,28 @@ export const CreateProductTitle = styled.h1`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ProductItem = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 40px;
+  align-items: left;
+  margin-top: 15px;
+`;
+
+export const ProductInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const ProductLabel = styled.label`
   width: 100px;
   font-size: 22px;
   font-weight: 500;
+  margin-bottom: 0.7rem;
 `;
 
 export const ProductLocationMap = styled.div`
@@ -41,15 +49,21 @@ export const ProductLocationMap = styled.div`
 `;
 
 export const ProductInput = styled.input`
-  width: 1117px;
+  width: 1200px;
   height: 56px;
   padding: 10px;
-  background-color: #e9e9e9;
+  border: 1px solid #ccc;
 `;
 
 export const ProductMapWrapper = styled.div`
+  width: 100%;
   display: flex;
+  flex-direction: column;
   margin-top: 40px;
+`;
+
+export const ProductMapInner = styled.div`
+  display: flex;
 `;
 
 export const ProductMapLeft = styled.div`
@@ -77,9 +91,8 @@ export const ZipcodeInputWrapper = styled.div`
 export const ZipcodeInput = styled.input`
   width: 77px;
   height: 52px;
-  text-align: center;
-  background-color: #ffffff;
-  border: 1px solid #bdbdbd;
+  padding: 10px;
+  border: 1px solid #ccc;
 `;
 
 export const ZipcodeSearchButton = styled.div`
@@ -94,17 +107,18 @@ export const ZipcodeSearchButton = styled.div`
 `;
 
 export const AddressInput = styled.input`
-  width: 702px;
+  width: 802px;
   height: 56px;
-  background-color: #e9e9e9;
   margin-top: 20px;
   padding: 10px;
+  border: 1px solid #ccc;
 `;
 
 export const ProductPhotoWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 40px 20px 20px 0px;
+  margin: 40px 20px;
 `;
 
 export const ProductPhoto = styled.div`
@@ -112,11 +126,12 @@ export const ProductPhoto = styled.div`
 `;
 
 export const Footer = styled.footer`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-top: 2px solid #555555;
-  padding: 20px;
+  padding: 40px 20px;
 `;
 
 export interface IButtonProps {
@@ -135,4 +150,5 @@ export const FormButton = styled.button<IButtonProps>`
 
 export const ValidErrorMsg = styled.div`
   color: tomato;
+  margin-top: 10px;
 `;
