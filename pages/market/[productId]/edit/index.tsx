@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import CreateProducts from '../../../../src/components/units/markets/create';
+import CreateProducts from '../../../../src/components/units/markets/create/CreateProduct.presenter';
 
 const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {

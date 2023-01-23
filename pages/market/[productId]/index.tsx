@@ -1,5 +1,6 @@
-import DetailProduct from '../../../src/components/units/markets/detail';
+import DetailProductContainer from '../../../src/components/units/markets/detail/DetailProduct.container';
 
-export default function DetailProducts() {
-  return <DetailProduct />;
-}
+const DetailProducts = () => {
+  return <DetailProductContainer />;
+};
+export default DetailProducts;
