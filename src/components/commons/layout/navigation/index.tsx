@@ -22,8 +22,7 @@ const Navigation = () => {
 
   const [accessToken, _] = useRecoilState(accessTokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount, setCartCount] = useRecoilState(CartState);
 
   const isHome = () => {
     if (router.asPath === '/') {
@@ -38,6 +37,7 @@ const Navigation = () => {
   const onClickLogOut = async () => {
     try {
       await logoutUser();
+      sessionStorage.removeItem('baskets');
       setUserInfo(undefined);
       router.push('/');
       message.success({ content: '로그아웃 되었습니다. 👋' });
@@ -49,7 +49,7 @@ const Navigation = () => {
   useEffect(() => {}, [userInfo]);
 
   useEffect(() => {
-    const basketsData = JSON.parse(localStorage.getItem('baskets') || '[]');
+    const basketsData = JSON.parse(sessionStorage.getItem('baskets') || '[]');
 
     setCartCount(basketsData.length);
   }, [cartCount]);

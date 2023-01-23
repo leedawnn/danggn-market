@@ -8,3 +8,8 @@ export const UpdateUserState = atom({
     picture: '',
   },
 });
+
+export const CartState = atom({
+  key: 'CartState',
+  default: 0,
+});

@@ -10,7 +10,7 @@ const CartContainer = () => {
   };
 
   useEffect(() => {
-    const result = JSON.parse(localStorage.getItem('baskets') || '[]');
+    const result = JSON.parse(sessionStorage.getItem('baskets') || '[]');
     setBaskets(result);
   }, []);
 
