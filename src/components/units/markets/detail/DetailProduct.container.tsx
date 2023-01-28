@@ -24,11 +24,10 @@ declare const window: typeof globalThis & {
 const DetailProductContainer = () => {
   const router = useRouter();
 
-  const [accessToken, _] = useRecoilState(accessTokenState);
+  const [accessToken] = useRecoilState(accessTokenState);
 
   const [isLike, setIsLike] = useState<boolean>(false);
   const [cartModalOpen, setCartModalOpen] = useState<boolean>(false);
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
 
   const { data } = useQuery(FETCH_USED_ITEM, {
     variables: { useditemId: String(router.query.productId) },
@@ -148,6 +147,20 @@ const DetailProductContainer = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const viewed = JSON.parse(localStorage.getItem('viewed') || '[]');
+
+    const temp = viewed.filter((el: string) => el === router.query.productId);
+    if (temp.length === 1) return;
+
+    viewed.push(router.query.productId);
+    if (viewed.length > 2) {
+      viewed.shift();
+    }
+
+    localStorage.setItem('viewed', JSON.stringify(viewed));
+  }, []);
+
   return (
     <DetailProductUI
       handleImageError={handleImageError}
@@ -156,8 +169,6 @@ const DetailProductContainer = () => {
       onClickDip={onClickDip}
       onClickBasket={onClickBasket}
       cartModalOpen={cartModalOpen}
-      confirmLoading={confirmLoading}
-      setConfirmLoading={setConfirmLoading}
       setCartModalOpen={setCartModalOpen}
       onClickPurchase={onClickPurchase}
     />

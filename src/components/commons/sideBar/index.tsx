@@ -1,17 +1,27 @@
 import styled from '@emotion/styled';
 import Link from 'next/link';
 import Script from 'next/script';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, gql, useQuery } from '@apollo/client';
 import { message } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../../commons/store/Auth/UserInfoState';
-import { IMutation, IMutationCreatePointTransactionOfLoadingArgs } from '../../../commons/types/generated/types';
+import {
+  IMutation,
+  IMutationCreatePointTransactionOfLoadingArgs,
+  IQuery,
+  IQueryFetchUseditemArgs,
+  IUseditem,
+} from '../../../commons/types/generated/types';
 import { AiOutlineClose } from 'react-icons/ai';
 import { accessTokenState } from '../../../commons/store/Auth/accessToken';
 import Modal from 'react-modal';
+import { FETCH_USER_LOGGED_IN } from '../../units/auth/signin/Signin.queries';
+import { ViewedState } from '../../../commons/store';
+import { v4 as uuidv4 } from 'uuid';
+import ViewedProduct from './ViewedProduct';
 
 declare const window: typeof globalThis & {
   IMP: any;
@@ -31,26 +41,26 @@ const SideBar = () => {
 
   const [accessToken] = useRecoilState(accessTokenState);
   const [userInfo] = useRecoilState(userInfoState);
+  // const [viewed, setViewed] = useRecoilState(ViewedState);
+  const [viewed, setViewed] = useState<IUseditem[]>([]);
 
   const [selectedAmount, setSelectedAmount] = useState<string>('');
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [charged, setCharged] = useState<boolean>(false);
-  const [view, setView] = useState(['', '']);
-
-  // const ls = localStorage.getItem('viewed');
-  // const lsArr = JSON.parse(ls).reverse();
-
-  // useEffect(() => {
-  //   let arr = JSON.parse(ls)
-
-  //   if (!arr.includes(product[0].id))
-  // }, [])
 
   const [createPointTransactionOfLoading] = useMutation<
     Pick<IMutation, 'createPointTransactionOfLoading'>,
     IMutationCreatePointTransactionOfLoadingArgs
   >(CREATE_POINT_TRANSACTION_OF_LOADING);
+
+  const isViewedEmpty = viewed.length === 0;
+
+  useEffect(() => {
+    const viewed = JSON.parse(localStorage.getItem('viewed') || '[]');
+
+    setViewed(viewed);
+  }, []);
 
   const onClickPointMenu = () => {
     if (!accessToken) {
@@ -94,6 +104,7 @@ const SideBar = () => {
           try {
             await createPointTransactionOfLoading({
               variables: { impUid: rsp.imp_uid },
+              refetchQueries: [{ query: FETCH_USER_LOGGED_IN }],
             });
 
             setModalIsOpen(false);
@@ -129,10 +140,27 @@ const SideBar = () => {
           </a>
         </Link>
         <ViewedProductMenu>
-          {/* TODO: 최근 본 상품이 없을 경우 => 없다는 문구 / 최대 2개 보여주기 */}
-          <ViewedProductTitle>최근 본 상품</ViewedProductTitle>
-          <DivideLine />
-          <ViewedProducts></ViewedProducts>
+          <div>
+            <ViewedProductTitle>최근 본 상품</ViewedProductTitle>
+            <DivideLine />
+          </div>
+          <ViewedProducts>
+            {isViewedEmpty ? (
+              <>
+                <ViewedEmptyIcon
+                  src='https://m.bunjang.co.kr/pc-static/resource/2e45ed358cb7e120d519.png'
+                  alt='최근 본 상품 아이콘'
+                />
+                <ViewedEmptySpan>최근 본 상품이 없습니다</ViewedEmptySpan>
+              </>
+            ) : (
+              <div>
+                {viewed.map((productId) => (
+                  <ViewedProduct key={uuidv4()} productId={productId} />
+                ))}
+              </div>
+            )}
+          </ViewedProducts>
         </ViewedProductMenu>
         <PointMenu onClick={onClickPointMenu}>
           <PointTitle>포인트 충전</PointTitle>
@@ -168,7 +196,7 @@ const MenuWrapper = styled.aside`
   position: fixed;
   top: 7rem;
   width: 90px;
-  height: 300px;
+  height: 350px;
   margin-left: 15px;
   display: flex;
   flex-direction: column;
@@ -188,9 +216,11 @@ const SellMenu = styled.div`
 `;
 
 const ViewedProductMenu = styled.div`
-  height: 30px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 10px;
-  height: 150px;
   border: 1px solid rgb(204, 204, 204);
 `;
 
@@ -203,15 +233,30 @@ const ViewedProductTitle = styled.div`
 `;
 
 const DivideLine = styled.div`
-  border-bottom: 2px dotted rgb(102, 102, 102); ;
+  border-bottom: 2px dotted rgb(102, 102, 102);
+  margin-top: 4px;
 `;
 
 const ViewedProducts = styled.div`
+  height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  padding: 4px;
+`;
+
+const ViewedEmptyIcon = styled.img`
+  width: 28px;
+  height: 16px;
+  margin-bottom: 0.3rem;
+`;
+
+const ViewedEmptySpan = styled.span`
+  width: 78px;
+  color: rgb(204, 204, 204);
+  font-size: 12px;
+  text-align: center;
 `;
 
 const PointMenu = styled.div`
