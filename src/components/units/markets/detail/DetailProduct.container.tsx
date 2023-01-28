@@ -93,12 +93,12 @@ const DetailProductContainer = () => {
   };
 
   const onClickBasket = (basket: IUseditem) => () => {
-    setCartModalOpen(true);
-
     if (!accessToken) {
       Modal.info({ content: '로그인이 필요한 기능입니다!' });
       return;
     }
+
+    setCartModalOpen(true);
 
     const baskets: Pick<IUseditem, '_id' | 'name' | 'price' | 'contents' | 'images'>[] = JSON.parse(
       sessionStorage.getItem('baskets') || '[]'

@@ -6,6 +6,7 @@ import { IUseditem } from '../../../../commons/types/generated/types';
 import { Dispatch, SetStateAction } from 'react';
 import CreateProductsComment from '../../marketsComment/create';
 import CreateProductsCommentList from '../../marketsComment/list';
+import { Router, useRouter } from 'next/router';
 
 interface IDetailProductProps {
   handleImageError: (event: any) => void;
@@ -14,8 +15,6 @@ interface IDetailProductProps {
   isLike: boolean;
   onClickBasket: (basket: IUseditem) => () => void;
   cartModalOpen: boolean;
-  confirmLoading: boolean;
-  setConfirmLoading: Dispatch<SetStateAction<boolean>>;
   setCartModalOpen: Dispatch<SetStateAction<boolean>>;
   onClickPurchase: () => Promise<void>;
 }
@@ -27,11 +26,11 @@ const DetailProductUI = ({
   onClickDip,
   onClickBasket,
   cartModalOpen,
-  confirmLoading,
-  setConfirmLoading,
   setCartModalOpen,
   onClickPurchase,
 }: IDetailProductProps) => {
+  const router = useRouter();
+
   return (
     <S.Wrapper>
       <S.ProductDetailWrapper>
@@ -68,8 +67,7 @@ const DetailProductUI = ({
             <Modal
               title='장바구니 이동'
               visible={cartModalOpen}
-              onOk={() => setConfirmLoading(true)}
-              confirmLoading={confirmLoading}
+              onOk={() => router.push('/auth/cart')}
               onCancel={() => setCartModalOpen(false)}
             >
               <p>장바구니에 상품을 담았습니다. 장바구니로 이동하시겠습니까?</p>
