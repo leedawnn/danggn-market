@@ -67,12 +67,12 @@ export const Title = styled.h1`
 `;
 
 export const ImageWrapper = styled.div`
+  max-width: 790px;
   display: flex;
   flex-direction: column;
 `;
 
 export const Image = styled.img`
-  width: 996px;
   height: 480px;
   margin-bottom: 30px;
 `;
