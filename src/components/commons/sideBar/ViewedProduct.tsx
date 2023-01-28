@@ -10,11 +10,15 @@ interface IProductProps {
 }
 
 const ViewedProduct = ({ key, productId }: IProductProps) => {
-  const [viewedData, setViewedData] = useState<IUseditem[]>([]);
+  const [_, setViewedData] = useState<IUseditem[]>([]);
 
   const { data } = useQuery<Pick<IQuery, 'fetchUseditem'> | undefined, IQueryFetchUseditemArgs>(FETCH_USED_ITEM, {
     variables: { useditemId: productId },
   });
+
+  const handleImageError = (event: any) => {
+    event.target.src = '/default.png';
+  };
 
   useEffect(() => {
     setViewedData(data?.fetchUseditem);
@@ -26,6 +30,7 @@ const ViewedProduct = ({ key, productId }: IProductProps) => {
         <ProductImg
           src={`https://storage.googleapis.com/${data?.fetchUseditem.images?.[0]}`}
           alt={data?.fetchUseditem.name}
+          onError={handleImageError}
         />
       </div>
     </>
