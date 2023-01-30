@@ -3,6 +3,7 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { TiClipboard } from 'react-icons/ti';
 import { BiUser } from 'react-icons/bi';
 import Modal from 'react-modal';
+import { TbCameraPlus } from 'react-icons/tb';
 
 export const Wrapper = styled.div`
   width: 100vw;
@@ -28,25 +29,27 @@ export const MyPageWrapper = styled.div`
 `;
 
 export const UserInfoWrapper = styled.div`
-  width: 1200px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
   margin-bottom: 2rem;
 `;
 
 export const UserWrapper = styled.div`
-  width: 50%;
+  width: 100%;
   display: flex;
+  justify-content: center;
   flex: 1;
   padding: 50px;
-  margin: 0 auto;
   border-right: 2px solid #dedede;
 `;
 
 export const UserPhoto = styled.img`
-  width: 100px;
-  margin-right: 5rem;
+  width: 112px;
+  border-radius: 50%;
+  margin-right: 3rem;
 `;
 
 export const UserPointWrapper = styled.div`
@@ -64,7 +67,6 @@ export const UserProfileWrapper = styled.div`
   justify-content: left;
   flex: 1;
   padding: 50px;
-  margin-left: 1rem;
 `;
 
 export const UserProfileHeader = styled.div`
@@ -93,8 +95,8 @@ export const UserDetails = styled.h2`
 `;
 
 export const ModalPointChargeBtn = styled.button`
-  width: 217px;
-  height: 35px;
+  width: 220px;
+  height: 38px;
   border-radius: 5px;
   cursor: pointer;
 `;
@@ -113,13 +115,14 @@ export const UserMenuLi = styled.li`
   color: #8d8d8d;
   padding: 0 10px;
   background: url(//image.makeshop.co.kr/makeshop/d3/basic_simple/common/bu_2x8.gif) 0 7px no-repeat;
+  cursor: pointer;
 `;
 
 export const UserManageWrapper = styled.aside`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 90%;
   height: 130px;
   border: 1px solid #000000;
   padding: 20px;
@@ -252,4 +255,125 @@ export const ModalButton = styled.button<ModalButtonProps>`
   font-weight: 500;
   font-size: 16px;
   cursor: pointer;
+`;
+
+export const ProfileModalStyle = styled(Modal)`
+  width: 600px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  background-color: #ffffff;
+  margin-top: 200px !important;
+  margin: 0 auto;
+  padding: 20px;
+`;
+
+export const ModalHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ProfileModalCloseButton = styled.div`
+  width: 16px;
+  height: 16px;
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  margin: 0px 10px;
+  cursor: pointer;
+`;
+
+export const ProfileModalTitle = styled.div`
+  width: 120px;
+  display: flex;
+  flex-direction: row;
+  flex: 8;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+`;
+
+export const ProfileSaveButton = styled.button`
+  height: 30px;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(15, 20, 25);
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  border-radius: 15px;
+  padding: 0 16px;
+  margin-right: 10px;
+  cursor: pointer;
+`;
+
+export const ProfileBody = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+`;
+
+export const ProfilePhotoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const ProfilePhoto = styled.img`
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+`;
+
+export const ProfilePhotoAddButton = styled.div`
+  position: relative;
+  right: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  width: 42px;
+  height: 42px;
+  background-color: rgba(15, 20, 25, 0.75);
+  opacity: 0.75;
+  border-radius: 50%;
+  cursor: pointer;
+
+  :hover {
+    opacity: 0.6;
+  }
+`;
+
+export const PhotoAddIcon = styled(TbCameraPlus)`
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+`;
+
+export const ProfileDetailWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
+
+export const ProfileDetailLabel = styled.label`
+  color: rgb(83, 100, 113);
+  margin-bottom: 4px;
+`;
+
+export const ProfileDetailInput = styled.input`
+  width: 250px;
+  height: 30px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(207, 217, 222);
+  padding: 10px;
+  font-size: 14px;
 `;
