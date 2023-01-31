@@ -6,7 +6,7 @@ import { IUseditem } from '../../../../commons/types/generated/types';
 import { Dispatch, SetStateAction } from 'react';
 import CreateProductsComment from '../../marketsComment/create';
 import CreateProductsCommentList from '../../marketsComment/list';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import DOMPurify from 'dompurify';
 
 interface IDetailProductProps {

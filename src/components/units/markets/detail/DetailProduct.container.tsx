@@ -66,7 +66,8 @@ const DetailProductContainer = () => {
           },
         ],
       });
-      setIsLike(true);
+
+      setIsLike((prev) => !prev);
     } catch (error) {
       throw Error;
     }

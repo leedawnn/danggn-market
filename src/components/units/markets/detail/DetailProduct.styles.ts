@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { FaHeart } from 'react-icons/fa';
+import { IoHeartOutline } from 'react-icons/io5';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -122,7 +122,8 @@ export const DipButton = styled.button<isLikeToggle>`
   cursor: pointer;
 `;
 
-export const FillHeartIcon = styled(FaHeart)`
+export const FillHeartIcon = styled(IoHeartOutline)`
+  font-size: 32px;
   margin-right: 4px;
 `;
 
