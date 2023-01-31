@@ -14,22 +14,22 @@ import { IBoardcreateProps, IUpdateBoardInput } from './CreateBoard.types';
 const CreateBoard = (props: IBoardcreateProps) => {
   const router = useRouter();
 
-  const [writer, setWriter] = useState('');
-  const [password, setPassword] = useState('');
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
-  const [youtubeUrl, setYoutubeUrl] = useState('');
-  const [fileUrls, setFileUrls] = useState(['', '', '']);
-  const [zipcode, setZipcode] = useState('');
-  const [address, setAddress] = useState('');
-  const [addressDetail, setAddressDetail] = useState('');
+  const [writer, setWriter] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const [contents, setContents] = useState<string>('');
+  const [youtubeUrl, setYoutubeUrl] = useState<string>('');
+  const [fileUrls, setFileUrls] = useState<string[]>(['', '', '']);
+  const [zipcode, setZipcode] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [addressDetail, setAddressDetail] = useState<string>('');
 
-  const [writerError, setWriterError] = useState('');
-  const [PwError, setPwError] = useState('');
-  const [titleError, setTitleError] = useState('');
-  const [contentError, setContentsError] = useState('');
+  const [writerError, setWriterError] = useState<string>('');
+  const [PwError, setPwError] = useState<string>('');
+  const [titleError, setTitleError] = useState<string>('');
+  const [contentError, setContentsError] = useState<string>('');
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [_, setIsOpen] = useState<boolean>(false);
 
   const [createBoard] = useMutation<Pick<IMutation, 'createBoard'>, IMutationCreateBoardArgs>(CREATE_BOARD);
   const [updateBoard] = useMutation<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
@@ -165,7 +165,8 @@ const CreateBoard = (props: IBoardcreateProps) => {
 
     try {
       if (typeof router.query.id !== 'string') return;
-      const result = await updateBoard({
+
+      await updateBoard({
         variables: {
           boardId: router.query.id,
           password,
@@ -199,6 +200,14 @@ const CreateBoard = (props: IBoardcreateProps) => {
         isEdit={props.isEdit}
         data={props.data}
         fileUrls={fileUrls}
+        writer={writer}
+        title={title}
+        contents={contents}
+        youtubeUrl={youtubeUrl}
+        isOpen={false}
+        zipcode={zipcode}
+        address={address}
+        addressDetail={addressDetail}
       />
     </>
   );

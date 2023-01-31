@@ -32,9 +32,10 @@ export interface ICreateBoardUIprops {
   onChangeWriter: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangePw: (event: ChangeEvent<HTMLInputElement>) => void;
   onChangeTitle: (event: ChangeEvent<HTMLInputElement>) => void;
-  onChangeContents: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChangeContents: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onChangeYoutubeUrl: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickAddressSearch: () => void;
+  onChangeAddressDetail: (event: ChangeEvent<HTMLInputElement>) => void;
   onCompleteAddressSearch: (data: any) => void;
   onChangeFileUrls: (fileUrls: string, index: number) => void;
   onClickValidation: () => void;
