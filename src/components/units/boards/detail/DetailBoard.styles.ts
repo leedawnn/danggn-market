@@ -26,13 +26,15 @@ export const UserInfo = styled.div`
   width: 100%;
   display: flex;
   justify-content: left;
+  line-height: 25px;
   padding: 20px;
   border-bottom: 1px solid #bdbdbd;
 `;
 
-export const ProfileIcon = styled(CgProfile)`
-  width: 46px;
-  height: 46px;
+export const ProfilePhoto = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   margin-right: 20px;
 `;
 

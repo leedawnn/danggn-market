@@ -38,7 +38,7 @@ const DetailBoard = () => {
       await deleteBoard({
         variables: { boardId: String(router.query.id) },
       });
-      message.success({ content: '게시물이 성공적으로 삭제되었습니다.' });
+      message.success({ content: '게시글이 성공적으로 삭제되었습니다.' });
       router.push('/board');
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
