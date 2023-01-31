@@ -44,7 +44,6 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
           <S.ContentsContainer>
             <S.ContentsSpan>내용</S.ContentsSpan>
             <S.ContentsInput
-              type='text'
               placeholder='내용을 작성해주세요.'
               onChange={props.onChangeContents}
               defaultValue={props.data?.fetchBoard.contents}

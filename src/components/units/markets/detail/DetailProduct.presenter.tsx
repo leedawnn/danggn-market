@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction } from 'react';
 import CreateProductsComment from '../../marketsComment/create';
 import CreateProductsCommentList from '../../marketsComment/list';
 import { Router, useRouter } from 'next/router';
+import DOMPurify from 'dompurify';
 
 interface IDetailProductProps {
   handleImageError: (event: any) => void;
@@ -82,7 +83,13 @@ const DetailProductUI = ({
         <S.ProductBodyLeftWrapper>
           <S.ProductBodySpan>상품정보</S.ProductBodySpan>
           <S.DivideLine />
-          <S.ProductContents>{data?.fetchUseditem.contents}</S.ProductContents>
+          {typeof window !== 'undefined' && (
+            <S.ProductContents
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(String(data?.fetchUseditem.contents)),
+              }}
+            />
+          )}
           <S.ProductMapWrapper>
             <S.ProductMapSpan>
               <FaMapMarkerAlt />
