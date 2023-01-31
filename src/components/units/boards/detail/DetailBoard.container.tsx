@@ -8,12 +8,12 @@ import {
   IMutationDislikeBoardArgs,
   IMutationLikeBoardArgs,
 } from '../../../../commons/types/generated/types';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 
 const DetailBoard = () => {
   const router = useRouter();
 
-  const { data } = useQuery(FETCH_BOARD, {
+  const { data, refetch } = useQuery(FETCH_BOARD, {
     variables: { boardId: String(router.query.id) },
   });
 
@@ -33,12 +33,12 @@ const DetailBoard = () => {
 
   const onClickDelete = async () => {
     if (typeof router.query.id !== 'string') return;
-
+    // TODO: 게시물 삭제 시 fetchBoard => refetch
     try {
       await deleteBoard({
         variables: { boardId: String(router.query.id) },
       });
-      alert('게시물이 성공적으로 삭제되었습니다.'); // TODO: no면 상세 페이지로 되돌아가기
+      message.success({ content: '게시물이 성공적으로 삭제되었습니다.' });
       router.push('/board');
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
