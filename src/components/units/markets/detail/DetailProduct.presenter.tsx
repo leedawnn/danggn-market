@@ -1,5 +1,5 @@
 import * as S from './DetailProduct.styles';
-import { Modal } from 'antd';
+import { Modal, Tooltip } from 'antd';
 import { putOnComma } from '../../../../commons/libraries/utils';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IUseditem } from '../../../../commons/types/generated/types';
@@ -52,7 +52,9 @@ const DetailProductUI = ({
               <S.ProductTags>
                 {data?.fetchUseditem.tags?.map((el: string) => (
                   <S.ProductTag key={el}>
-                    <S.TagSpan>#{el}</S.TagSpan>
+                    <Tooltip title={el}>
+                      <S.TagSpan>#{el}</S.TagSpan>
+                    </Tooltip>
                   </S.ProductTag>
                 ))}
               </S.ProductTags>
