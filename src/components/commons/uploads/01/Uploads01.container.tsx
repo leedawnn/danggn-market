@@ -23,7 +23,7 @@ export default function Uploads01(props: IUploads01Props) {
 
     try {
       const result = await uploadFile({ variables: { file } });
-      props.onChangeFileUrls(String(result.data?.uploadFile.url), props.index);
+      props.onChangeFileUrls(String(result.data?.uploadFile.url), Number(props.index));
     } catch (error) {
       if (error instanceof Error) Modal.error({ content: error.message });
     }

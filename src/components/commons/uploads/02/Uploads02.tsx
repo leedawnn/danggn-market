@@ -44,16 +44,16 @@ const Uploads02 = ({ onChangeProfilePhoto, fileUrl }: ImageFileInputProps) => {
     }
   };
 
-  const handleImageError = (event: any) => {
-    event.target.src = '/defaultProfile.png';
+  const handleDefaultImage = (event: any) => {
+    event.target.src = `https://storage.googleapis.com/${userInfo?.picture}`;
   };
 
   return (
     <ProfilePhotoWrapper>
       <ProfilePhoto
         onClick={onClickUploadImage}
-        defaultValue={`https://storage.googleapis.com/${userInfo?.picture}`}
         src={`https://storage.googleapis.com/${fileUrl}`}
+        onError={handleDefaultImage}
       />
       <ProfilePhotoAddButton onClick={onClickUploadImage}>
         <PhotoAddIcon />
