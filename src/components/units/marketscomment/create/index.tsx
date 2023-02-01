@@ -49,6 +49,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  margin-top: 2rem;
 `;
 
 const DivideLine = styled.hr`
@@ -62,7 +63,6 @@ const CommentTitle = styled.span`
 `;
 
 const CommentInput = styled.input`
-  width: 346px;
   height: 147px;
   background-color: #e9e9e9;
   border: none;

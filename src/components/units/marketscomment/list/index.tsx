@@ -9,9 +9,13 @@ import {
 import { getDate } from '../../../../commons/libraries/utils';
 import { IProductsCommentCreateProps, IUpdateUseditemQuestionInput } from './ProductsCommentList.types';
 import { ChangeEvent, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
-export default function CreateProductsCommentList(props: IProductsCommentCreateProps) {
+const CreateProductsCommentList = (props: IProductsCommentCreateProps) => {
   const router = useRouter();
+
+  const [userInfo] = useRecoilState(userInfoState);
 
   const [isEdit, setIsEdit] = useState(false);
   const [contents, setContents] = useState('');
@@ -24,7 +28,7 @@ export default function CreateProductsCommentList(props: IProductsCommentCreateP
   const [updateUseditemQuestion] = useMutation(UPDATE_USED_ITEM_QUESTION);
   const [deleteUseditemQuestion] = useMutation(DELETE_USED_ITEM_QUESTION);
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLInputElement>) => {
     setContents(event.target.value);
   };
 
@@ -87,11 +91,14 @@ export default function CreateProductsCommentList(props: IProductsCommentCreateP
       {data?.fetchUseditemQuestions.map((el) => (
         <CommentWrapper key={el._id}>
           <CommentHeader>
-            <CommentProfile />
-            <CommentUser>
-              <CommentUserName>{el.user.name}</CommentUserName>
-              <CommentCreateAt>{getDate(el.createdAt)}</CommentCreateAt>
-            </CommentUser>
+            <Div>
+              {/* TODO: 상대방의 프로필 사진을 가져와야함.... */}
+              <CommentProfile src={`https://storage.googleapis.com/${userInfo?.picture}`} />
+              <CommentUser>
+                <CommentUserName>{el.user.name}</CommentUserName>
+                <CommentCreateAt>{getDate(el.createdAt)}</CommentCreateAt>
+              </CommentUser>
+            </Div>
             <CommentRight>
               <CommentEdit src='/pencil.svg' id={el._id} onClick={onClickEdit} />
               <CommentDelete src='/delete.svg' id={el._id} onClick={onClickDelete} />
@@ -108,7 +115,15 @@ export default function CreateProductsCommentList(props: IProductsCommentCreateP
       ))}
     </Wrapper>
   );
-}
+};
+
+export default CreateProductsCommentList;
+
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -117,7 +132,7 @@ const Wrapper = styled.div`
 `;
 
 const CommentWrapper = styled.div`
-  width: 320px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -127,12 +142,12 @@ const CommentHeader = styled.div`
   justify-content: space-between;
 `;
 
-const CommentProfile = styled.div`
+const CommentProfile = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background-color: #c4c4c4;
-  margin-right: 10px;
+  margin-right: 2rem;
 `;
 
 const CommentUser = styled.div`
@@ -162,7 +177,7 @@ const CommentRight = styled.div`
 const CommentEdit = styled.img`
   width: 18px;
   height: 18px;
-  margin-right: 5px;
+  margin-right: 8px;
   cursor: pointer;
 `;
 
