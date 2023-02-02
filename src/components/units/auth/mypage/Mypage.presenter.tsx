@@ -1,23 +1,24 @@
 import * as S from './Mypage.styles';
 import { message } from 'antd';
 import Link from 'next/link';
-import { useMutation, useQuery } from '@apollo/client';
+import Script from 'next/script';
+import { useMutation } from '@apollo/client';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   IMutation,
   IMutationCreatePointTransactionOfLoadingArgs,
-  IQuery,
+  IMutationResetUserPasswordArgs,
+  IMutationUpdateUserArgs,
 } from '../../../../commons/types/generated/types';
-import { UPDATE_USER } from './Mypage.queries';
+import { UPDATE_USER, RESET_USER_PASSWORD } from './Mypage.queries';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useRouter } from 'next/router';
 import { SetterOrUpdater, useRecoilState } from 'recoil';
 import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
 import { CREATE_POINT_TRANSACTION_OF_LOADING } from '../../../commons/sideBar';
 import { FETCH_USER_LOGGED_IN } from '../signin/Signin.queries';
-import Script from 'next/script';
-// import { UpdateUserState } from '../../../../commons/store';
 import Uploads02 from '../../../commons/uploads/02/Uploads02';
+import { resetpasswordState } from '../../../../commons/store/Auth/resetPassword';
 
 declare const window: typeof globalThis & {
   IMP: any;
@@ -43,27 +44,30 @@ interface IUpdateUserInput {
 const MypageUI = ({ userInfo, setUserInfo }: MypageProps) => {
   const router = useRouter();
 
-  console.log(userInfo);
-
   const [accessToken] = useRecoilState(accessTokenState);
+  const [defaultPassword] = useRecoilState(resetpasswordState);
 
-  const [updateUser] = useMutation<Pick<IMutation, 'updateUser'>>(UPDATE_USER);
-
-  const { data: fetchUserData } = useQuery<Pick<IQuery, 'fetchUserLoggedIn'>>(FETCH_USER_LOGGED_IN);
-
+  const [updateUser] = useMutation<Pick<IMutation, 'updateUser'>, IMutationUpdateUserArgs>(UPDATE_USER);
   const [createPointTransactionOfLoading] = useMutation<
     Pick<IMutation, 'createPointTransactionOfLoading'>,
     IMutationCreatePointTransactionOfLoadingArgs
   >(CREATE_POINT_TRANSACTION_OF_LOADING);
 
-  const [name, setName] = useState<string>('');
+  const [resetUserPassword] = useMutation<Pick<IMutation, 'resetUserPassword'>, IMutationResetUserPasswordArgs>(
+    RESET_USER_PASSWORD
+  );
 
+  const [name, setName] = useState<string>('');
   const [selectedAmount, setSelectedAmount] = useState<string>('');
   const [pointModalIsOpen, setPointModalIsOpen] = useState<boolean>(false);
+  const [changePasswordModalIsOpen, setChangePasswordModalIsOpen] = useState<boolean>(false);
   const [profileEditModalIsOpen, setProfileEditModalIsOpen] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [charged, setCharged] = useState<boolean>(false);
   const [fileUrl, setFileUrl] = useState<string>('');
+
+  const [password, setPassword] = useState<string>('');
+  const [repassword, setRePassword] = useState<string>('');
 
   const onClickPointCharge = () => {
     if (!accessToken) {
@@ -74,12 +78,25 @@ const MypageUI = ({ userInfo, setUserInfo }: MypageProps) => {
     setPointModalIsOpen(true);
   };
 
+  const onClickProfileEdit = () => {
+    if (!accessToken) return;
+
+    setProfileEditModalIsOpen(true);
+  };
+
+  const onClickChangePassword = () => {
+    if (!accessToken) {
+      message.info({ content: '로그인이 필요한 기능입니다!' });
+      return;
+    }
+
+    setChangePasswordModalIsOpen(true);
+  };
+
   const onChangeProfilePhoto = (fileUrl: string) => {
     const newFileUrl = fileUrl;
     setFileUrl(newFileUrl);
   };
-
-  console.log('uuuurrrrllllllll', userInfo?.picture);
 
   const onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -100,13 +117,12 @@ const MypageUI = ({ userInfo, setUserInfo }: MypageProps) => {
     if (isChangedFiles) updateUserInput.picture = fileUrl;
 
     try {
-      const result = await updateUser({
+      await updateUser({
         variables: {
           updateUserInput,
         },
       });
 
-      console.log('프로필 수정: ', result);
       setProfileEditModalIsOpen(false);
 
       setUserInfo({
@@ -171,24 +187,40 @@ const MypageUI = ({ userInfo, setUserInfo }: MypageProps) => {
     );
   };
 
-  const onClickProfileEdit = () => {
-    if (!accessToken) return;
+  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
 
-    setProfileEditModalIsOpen(true);
+  const onChangeRePassword = (event: ChangeEvent<HTMLInputElement>) => {
+    setRePassword(event.target.value);
+  };
+
+  const handleResetPassword = async () => {
+    if (password === defaultPassword.defaultPassword) {
+      message.error({ content: '가입하신 비밀번호와 같은 비밀번호 입니다!' });
+      return;
+    }
+
+    if (password !== repassword) {
+      message.error({ content: '비밀번호가 일치하지 않습니다!' });
+      return;
+    }
+
+    try {
+      await resetUserPassword({
+        variables: { password },
+      });
+      message.success({ content: '비밀번호 변경이 완료되었습니다!' });
+
+      setChangePasswordModalIsOpen(false);
+    } catch (error) {
+      if (error instanceof Error) message.error({ content: error.message });
+    }
   };
 
   useEffect(() => {
     setCharged(Boolean(accessToken));
   }, [charged]);
-
-  // useEffect(() => {
-  //   if (fetchUserData?.fetchUserLoggedIn.picture) {
-  //     setUserInfo({
-  //       ...userInfo,
-  //       picture: fileUrl,
-  //     });
-  //   }
-  // }, [fileUrl]);
 
   return (
     <>
@@ -199,13 +231,19 @@ const MypageUI = ({ userInfo, setUserInfo }: MypageProps) => {
         <S.MyPageWrapper>
           <S.UserInfoWrapper>
             <S.UserWrapper>
-              <S.UserPhoto src={`https://storage.googleapis.com/${userInfo?.picture}`} alt='프로필 이미지' />
+              <S.UserPhoto
+                src={
+                  userInfo?.picture === '/defaultProfile.png'
+                    ? '/defaultProfile.png'
+                    : `https://storage.googleapis.com/${userInfo?.picture}`
+                }
+                alt='프로필 이미지'
+              />
               <S.UserPointWrapper>
                 <S.UserDetailWrapper>
                   <S.UserDetails>{userInfo?.name}님, &nbsp;</S.UserDetails>
                   <S.UserDetails>{userInfo?.userPoint} Point</S.UserDetails>
                 </S.UserDetailWrapper>
-                {/* TODO: 포인트 충전 모달 컴포넌트 분리 */}
                 <S.ModalPointChargeBtn onClick={onClickPointCharge}>포인트 충전하기</S.ModalPointChargeBtn>
                 <S.ModalStyle isOpen={pointModalIsOpen}>
                   <S.ModalCloseButton onClick={() => setPointModalIsOpen(false)}>
@@ -258,8 +296,22 @@ const MypageUI = ({ userInfo, setUserInfo }: MypageProps) => {
                       </S.ProfileDetailWrapper>
                     </S.ProfileBody>
                   </S.ProfileModalStyle>
-                  {/* TODO: 비밀번호 변경 모달 */}
-                  <S.UserMenuLi>비밀번호 변경</S.UserMenuLi>
+                  <S.UserMenuLi onClick={onClickChangePassword}>비밀번호 변경</S.UserMenuLi>
+                  <S.ChangePasswordModal isOpen={changePasswordModalIsOpen}>
+                    <S.ModalHeader>
+                      <S.ProfileModalCloseButton onClick={() => setChangePasswordModalIsOpen(false)}>
+                        <AiOutlineClose style={{ fontSize: '16px' }} />
+                      </S.ProfileModalCloseButton>
+                      <S.ProfileModalTitle>비밀번호 변경</S.ProfileModalTitle>
+                      <S.ProfileSaveButton onClick={handleResetPassword}>저장</S.ProfileSaveButton>
+                    </S.ModalHeader>
+                    <S.ModalBody>
+                      <S.ProfileDetailLabel>비밀번호</S.ProfileDetailLabel>
+                      <S.ProfileDetailInput type='password' onChange={onChangePassword} />
+                      <S.ProfileDetailLabel>비밀번호 확인</S.ProfileDetailLabel>
+                      <S.ProfileDetailInput type='password' onChange={onChangeRePassword} />
+                    </S.ModalBody>
+                  </S.ChangePasswordModal>
                 </S.UserMenuUl>
               </S.UserMenuWrapper>
             </S.UserProfileWrapper>

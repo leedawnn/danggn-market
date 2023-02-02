@@ -55,6 +55,8 @@ export const UserPhoto = styled.img`
 export const UserPointWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const UserDetailWrapper = styled.div`
@@ -95,8 +97,8 @@ export const UserDetails = styled.h2`
 `;
 
 export const ModalPointChargeBtn = styled.button`
-  width: 220px;
-  height: 38px;
+  width: 16.25rem;
+  height: 2.375rem;
   border-radius: 5px;
   cursor: pointer;
 `;
@@ -376,4 +378,27 @@ export const ProfileDetailInput = styled.input`
   border: 1px solid rgb(207, 217, 222);
   padding: 10px;
   font-size: 14px;
+`;
+
+export const ChangePasswordModal = styled(Modal)`
+  width: 400px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  background-color: #ffffff;
+  margin-top: 222px !important;
+  margin: 0 auto;
+  padding: 20px;
+`;
+
+export const ModalBody = styled.div`
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 10px;
 `;

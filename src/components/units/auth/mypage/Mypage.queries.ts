@@ -11,9 +11,7 @@ export const UPDATE_USER = gql`
 
 export const RESET_USER_PASSWORD = gql`
   mutation resetUserPassword($password: String!) {
-    resetUserPassword(password: $password) {
-      _id
-    }
+    resetUserPassword(password: $password)
   }
 `;
 
