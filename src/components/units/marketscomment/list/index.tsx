@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from '@apollo/client';
 import styled from '@emotion/styled';
+import { Modal } from 'antd';
+import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import {
   FETCH_USED_ITEM_QUESTIONS,
@@ -8,7 +9,7 @@ import {
 } from './ProductsCommentList.queries';
 import { getDate } from '../../../../commons/libraries/utils';
 import { IProductsCommentCreateProps, IUpdateUseditemQuestionInput } from './ProductsCommentList.types';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
@@ -36,54 +37,69 @@ const CreateProductsCommentList = (props: IProductsCommentCreateProps) => {
     setComment(event.target.value);
   };
 
-  const onClickEdit = async (event) => {
-    setIsEdit(true);
+  const onClickEdit = async (event: MouseEvent) => {
+    if (!userInfo) return;
 
     if (isEdit) {
       const updateUseditemQuestionInput: IUpdateUseditemQuestionInput = {};
       if (!contents) updateUseditemQuestionInput.contents = contents;
 
-      await updateUseditemQuestion({
-        variables: {
-          updateUseditemQuestionInput,
-          useditemQuestionId: String(event.currentTarget.id),
-        },
-        refetchQueries: [
-          {
-            query: FETCH_USED_ITEM_QUESTIONS,
-            variables: { useditemId: router.query.productId },
+      try {
+        await updateUseditemQuestion({
+          variables: {
+            updateUseditemQuestionInput,
+            useditemQuestionId: String(event.currentTarget.id),
           },
-        ],
-      });
+          refetchQueries: [
+            {
+              query: FETCH_USED_ITEM_QUESTIONS,
+              variables: { useditemId: router.query.productId },
+            },
+          ],
+        });
+        setIsEdit(true);
+      } catch (error) {
+        if (error instanceof Error) Modal.error({ content: error.message });
+      }
     } else {
       const updateUseditemQuestionInput: IUpdateUseditemQuestionInput = {};
       if (!comment) updateUseditemQuestionInput.contents = comment;
 
-      await updateUseditemQuestion({
-        variables: {
-          updateUseditemQuestionInput,
-          useditemQuestionId: String(event.currentTarget.id),
-        },
-        refetchQueries: [
-          {
-            query: FETCH_USED_ITEM_QUESTIONS,
-            variables: { useditemId: router.query.productId },
+      try {
+        await updateUseditemQuestion({
+          variables: {
+            updateUseditemQuestionInput,
+            useditemQuestionId: String(event.currentTarget.id),
           },
-        ],
-      });
+          refetchQueries: [
+            {
+              query: FETCH_USED_ITEM_QUESTIONS,
+              variables: { useditemId: router.query.productId },
+            },
+          ],
+        });
+      } catch (error) {
+        if (error instanceof Error) Modal.error({ content: error.message });
+      }
     }
   };
 
-  const onClickDelete = async (event) => {
-    await deleteUseditemQuestion({
-      variables: { useditemQuestionId: String(event.currentTarget.id) },
-      refetchQueries: [
-        {
-          query: FETCH_USED_ITEM_QUESTIONS,
-          variables: { useditemId: String(router.query.productId) },
-        },
-      ],
-    });
+  const onClickDelete = async (event: MouseEvent) => {
+    if (!userInfo) return;
+
+    try {
+      await deleteUseditemQuestion({
+        variables: { useditemQuestionId: String(event.currentTarget.id) },
+        refetchQueries: [
+          {
+            query: FETCH_USED_ITEM_QUESTIONS,
+            variables: { useditemId: String(router.query.productId) },
+          },
+        ],
+      });
+    } catch (error) {
+      if (error instanceof Error) Modal.error({ content: error.message });
+    }
   };
 
   return (
@@ -91,14 +107,14 @@ const CreateProductsCommentList = (props: IProductsCommentCreateProps) => {
       {data?.fetchUseditemQuestions.map((el) => (
         <CommentWrapper key={el._id}>
           <CommentHeader>
-            <Div>
+            <CommentProfileWrapper>
               {/* TODO: 상대방의 프로필 사진을 가져와야함.... */}
               <CommentProfile src={`https://storage.googleapis.com/${userInfo?.picture}`} />
               <CommentUser>
                 <CommentUserName>{el.user.name}</CommentUserName>
                 <CommentCreateAt>{getDate(el.createdAt)}</CommentCreateAt>
               </CommentUser>
-            </Div>
+            </CommentProfileWrapper>
             <CommentRight>
               <CommentEdit src='/pencil.svg' id={el._id} onClick={onClickEdit} />
               <CommentDelete src='/delete.svg' id={el._id} onClick={onClickDelete} />
@@ -119,12 +135,6 @@ const CreateProductsCommentList = (props: IProductsCommentCreateProps) => {
 
 export default CreateProductsCommentList;
 
-const Div = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -140,6 +150,12 @@ const CommentWrapper = styled.div`
 const CommentHeader = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const CommentProfileWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CommentProfile = styled.img`
