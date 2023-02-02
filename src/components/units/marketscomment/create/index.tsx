@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import { CREATE_USED_ITEM_QUESTION } from './ProductsComment.queries';
 import { FETCH_USED_ITEM_QUESTIONS } from '../list/ProductsCommentList.queries';
+import { message } from 'antd';
 
 export default function CreateProductsComment() {
   const router = useRouter();
@@ -13,33 +14,42 @@ export default function CreateProductsComment() {
 
   const [createUseditemQuestion] = useMutation(CREATE_USED_ITEM_QUESTION);
 
-  const onChangeComment = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChangeComment = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(event.target.value);
   };
 
   const onClickCreateComment = async () => {
-    await createUseditemQuestion({
-      variables: {
-        createUseditemQuestionInput: {
-          contents,
+    if (!contents) {
+      message.error({ content: '내용을 입력해주세요!' });
+      return;
+    }
+
+    try {
+      await createUseditemQuestion({
+        variables: {
+          createUseditemQuestionInput: {
+            contents,
+          },
+          useditemId: String(router.query.productId),
         },
-        useditemId: String(router.query.productId),
-      },
-      refetchQueries: [
-        {
-          query: FETCH_USED_ITEM_QUESTIONS,
-          variables: { useditemId: String(router.query.productId) },
-        },
-      ],
-    });
-    setContents('');
+        refetchQueries: [
+          {
+            query: FETCH_USED_ITEM_QUESTIONS,
+            variables: { useditemId: String(router.query.productId) },
+          },
+        ],
+      });
+      setContents('');
+    } catch (error) {
+      if (error instanceof Error) message.error({ content: error.message });
+    }
   };
 
   return (
     <Wrapper>
       <CommentTitle>댓글</CommentTitle>
       <DivideLine />
-      <CommentInput type='text' value={contents} onChange={onChangeComment} />
+      <CommentTextarea value={contents} onChange={onChangeComment} />
       <CreateCommentButton onClick={onClickCreateComment}>작성하기</CreateCommentButton>
     </Wrapper>
   );
@@ -62,7 +72,7 @@ const CommentTitle = styled.span`
   padding: 20px 0px;
 `;
 
-const CommentInput = styled.input`
+const CommentTextarea = styled.textarea`
   height: 147px;
   background-color: #e9e9e9;
   border: none;
@@ -82,4 +92,9 @@ const CreateCommentButton = styled.button`
   background-color: #ffe004;
   margin-top: 20px;
   cursor: pointer;
+
+  :hover {
+    border: 1px solid #ffe004;
+    background-color: #ffffff;
+  }
 `;
