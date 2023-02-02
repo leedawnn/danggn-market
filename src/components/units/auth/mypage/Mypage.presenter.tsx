@@ -232,11 +232,7 @@ const MypageUI = ({ userInfo, setUserInfo }: MypageProps) => {
           <S.UserInfoWrapper>
             <S.UserWrapper>
               <S.UserPhoto
-                src={
-                  userInfo?.picture === '/defaultProfile.png'
-                    ? '/defaultProfile.png'
-                    : `https://storage.googleapis.com/${userInfo?.picture}`
-                }
+                src={!userInfo?.picture ? '/defaultProfile.png' : `https://storage.googleapis.com/${userInfo?.picture}`}
                 alt='프로필 이미지'
               />
               <S.UserPointWrapper>
