@@ -102,14 +102,17 @@ const CreateProductsCommentList = (props: IProductsCommentCreateProps) => {
     }
   };
 
+  const handleImageError = (event: any) => {
+    event.target.src = '/defaultProfile.png';
+  };
+
   return (
     <Wrapper>
       {data?.fetchUseditemQuestions.map((el) => (
         <CommentWrapper key={el._id}>
           <CommentHeader>
             <CommentProfileWrapper>
-              {/* TODO: 상대방의 프로필 사진을 가져와야함.... */}
-              <CommentProfile src={`https://storage.googleapis.com/${userInfo?.picture}`} />
+              <CommentProfile src={`https://storage.googleapis.com/${el.user?.picture}`} onError={handleImageError} />
               <CommentUser>
                 <CommentUserName>{el.user.name}</CommentUserName>
                 <CommentCreateAt>{getDate(el.createdAt)}</CommentCreateAt>
