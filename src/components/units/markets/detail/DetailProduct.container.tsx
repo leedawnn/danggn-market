@@ -8,12 +8,14 @@ import {
   IMutation,
   IMutationCreatePointTransactionOfBuyingAndSellingArgs,
   IMutationToggleUseditemPickArgs,
+  IQuery,
   IUseditem,
 } from '../../../../commons/types/generated/types';
 import DetailProductUI from './DetailProduct.presenter';
 import {
   CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING,
   FETCH_USED_ITEM,
+  FETCH_USED_ITEMS_I_PICKED,
   TOGGLE_USED_ITEM_PICK,
 } from './DetailProduct.queries';
 
@@ -25,6 +27,7 @@ const DetailProductContainer = () => {
   const router = useRouter();
 
   const [accessToken] = useRecoilState(accessTokenState);
+  const [iPickeditem, setIPickedItem] = useState<boolean>(false);
 
   const [isLike, setIsLike] = useState<boolean>(false);
   const [cartModalOpen, setCartModalOpen] = useState<boolean>(false);
@@ -36,11 +39,15 @@ const DetailProductContainer = () => {
   const [toggleUseditemPick] = useMutation<Pick<IMutation, 'toggleUseditemPick'>, IMutationToggleUseditemPickArgs>(
     TOGGLE_USED_ITEM_PICK
   );
+  const { data: fetchUseditemsIPickedData } =
+    useQuery<Pick<IQuery, 'fetchUseditemsIPicked'>>(FETCH_USED_ITEMS_I_PICKED);
 
   const [createPointTransactionOfBuyingAndSelling] = useMutation<
     Pick<IMutation, 'createPointTransactionOfBuyingAndSelling'>,
     IMutationCreatePointTransactionOfBuyingAndSellingArgs
   >(CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING);
+
+  const result = fetchUseditemsIPickedData?.fetchUseditemsIPicked.filter((el) => el._id === router.query.useditemId);
 
   const handleImageError = (event: any) => {
     event.target.src = '/default.png';
@@ -67,11 +74,15 @@ const DetailProductContainer = () => {
         ],
       });
 
-      setIsLike((prev) => !prev);
+      // setIsLike((prev) => !prev);
     } catch (error) {
       throw Error;
     }
   };
+
+  useEffect(() => {
+    isLike ? setIPickedItem(true) : setIPickedItem(false);
+  }, []);
 
   const onClickPurchase = async () => {
     if (!accessToken) {
@@ -166,7 +177,7 @@ const DetailProductContainer = () => {
     <DetailProductUI
       handleImageError={handleImageError}
       data={data}
-      isLike={isLike}
+      iPickeditem={iPickeditem}
       onClickDip={onClickDip}
       onClickBasket={onClickBasket}
       cartModalOpen={cartModalOpen}

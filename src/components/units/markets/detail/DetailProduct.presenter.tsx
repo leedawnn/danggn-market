@@ -1,7 +1,6 @@
 import * as S from './DetailProduct.styles';
 import { Modal, Tooltip } from 'antd';
 import { putOnComma } from '../../../../commons/libraries/utils';
-import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IUseditem } from '../../../../commons/types/generated/types';
 import { Dispatch, SetStateAction } from 'react';
 import CreateProductsComment from '../../marketsComment/create';
@@ -13,7 +12,7 @@ interface IDetailProductProps {
   handleImageError: (event: any) => void;
   onClickDip: () => Promise<void>;
   data: any;
-  isLike: boolean;
+  iPickeditem: boolean;
   onClickBasket: (basket: IUseditem) => () => void;
   cartModalOpen: boolean;
   setCartModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -23,7 +22,7 @@ interface IDetailProductProps {
 const DetailProductUI = ({
   handleImageError,
   data,
-  isLike,
+  iPickeditem,
   onClickDip,
   onClickBasket,
   cartModalOpen,
@@ -31,6 +30,9 @@ const DetailProductUI = ({
   onClickPurchase,
 }: IDetailProductProps) => {
   const router = useRouter();
+
+  // TODO: img태그 max-width 설정
+  const isIncludeImages = data?.fetchUseditem.contents.includes(`<img`);
 
   return (
     <S.Wrapper>
@@ -62,7 +64,7 @@ const DetailProductUI = ({
             )}
           </S.ProductDetail2>
           <S.ProductsButtonWrapper>
-            <S.DipButton isLike={isLike} onClick={onClickDip}>
+            <S.DipButton isLike={iPickeditem} onClick={onClickDip}>
               <S.FillHeartIcon />
               &nbsp;{data?.fetchUseditem.pickedCount}
             </S.DipButton>
@@ -81,7 +83,7 @@ const DetailProductUI = ({
       </S.ProductDetailWrapper>
       <S.ProductBodyWrapper>
         <S.ProductBodyLeftWrapper>
-          <S.ProductBodySpan>상품정보</S.ProductBodySpan>
+          <S.ProductBodySpan>상품 정보</S.ProductBodySpan>
           <S.DivideLine />
           {typeof window !== 'undefined' && (
             <S.ProductContents
@@ -91,10 +93,10 @@ const DetailProductUI = ({
             />
           )}
           <S.ProductMapWrapper>
-            <S.ProductMapSpan>
-              <FaMapMarkerAlt />
-              거래지역
-            </S.ProductMapSpan>
+            <S.MapTitleWrapper>
+              <S.ProductmapIcon />
+              <S.ProductMapSpan>거래지역</S.ProductMapSpan>
+            </S.MapTitleWrapper>
             <div id='map' style={{ width: '520px', height: '400px' }}></div>
           </S.ProductMapWrapper>
         </S.ProductBodyLeftWrapper>
@@ -103,7 +105,10 @@ const DetailProductUI = ({
             <S.ProductBodySpan>판매자명</S.ProductBodySpan>
             <S.DivideLine />
             <S.SellerProfileWrapper>
-              <S.ProductSellerProfile />
+              <S.ProductSellerProfile
+                src={`https://storage.googleapis.com/${data?.fetchUseditem.seller.picture}`}
+                onError={handleImageError}
+              />
               <S.ProductSellerName>{data?.fetchUseditem.seller.name}</S.ProductSellerName>
             </S.SellerProfileWrapper>
           </S.ProductSellerWrapper>

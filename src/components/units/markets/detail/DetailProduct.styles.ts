@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IoHeartOutline } from 'react-icons/io5';
 
 export const Wrapper = styled.div`
@@ -109,6 +110,7 @@ interface isLikeToggle {
   isLike: boolean;
 }
 
+// TODO: 좋아요 기능 새로고침하면 날라감
 export const DipButton = styled.button<isLikeToggle>`
   display: flex;
   justify-content: center;
@@ -170,11 +172,22 @@ export const ProductContents = styled.p`
 export const ProductBodySpan = styled.p`
   font-size: 28px;
   font-weight: 700;
+  margin-bottom: 1rem !important;
   cursor: auto;
 `;
 
 export const ProductMapWrapper = styled.div`
   margin-top: 60px;
+`;
+
+export const MapTitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+`;
+
+export const ProductmapIcon = styled(FaMapMarkerAlt)`
+  font-size: 20px;
 `;
 
 export const ProductMapSpan = styled.span`
@@ -184,6 +197,7 @@ export const ProductMapSpan = styled.span`
 
 export const ProductBodyRightWrapper = styled.div`
   width: 35%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -201,12 +215,11 @@ export const SellerProfileWrapper = styled.div`
   padding: 10px 0px;
 `;
 
-export const ProductSellerProfile = styled.div`
+export const ProductSellerProfile = styled.img`
   display: flex;
   width: 75px;
   height: 75px;
   border-radius: 50%;
-  background-color: #c4c4c4;
   margin-right: 30px;
 `;
 
