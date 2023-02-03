@@ -10,9 +10,10 @@ import DOMPurify from 'dompurify';
 
 interface IDetailProductProps {
   handleImageError: (event: any) => void;
+  handleProfileImageError: (event: any) => void;
   onClickDip: () => Promise<void>;
   data: any;
-  iPickeditem: boolean;
+  isLike: boolean;
   onClickBasket: (basket: IUseditem) => () => void;
   cartModalOpen: boolean;
   setCartModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -21,8 +22,9 @@ interface IDetailProductProps {
 
 const DetailProductUI = ({
   handleImageError,
+  handleProfileImageError,
   data,
-  iPickeditem,
+  isLike,
   onClickDip,
   onClickBasket,
   cartModalOpen,
@@ -64,7 +66,7 @@ const DetailProductUI = ({
             )}
           </S.ProductDetail2>
           <S.ProductsButtonWrapper>
-            <S.DipButton isLike={iPickeditem} onClick={onClickDip}>
+            <S.DipButton isLike={isLike} onClick={onClickDip}>
               <S.FillHeartIcon />
               &nbsp;{data?.fetchUseditem.pickedCount}
             </S.DipButton>
@@ -107,7 +109,7 @@ const DetailProductUI = ({
             <S.SellerProfileWrapper>
               <S.ProductSellerProfile
                 src={`https://storage.googleapis.com/${data?.fetchUseditem.seller.picture}`}
-                onError={handleImageError}
+                onError={handleProfileImageError}
               />
               <S.ProductSellerName>{data?.fetchUseditem.seller.name}</S.ProductSellerName>
             </S.SellerProfileWrapper>

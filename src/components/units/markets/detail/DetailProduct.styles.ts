@@ -177,7 +177,7 @@ export const ProductBodySpan = styled.p`
 `;
 
 export const ProductMapWrapper = styled.div`
-  margin-top: 60px;
+  margin-top: 4px;
 `;
 
 export const MapTitleWrapper = styled.div`

@@ -39,9 +39,14 @@ export const FETCH_USED_ITEMS_I_PICKED = gql`
       remarks
       price
       images
-      createdAt
       soldAt
     }
+  }
+`;
+
+export const FETCH_USED_ITEMS_COUNT_I_PICKED = gql`
+  query fetchUseditemsCountIPicked {
+    fetchUseditemsCountIPicked
   }
 `;
 

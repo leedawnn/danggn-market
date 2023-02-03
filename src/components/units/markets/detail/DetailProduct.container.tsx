@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { LikeState } from '../../../../commons/store';
 import { accessTokenState } from '../../../../commons/store/Auth/accessToken';
 import {
   IMutation,
@@ -15,8 +16,8 @@ import DetailProductUI from './DetailProduct.presenter';
 import {
   CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING,
   FETCH_USED_ITEM,
-  FETCH_USED_ITEMS_I_PICKED,
   TOGGLE_USED_ITEM_PICK,
+  FETCH_USED_ITEMS_COUNT_I_PICKED,
 } from './DetailProduct.queries';
 
 declare const window: typeof globalThis & {
@@ -27,9 +28,8 @@ const DetailProductContainer = () => {
   const router = useRouter();
 
   const [accessToken] = useRecoilState(accessTokenState);
-  const [iPickeditem, setIPickedItem] = useState<boolean>(false);
+  const [isLike, setIsLike] = useRecoilState<boolean>(LikeState);
 
-  const [isLike, setIsLike] = useState<boolean>(false);
   const [cartModalOpen, setCartModalOpen] = useState<boolean>(false);
 
   const { data } = useQuery(FETCH_USED_ITEM, {
@@ -39,18 +39,18 @@ const DetailProductContainer = () => {
   const [toggleUseditemPick] = useMutation<Pick<IMutation, 'toggleUseditemPick'>, IMutationToggleUseditemPickArgs>(
     TOGGLE_USED_ITEM_PICK
   );
-  const { data: fetchUseditemsIPickedData } =
-    useQuery<Pick<IQuery, 'fetchUseditemsIPicked'>>(FETCH_USED_ITEMS_I_PICKED);
 
   const [createPointTransactionOfBuyingAndSelling] = useMutation<
     Pick<IMutation, 'createPointTransactionOfBuyingAndSelling'>,
     IMutationCreatePointTransactionOfBuyingAndSellingArgs
   >(CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING);
 
-  const result = fetchUseditemsIPickedData?.fetchUseditemsIPicked.filter((el) => el._id === router.query.useditemId);
-
   const handleImageError = (event: any) => {
     event.target.src = '/default.png';
+  };
+
+  const handleProfileImageError = (event: any) => {
+    event.target.src = '/defaultProfile.png';
   };
 
   const onClickDip = async () => {
@@ -74,15 +74,15 @@ const DetailProductContainer = () => {
         ],
       });
 
-      // setIsLike((prev) => !prev);
+      setIsLike((prev) => !prev);
     } catch (error) {
       throw Error;
     }
   };
 
-  useEffect(() => {
-    isLike ? setIPickedItem(true) : setIPickedItem(false);
-  }, []);
+  // useEffect(() => {
+  //   isLike ? setIPickedItem(true) : setIPickedItem(false);
+  // }, []);
 
   const onClickPurchase = async () => {
     if (!accessToken) {
@@ -176,8 +176,9 @@ const DetailProductContainer = () => {
   return (
     <DetailProductUI
       handleImageError={handleImageError}
+      handleProfileImageError={handleProfileImageError}
       data={data}
-      iPickeditem={iPickeditem}
+      isLike={isLike}
       onClickDip={onClickDip}
       onClickBasket={onClickBasket}
       cartModalOpen={cartModalOpen}
