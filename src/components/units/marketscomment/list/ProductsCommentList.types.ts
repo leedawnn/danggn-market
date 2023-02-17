@@ -1,7 +1,7 @@
-import { IMutationDeleteUseditemQuestionArgs } from '../../../../commons/types/generated/types';
+import { IUseditemQuestion } from '../../../../commons/types/generated/types';
 
-export interface IProductsCommentCreateProps {
-  el?: IMutationDeleteUseditemQuestionArgs;
+export interface IUpdateCommentProps {
+  el?: IUseditemQuestion;
 }
 
 export interface IUpdateUseditemQuestionInput {

@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
 import { Rate, Modal } from 'antd';
-import { CgProfile } from 'react-icons/cg';
-import { BsPencilSquare } from 'react-icons/bs';
 import { MdDeleteOutline } from 'react-icons/md';
+import { AiOutlineEdit } from 'react-icons/ai';
 
 export const ItemWrapper = styled.div`
   width: 70%;
   margin: 0 auto;
-  padding: 30px 0;
+  padding: 25px 0;
   height: 128px;
   border-bottom: 1px solid lightgray;
 `;
@@ -15,12 +14,15 @@ export const ItemWrapper = styled.div`
 export const FlexWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const ProfileIcon = styled(CgProfile)`
+export const ProfileImage = styled.img`
   width: 46px;
   height: 46px;
   margin-right: 20px;
+  border-radius: 50%;
 `;
 
 export const MainWrapper = styled.div`
@@ -43,12 +45,14 @@ export const OptionWrapper = styled.div`
   flex-direction: row;
 `;
 
-// TODO: 아이콘 크기 잘 안맞음. 교체하기!!
-export const UpdateIcon = styled(BsPencilSquare)`
-  font-size: 22px;
+export const UpdateIcon = styled(AiOutlineEdit)`
+  color: lightgray;
+  font-size: 24px;
+  margin-right: 4px;
   cursor: pointer;
 `;
 export const DeleteIcon = styled(MdDeleteOutline)`
+  color: lightgray;
   font-size: 24px;
   cursor: pointer;
 `;

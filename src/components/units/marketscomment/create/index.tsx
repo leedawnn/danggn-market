@@ -1,24 +1,50 @@
 import { useMutation } from '@apollo/client';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
-import { CREATE_USED_ITEM_QUESTION } from './ProductsComment.queries';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { CREATE_USED_ITEM_QUESTION, UPDATE_USED_ITEM_QUESTION } from './ProductsComment.queries';
 import { FETCH_USED_ITEM_QUESTIONS } from '../list/ProductsCommentList.queries';
 import { message } from 'antd';
+import {
+  IMutation,
+  IMutationCreateUseditemQuestionArgs,
+  IUseditemQuestion,
+} from '../../../../commons/types/generated/types';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
-export default function CreateProductsComment() {
+interface IMarketCommentProps {
+  el?: IUseditemQuestion;
+  isEdit?: boolean;
+  setIsEdit?: Dispatch<SetStateAction<boolean>>;
+}
+
+const CreateProductsComment = ({ el, isEdit, setIsEdit }: IMarketCommentProps) => {
   const router = useRouter();
 
+  const [userInfo] = useRecoilState(userInfoState);
+
   const [contents, setContents] = useState('');
-  const [isEdit, setIsEdit] = useState(false);
 
-  const [createUseditemQuestion] = useMutation(CREATE_USED_ITEM_QUESTION);
+  const [createUseditemQuestion] = useMutation<
+    Pick<IMutation, 'createUseditemQuestion'>,
+    IMutationCreateUseditemQuestionArgs
+  >(CREATE_USED_ITEM_QUESTION);
 
-  const onChangeComment = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const [updateUseditemQuestion] = useMutation<Pick<IMutation, 'updateUseditemQuestion'>>(UPDATE_USED_ITEM_QUESTION);
+
+  const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(event.target.value);
   };
 
   const onClickCreateComment = async () => {
+    if (typeof router.query.productId !== 'string') return;
+
+    if (!userInfo) {
+      message.error({ content: '로그인이 필요한 기능입니다!' });
+      return;
+    }
+
     if (!contents) {
       message.error({ content: '내용을 입력해주세요!' });
       return;
@@ -30,12 +56,12 @@ export default function CreateProductsComment() {
           createUseditemQuestionInput: {
             contents,
           },
-          useditemId: String(router.query.productId),
+          useditemId: router.query.productId,
         },
         refetchQueries: [
           {
             query: FETCH_USED_ITEM_QUESTIONS,
-            variables: { useditemId: String(router.query.productId) },
+            variables: { useditemId: router.query.productId },
           },
         ],
       });
@@ -45,15 +71,61 @@ export default function CreateProductsComment() {
     }
   };
 
+  const onClickUpdateComment = async () => {
+    if (!userInfo) {
+      message.error({ content: '로그인이 필요한 기능입니다!' });
+      return;
+    }
+
+    if (!contents) {
+      message.error({ content: '내용이 수정되지 않았습니다!' });
+      return;
+    }
+
+    try {
+      if (typeof el?._id !== 'string') return;
+
+      await updateUseditemQuestion({
+        variables: {
+          updateUseditemQuestionInput: {
+            contents,
+          },
+          useditemQuestionId: el?._id,
+        },
+        refetchQueries: [
+          {
+            query: FETCH_USED_ITEM_QUESTIONS,
+            variables: { useditemQuestionId: el?._id },
+          },
+        ],
+      });
+      setIsEdit?.(false);
+      message.success({ content: '댓글이 성공적으로 수정되었습니다!' });
+    } catch (error) {
+      if (error instanceof Error) message.error({ content: error.message });
+    }
+  };
+
   return (
     <Wrapper>
-      <CommentTitle>댓글</CommentTitle>
-      <DivideLine />
-      <CommentTextarea value={contents} onChange={onChangeComment} />
-      <CreateCommentButton onClick={onClickCreateComment}>작성하기</CreateCommentButton>
+      {!isEdit && (
+        <>
+          <CommentTitle>댓글</CommentTitle>
+          <DivideLine />
+        </>
+      )}
+      <CommentTextarea
+        placeholder='개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다.'
+        value={isEdit ? contents || el?.contents : contents}
+        onChange={onChangeContents}
+      />
+      <CreateCommentButton onClick={isEdit ? onClickUpdateComment : onClickCreateComment}>
+        {isEdit ? '수정하기' : '등록하기'}
+      </CreateCommentButton>
     </Wrapper>
   );
-}
+};
+export default CreateProductsComment;
 
 const Wrapper = styled.div`
   display: flex;
@@ -73,7 +145,7 @@ const CommentTitle = styled.span`
 `;
 
 const CommentTextarea = styled.textarea`
-  height: 147px;
+  height: 120px;
   background-color: #e9e9e9;
   border: none;
   padding: 10px;

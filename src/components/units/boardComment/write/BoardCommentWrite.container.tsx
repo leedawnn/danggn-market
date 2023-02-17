@@ -14,7 +14,7 @@ import { message } from 'antd';
 import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 import { useRecoilState } from 'recoil';
 
-export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
+const BoardCommentWrite = (props: IBoardCommentWriteProps) => {
   const router = useRouter();
 
   const [userInfo] = useRecoilState(userInfoState);
@@ -135,4 +135,6 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
       el={props.el}
     />
   );
-}
+};
+
+export default BoardCommentWrite;

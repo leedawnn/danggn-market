@@ -9,11 +9,12 @@ import { IBoardCommentListUIItemProps } from './BoardCommentList.types';
 import { IMutation, IMutationDeleteBoardCommentArgs } from '../../../../commons/types/generated/types';
 import { getDate } from '../../../../commons/libraries/utils';
 
-export default function BoardCommentListUIItem(props: IBoardCommentListUIItemProps) {
+const BoardCommentListUIItem = (props: IBoardCommentListUIItemProps) => {
   const router = useRouter();
+
   const [isEdit, setIsEdit] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const [myPassword, setMyPassword] = useState('');
+  const [password, setPassword] = useState('');
 
   const [deleteBoardComment] = useMutation<Pick<IMutation, 'deleteBoardComment'>, IMutationDeleteBoardCommentArgs>(
     DELETE_BOARD_COMMENT
@@ -27,7 +28,7 @@ export default function BoardCommentListUIItem(props: IBoardCommentListUIItemPro
     try {
       await deleteBoardComment({
         variables: {
-          password: myPassword,
+          password,
           boardCommentId: props.el?._id,
         },
         refetchQueries: [
@@ -47,21 +48,28 @@ export default function BoardCommentListUIItem(props: IBoardCommentListUIItemPro
   };
 
   const onChangeDeletePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setMyPassword(event.target.value);
+    setPassword(event.target.value);
+  };
+
+  const handleImageError = (event: any) => {
+    event.target.src = '/defaultProfile.png';
   };
 
   return (
     <>
       {isOpenDeleteModal && (
-        <Modal visible={true} onOk={onClickDelete}>
-          <div>비밀번호 입력: </div>
+        <Modal visible={true} onOk={onClickDelete} onCancel={() => setIsOpenDeleteModal(false)}>
+          <p>비밀번호 입력: </p>
           <S.PasswordInput type='password' onChange={onChangeDeletePassword} />
         </Modal>
       )}
       {!isEdit && (
         <S.ItemWrapper>
           <S.FlexWrapper>
-            <S.ProfileIcon />
+            <S.ProfileImage
+              src={`https://storage.googleapis.com/${props.el.user?.picture}`}
+              onError={handleImageError}
+            />
             <S.MainWrapper>
               <S.WriterWrapper>
                 <S.Writer>{props.el?.writer}</S.Writer>
@@ -77,7 +85,9 @@ export default function BoardCommentListUIItem(props: IBoardCommentListUIItemPro
           <S.DateString>{getDate(props.el?.createdAt)}</S.DateString>
         </S.ItemWrapper>
       )}
-      {isEdit && <BoardCommentWrite isEdit={true} setIsEdit={setIsEdit} el={props.el} />}
+      {isEdit && <BoardCommentWrite isEdit={true} setIsEdit={setIsEdit} el={props.el} password={password} />}
     </>
   );
-}
+};
+
+export default BoardCommentListUIItem;

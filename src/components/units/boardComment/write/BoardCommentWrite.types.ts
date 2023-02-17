@@ -5,7 +5,7 @@ export interface IBoardCommentWriteProps {
   isEdit?: boolean;
   setIsEdit?: Dispatch<SetStateAction<boolean>>;
   el?: IBoardComment;
-  myPassword?: string;
+  password?: string;
 }
 
 export interface IBoardCommentWriteUIProps {

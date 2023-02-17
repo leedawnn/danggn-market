@@ -8,6 +8,9 @@ export const FETCH_BOARD_COMMENTS = gql`
       contents
       createdAt
       rating
+      user {
+        picture
+      }
     }
   }
 `;
