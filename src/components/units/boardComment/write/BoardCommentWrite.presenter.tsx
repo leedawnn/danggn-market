@@ -1,7 +1,11 @@
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 import * as S from './BoardCommentWrite.styles';
 import { IBoardCommentWriteUIProps } from './BoardCommentWrite.types';
 
 export default function BoardCommentWriteUI(props: IBoardCommentWriteUIProps) {
+  const [userInfo] = useRecoilState(userInfoState);
+
   return (
     <S.Wrapper>
       {!props.isEdit && (
@@ -13,11 +17,12 @@ export default function BoardCommentWriteUI(props: IBoardCommentWriteUIProps) {
       <S.InputWrapper>
         <S.Input
           placeholder='작성자'
+          defaultValue={userInfo ? userInfo?.name : ''}
+          value={userInfo?.name || ''}
+          readOnly={!!userInfo?.name}
           onChange={props.onChangeWriter}
-          value={props.writer || props.el?.writer || ''}
-          readOnly={!!props.el?.writer}
         />
-        <S.Input type='password' placeholder='비밀번호' onChange={props.onChangePassword} value={props.password} />
+        <S.Input type='password' placeholder='비밀번호' onChange={props.onChangePassword} />
         <S.Star onChange={props.setStar} />
       </S.InputWrapper>
       <S.ContentsWrapper>

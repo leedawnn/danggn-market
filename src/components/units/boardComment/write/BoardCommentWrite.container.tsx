@@ -10,9 +10,14 @@ import {
   IMutationUpdateBoardCommentArgs,
 } from '../../../../commons/types/generated/types';
 import { IBoardCommentWriteProps, IUpdateBoardCommentInput } from './BoardCommentWrite.types';
+import { message } from 'antd';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
+import { useRecoilState } from 'recoil';
 
 export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
   const router = useRouter();
+
+  const [userInfo] = useRecoilState(userInfoState);
 
   const [writer, setWriter] = useState('');
   const [password, setPassword] = useState('');
@@ -42,11 +47,21 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
   const onClickWrite = async () => {
     if (typeof router.query.id !== 'string') return;
 
+    if (!userInfo) {
+      message.error({ content: '로그인이 필요한 기능입니다!' });
+      return;
+    }
+
+    if (!contents) {
+      message.info({ content: '메시지를 입력해주세요!' });
+      return;
+    }
+
     try {
       await createBoardComment({
         variables: {
           createBoardCommentInput: {
-            writer,
+            writer: userInfo?.name,
             password,
             contents,
             rating: star,
@@ -61,7 +76,7 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
         ],
       });
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) message.error({ content: error.message });
     }
 
     setWriter('');
@@ -71,11 +86,12 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
 
   const onClickUpdate = async () => {
     if (!contents) {
-      alert('내용이 수정되지 않았습니다.');
+      message.error({ content: '내용이 수정되지 않았습니다.' });
       return;
     }
+
     if (!password) {
-      alert('비밀번호가 입력되지 않았습니다.');
+      message.error({ content: '비밀번호가 입력되지 않았습니다.' });
       return;
     }
 
@@ -100,7 +116,7 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
       });
       props.setIsEdit?.(false);
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error) message.error({ content: error.message });
     }
   };
 
