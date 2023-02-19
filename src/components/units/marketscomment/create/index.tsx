@@ -19,7 +19,7 @@ interface IMarketCommentProps {
   setIsEdit?: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateProductsComment = ({ el, isEdit, setIsEdit }: IMarketCommentProps) => {
+const ProductCommentCreate = ({ el, isEdit, setIsEdit }: IMarketCommentProps) => {
   const router = useRouter();
 
   const [userInfo] = useRecoilState(userInfoState);
@@ -95,7 +95,7 @@ const CreateProductsComment = ({ el, isEdit, setIsEdit }: IMarketCommentProps) =
         refetchQueries: [
           {
             query: FETCH_USED_ITEM_QUESTIONS,
-            variables: { useditemQuestionId: el?._id },
+            variables: { useditemId: router.query.productId },
           },
         ],
       });
@@ -125,7 +125,7 @@ const CreateProductsComment = ({ el, isEdit, setIsEdit }: IMarketCommentProps) =
     </Wrapper>
   );
 };
-export default CreateProductsComment;
+export default ProductCommentCreate;
 
 const Wrapper = styled.div`
   display: flex;

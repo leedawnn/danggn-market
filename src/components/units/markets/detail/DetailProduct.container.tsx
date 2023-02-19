@@ -80,10 +80,6 @@ const DetailProductContainer = () => {
     }
   };
 
-  // useEffect(() => {
-  //   isLike ? setIPickedItem(true) : setIPickedItem(false);
-  // }, []);
-
   const onClickPurchase = async () => {
     if (!accessToken) {
       Modal.info({ content: '로그인이 필요한 기능입니다!' });

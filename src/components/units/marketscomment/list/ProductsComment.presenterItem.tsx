@@ -9,7 +9,7 @@ import { MouseEvent, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 import { IMutation } from '../../../../commons/types/generated/types';
-import CreateProductsComment from '../create';
+import ProductCommentCreate from '../create';
 
 const ProductsCommentListUIItem = ({ el }: IUpdateCommentProps) => {
   const router = useRouter();
@@ -79,7 +79,7 @@ const ProductsCommentListUIItem = ({ el }: IUpdateCommentProps) => {
           </CommentWrapper>
         </Wrapper>
       )}
-      {isEdit && <CreateProductsComment isEdit={true} setIsEdit={setIsEdit} el={el} />}
+      {isEdit && <ProductCommentCreate isEdit={true} setIsEdit={setIsEdit} el={el} />}
     </>
   );
 };
@@ -89,7 +89,8 @@ export default ProductsCommentListUIItem;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px 0px;
+  padding: 20px 0px 0px;
+  border-bottom: 1px solid #ededed;
 `;
 
 const CommentWrapper = styled.div`

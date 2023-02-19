@@ -106,12 +106,12 @@ export const ProductsButtonWrapper = styled.div`
   padding: 20px;
 `;
 
-interface isLikeToggle {
-  isLike: boolean;
-}
+// interface isLikeToggle {
+//   isLike: boolean;
+// }
 
 // TODO: 좋아요 기능 새로고침하면 날라감
-export const DipButton = styled.button<isLikeToggle>`
+export const DipButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,7 +120,8 @@ export const DipButton = styled.button<isLikeToggle>`
   color: #ffffff;
   font-size: 24px;
   font-weight: 700;
-  background-color: ${(props) => (props.isLike ? '#f00' : '#c9c9c9')};
+  background-color: #c9c9c9;
+  /* background-color: ${(props) => (props.isLike ? '#f00' : '#c9c9c9')}; */
   cursor: pointer;
 `;
 

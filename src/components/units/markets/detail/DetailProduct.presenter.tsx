@@ -3,10 +3,10 @@ import { Modal, Tooltip } from 'antd';
 import { putOnComma } from '../../../../commons/libraries/utils';
 import { IUseditem } from '../../../../commons/types/generated/types';
 import { Dispatch, SetStateAction } from 'react';
-import CreateProductsComment from '../../marketsComment/create';
-import CreateProductsCommentList from '../../marketsComment/list';
 import { useRouter } from 'next/router';
 import DOMPurify from 'dompurify';
+import ProductCommentList from '../../marketsComment/list/ProductComment.container';
+import ProductCommentCreate from '../../marketsComment/create';
 
 interface IDetailProductProps {
   handleImageError: (event: any) => void;
@@ -114,8 +114,8 @@ const DetailProductUI = ({
               <S.ProductSellerName>{data?.fetchUseditem.seller.name}</S.ProductSellerName>
             </S.SellerProfileWrapper>
           </S.ProductSellerWrapper>
-          <CreateProductsComment />
-          <CreateProductsCommentList />
+          <ProductCommentCreate />
+          <ProductCommentList />
         </S.ProductBodyRightWrapper>
       </S.ProductBodyWrapper>
     </S.Wrapper>
