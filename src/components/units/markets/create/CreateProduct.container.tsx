@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Modal } from 'antd';
+import { message } from 'antd';
 import { ChangeEvent, useEffect, useState } from 'react';
 import {
   ICreateUseditemInput,
@@ -16,10 +16,6 @@ import {
 import CreateProductUI from './CreateProduct.presenter';
 import { CREATE_USED_ITEM, UPDATE_USED_ITEM } from './CreateProduct.queries';
 import { IProductcreateProps, IupdateUseditemInput } from './CreateProduct.types';
-
-declare const window: typeof globalThis & {
-  kakao: any;
-};
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -61,36 +57,6 @@ const CreateProductContainer = (props: IProductcreateProps) => {
     trigger('contents');
   };
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d17f80ee36d1f0008465ee9f49c8b065';
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById('map');
-        const options = {
-          center: new window.kakao.maps.LatLng(37.484916, 126.896119),
-          level: 3,
-        };
-
-        const map = new window.kakao.maps.Map(container, options);
-        const moveLatLon = new window.kakao.maps.LatLng(37.484916, 126.896119);
-
-        map.panTo(moveLatLon);
-
-        const markerPosition = new window.kakao.maps.LatLng(37.484916, 126.896119);
-
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition,
-        });
-
-        marker.setMap(map);
-      });
-    };
-  }, []);
-
   const onChangeFileUrls = (fileUrl: string, index: number) => {
     const newFileUrls = [...fileUrls];
     newFileUrls[index] = fileUrl;
@@ -119,7 +85,7 @@ const CreateProductContainer = (props: IProductcreateProps) => {
 
   const onClickSubmit = async (data: ICreateUseditemInput | any) => {
     if (!data.name && !data.remarks && !data.contents && !data.price) {
-      Modal.info({ content: '필수 입력 사항입니다!' });
+      message.info({ content: '필수 입력 사항입니다!' });
       return;
     }
 
@@ -142,9 +108,9 @@ const CreateProductContainer = (props: IProductcreateProps) => {
         },
       });
       router.push('/market');
-      Modal.success({ content: '상품 등록이 완료되었습니다!' });
+      message.success({ content: '상품 등록이 완료되었습니다!' });
     } catch (error) {
-      if (error instanceof Error) Modal.error({ content: error.message });
+      if (error instanceof Error) message.error({ content: error.message });
     }
   };
 
@@ -164,7 +130,7 @@ const CreateProductContainer = (props: IProductcreateProps) => {
       !addressDetail &&
       !isChangedFiles
     ) {
-      Modal.info({ content: '수정한 내용이 없습니다.' });
+      message.info({ content: '수정한 내용이 없습니다.' });
       return;
     }
 
@@ -190,7 +156,7 @@ const CreateProductContainer = (props: IProductcreateProps) => {
       });
       router.push(`/products/${result.data?.updateUseditem._id}`);
     } catch (error) {
-      if (error instanceof Error) Modal.error({ content: error.message });
+      if (error instanceof Error) message.error({ content: error.message });
     }
   };
 

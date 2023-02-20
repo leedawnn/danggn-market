@@ -2,12 +2,16 @@ import * as S from './CreateProduct.styles';
 import 'react-quill/dist/quill.snow.css';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import { FieldValues, FormState, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form';
-import { ChangeEvent, ComponentType } from 'react';
+import { ChangeEvent, ComponentType, useEffect } from 'react';
 import { ICreateUseditemInput, IUpdateUseditemInput } from '../../../../commons/types/generated/types';
 import Uploads01 from '../../../commons/uploads/01/Uploads01.container';
 import { v4 as uuidv4 } from 'uuid';
 import { Modal } from 'antd';
 import ReactQuill from 'react-quill';
+
+declare const window: typeof globalThis & {
+  kakao: any;
+};
 
 interface ICreateProductProps {
   isEdit: Boolean;
@@ -48,6 +52,52 @@ const CreateProductUI = ({
   onChangeFileUrls,
   onClickCancleForm,
 }: ICreateProductProps) => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src =
+      '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d17f80ee36d1f0008465ee9f49c8b065&libraries=services';
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      window.kakao.maps.load(() => {
+        const defaultLat = 37.484916;
+        const defaultLng = 126.896119;
+
+        const container = document.getElementById('map');
+        const options = {
+          center: new window.kakao.maps.LatLng(defaultLat, defaultLng),
+          level: 4,
+        };
+
+        const map = new window.kakao.maps.Map(container, options);
+
+        const geocoder = new window.kakao.maps.services.Geocoder();
+
+        geocoder.addressSearch(address, function (result: any, status: any) {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+
+            const imageSrc = '/marker.png',
+              imageSize = new window.kakao.maps.Size(64, 69),
+              imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+
+            const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+            const marker = new window.kakao.maps.Marker({
+              position: coords,
+              image: markerImage,
+            });
+
+            map.panTo(coords);
+
+            marker.setMap(map);
+          }
+        });
+      });
+    };
+  }, [address]);
+
   return (
     <>
       <S.Wrapper>

@@ -10,6 +10,7 @@ import {
   IMutationCreatePointTransactionOfBuyingAndSellingArgs,
   IMutationToggleUseditemPickArgs,
   IQuery,
+  IQueryFetchUseditemArgs,
   IUseditem,
 } from '../../../../commons/types/generated/types';
 import DetailProductUI from './DetailProduct.presenter';
@@ -17,7 +18,6 @@ import {
   CREATE_POINT_TRANSACTION_OF_BUYING_AND_SELLING,
   FETCH_USED_ITEM,
   TOGGLE_USED_ITEM_PICK,
-  FETCH_USED_ITEMS_COUNT_I_PICKED,
 } from './DetailProduct.queries';
 
 declare const window: typeof globalThis & {
@@ -32,7 +32,7 @@ const DetailProductContainer = () => {
 
   const [cartModalOpen, setCartModalOpen] = useState<boolean>(false);
 
-  const { data } = useQuery(FETCH_USED_ITEM, {
+  const { data } = useQuery<Pick<IQuery, 'fetchUseditem'>, IQueryFetchUseditemArgs>(FETCH_USED_ITEM, {
     variables: { useditemId: String(router.query.productId) },
   });
 
@@ -128,27 +128,66 @@ const DetailProductContainer = () => {
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
-    script.src = '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d17f80ee36d1f0008465ee9f49c8b065';
+    script.src =
+      '//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d17f80ee36d1f0008465ee9f49c8b065&libraries=services';
     document.head.appendChild(script);
 
     script.onload = () => {
       window.kakao.maps.load(() => {
+        const defaultLat = 37.484916;
+        const defaultLng = 126.896119;
+
         const container = document.getElementById('map');
         const options = {
-          center: new window.kakao.maps.LatLng(37.484916, 126.896119),
+          center: new window.kakao.maps.LatLng(defaultLat, defaultLng),
           level: 3,
         };
 
         const map = new window.kakao.maps.Map(container, options);
-        const moveLatLon = new window.kakao.maps.LatLng(37.484916, 126.896119);
 
-        map.panTo(moveLatLon);
+        const geocoder = new window.kakao.maps.services.Geocoder();
 
-        const markerPosition = new window.kakao.maps.LatLng(37.484916, 126.896119);
+        if (data?.fetchUseditem.useditemAddress?.address) {
+          geocoder.addressSearch(data.fetchUseditem.useditemAddress.address, function (result: any, status: any) {
+            if (status === window.kakao.maps.services.Status.OK) {
+              const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+
+              const imageSrc = '/marker.png',
+                imageSize = new window.kakao.maps.Size(64, 69),
+                imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+
+              const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+              const marker = new window.kakao.maps.Marker({
+                position: coords,
+                image: markerImage,
+              });
+
+              map.panTo(coords);
+
+              marker.setMap(map);
+            }
+          });
+        }
+
+        const imageSrc = '/marker.png',
+          imageSize = new window.kakao.maps.Size(64, 69),
+          imageOption = { offset: new window.kakao.maps.Point(27, 69) };
+
+        const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+          markerPosition = new window.kakao.maps.LatLng(defaultLat, defaultLng);
 
         const marker = new window.kakao.maps.Marker({
           position: markerPosition,
+          image: markerImage,
         });
+
+        const moveLatLon = new window.kakao.maps.LatLng(
+          data?.fetchUseditem.useditemAddress?.lat || defaultLat,
+          data?.fetchUseditem.useditemAddress?.lng || defaultLng
+        );
+
+        map.panTo(moveLatLon);
 
         marker.setMap(map);
       });
