@@ -71,6 +71,10 @@ const DetailBoard = () => {
     });
   };
 
+  const handleImageError = (event: any) => {
+    event.target.src = '/defaultProfile.png';
+  };
+
   return (
     <>
       <DetailBoardUI
@@ -80,6 +84,7 @@ const DetailBoard = () => {
         data={data}
         onClickLike={onClickLike}
         onClickDislike={onClickDislike}
+        handleImageError={handleImageError}
       />
     </>
   );

@@ -11,6 +11,9 @@ export const FETCH_BOARD = gql`
       images
       likeCount
       dislikeCount
+      user {
+        picture
+      }
     }
   }
 `;

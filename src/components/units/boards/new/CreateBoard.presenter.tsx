@@ -20,6 +20,7 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
                 type='text'
                 placeholder='이름을 적어주세요.'
                 onChange={props.onChangeWriter}
+                value={userInfo?.name || ''}
                 defaultValue={userInfo?.name || ''}
                 readOnly={!!userInfo?.name}
               />
@@ -92,7 +93,7 @@ const CreateBoardUI = (props: ICreateBoardUIprops) => {
             </S.SettingInputs>
           </S.MainSetting>
           <S.BtnContainer>
-            <S.RegisterBtn type='button' onClick={props.isEdit ? props.onClickUpdate : props.onClickValidation}>
+            <S.RegisterBtn type='button' onClick={props.isEdit ? props.onClickUpdate : props.onClickCreateBoard}>
               {props.isEdit ? '수정' : '등록'}하기
             </S.RegisterBtn>
           </S.BtnContainer>

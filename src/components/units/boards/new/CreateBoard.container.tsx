@@ -3,16 +3,20 @@ import { useRouter } from 'next/router';
 import CreateBoardUI from './CreateBoard.presenter';
 import { useMutation } from '@apollo/client';
 import { CREATE_BOARD, UPDATE_BOARD } from './CreateBoard.queries';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import {
   IMutation,
   IMutationCreateBoardArgs,
   IMutationUpdateBoardArgs,
 } from '../../../../commons/types/generated/types';
 import { IBoardcreateProps, IUpdateBoardInput } from './CreateBoard.types';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
 const CreateBoard = (props: IBoardcreateProps) => {
   const router = useRouter();
+
+  const [userInfo] = useRecoilState(userInfoState);
 
   const [writer, setWriter] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -80,15 +84,10 @@ const CreateBoard = (props: IBoardcreateProps) => {
     }
   }, [props.data]);
 
-  const onClickValidation = async () => {
+  const onClickCreateBoard = async () => {
     let isCheck = true;
 
-    if (!writer) {
-      isCheck = false;
-      setWriterError('올바른 이름을 입력해주세요.');
-    } else {
-      setWriterError('');
-    }
+    if (!userInfo) return;
 
     if (!password) {
       isCheck = false;
@@ -114,7 +113,7 @@ const CreateBoard = (props: IBoardcreateProps) => {
         const result = await createBoard({
           variables: {
             createBoardInput: {
-              writer,
+              writer: userInfo.name,
               password,
               title,
               contents,
@@ -128,6 +127,7 @@ const CreateBoard = (props: IBoardcreateProps) => {
             },
           },
         });
+        message.success({ content: '게시글이 등록되었습니다!' });
         router.push(`/board/${result.data?.createBoard._id}`);
       } catch (error) {
         if (error instanceof Error) Modal.error({ content: error.message });
@@ -195,7 +195,7 @@ const CreateBoard = (props: IBoardcreateProps) => {
         onClickAddressSearch={onClickAddressSearch}
         onCompleteAddressSearch={onCompleteAddressSearch}
         onChangeFileUrls={onChangeFileUrls}
-        onClickValidation={onClickValidation}
+        onClickCreateBoard={onClickCreateBoard}
         onClickUpdate={onClickUpdate}
         isEdit={props.isEdit}
         data={props.data}

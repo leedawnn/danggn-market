@@ -11,15 +11,12 @@ import { userInfoState } from '../../../commons/store/Auth/UserInfoState';
 import {
   IMutation,
   IMutationCreatePointTransactionOfLoadingArgs,
-  IQuery,
-  IQueryFetchUseditemArgs,
   IUseditem,
 } from '../../../commons/types/generated/types';
 import { AiOutlineClose } from 'react-icons/ai';
 import { accessTokenState } from '../../../commons/store/Auth/accessToken';
 import Modal from 'react-modal';
 import { FETCH_USER_LOGGED_IN } from '../../units/auth/signin/Signin.queries';
-import { ViewedState } from '../../../commons/store';
 import { v4 as uuidv4 } from 'uuid';
 import ViewedProduct from './ViewedProduct';
 
@@ -41,7 +38,6 @@ const SideBar = () => {
 
   const [accessToken] = useRecoilState(accessTokenState);
   const [userInfo] = useRecoilState(userInfoState);
-  // const [viewed, setViewed] = useRecoilState(ViewedState);
   const [viewed, setViewed] = useState<IUseditem[]>([]);
 
   const [selectedAmount, setSelectedAmount] = useState<string>('');
@@ -57,7 +53,7 @@ const SideBar = () => {
   const isViewedEmpty = viewed.length === 0;
 
   useEffect(() => {
-    const viewed = JSON.parse(localStorage.getItem('viewed') || '[]');
+    const viewed = JSON.parse(sessionStorage.getItem('viewed') || '[]');
 
     setViewed(viewed);
   }, []);

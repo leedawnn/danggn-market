@@ -21,5 +21,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-undef': 'off',
     'react/display-name': 'off',
+    'one-var': 'off',
+    'no-unreachable-loop': 'off',
   },
 };

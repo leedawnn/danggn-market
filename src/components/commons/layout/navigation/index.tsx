@@ -42,7 +42,7 @@ const Navigation = () => {
       router.push('/');
       message.success({ content: '로그아웃 되었습니다. 👋' });
     } catch (error) {
-      if (error instanceof Error) console.log(error.message);
+      if (error instanceof Error) message.error({ content: error.message });
     }
   };
 
@@ -111,10 +111,10 @@ const Navigation = () => {
                   <MenuItem isHome={isHome()}>My</MenuItem>
                 </a>
               </Link>
-              <Link href='/auth/order'>
+              <Link href='/auth/like'>
                 <a>
                   <MenuItem isHome={isHome()}>
-                    Order <HiOutlineHeart style={{ marginRight: '2px' }} />
+                    Like <HiOutlineHeart style={{ marginRight: '2px' }} />
                   </MenuItem>
                 </a>
               </Link>

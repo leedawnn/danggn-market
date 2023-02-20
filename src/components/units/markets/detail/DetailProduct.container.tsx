@@ -11,6 +11,7 @@ import {
   IMutationToggleUseditemPickArgs,
   IQuery,
   IQueryFetchUseditemArgs,
+  IQueryFetchUseditemsArgs,
   IUseditem,
 } from '../../../../commons/types/generated/types';
 import DetailProductUI from './DetailProduct.presenter';
@@ -19,6 +20,7 @@ import {
   FETCH_USED_ITEM,
   TOGGLE_USED_ITEM_PICK,
 } from './DetailProduct.queries';
+import { FETCH_USED_ITEMS } from '../../../../../pages/market/index';
 
 declare const window: typeof globalThis & {
   kakao: any;
@@ -86,9 +88,17 @@ const DetailProductContainer = () => {
       return;
     }
 
+    if (typeof router.query.productId !== 'string') return;
+
     try {
       await createPointTransactionOfBuyingAndSelling({
-        variables: { useritemId: String(router.query.productId) },
+        variables: { useritemId: router.query.productId },
+        refetchQueries: [
+          {
+            query: FETCH_USED_ITEMS,
+            variables: { page: 1 },
+          },
+        ],
       });
 
       Modal.success({
@@ -148,7 +158,7 @@ const DetailProductContainer = () => {
         const geocoder = new window.kakao.maps.services.Geocoder();
 
         if (data?.fetchUseditem.useditemAddress?.address) {
-          geocoder.addressSearch(data.fetchUseditem.useditemAddress.address, function (result: any, status: any) {
+          geocoder.addressSearch(data?.fetchUseditem.useditemAddress?.address, function (result: any, status: any) {
             if (status === window.kakao.maps.services.Status.OK) {
               const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
 
@@ -159,6 +169,7 @@ const DetailProductContainer = () => {
               const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
               const marker = new window.kakao.maps.Marker({
+                map,
                 position: coords,
                 image: markerImage,
               });

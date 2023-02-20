@@ -2,18 +2,18 @@ import * as S from './DetailBoard.styles';
 import { getDate } from '../../../../commons/libraries/utils';
 import { IDetailBoardUIProps } from './DetailBoard.types';
 import Dompurify from 'dompurify';
-import { useRecoilState } from 'recoil';
-import { userInfoState } from '../../../../commons/store/Auth/UserInfoState';
 
 const DetailBoardUI = (props: IDetailBoardUIProps) => {
-  const [userInfo] = useRecoilState(userInfoState);
-
   return (
     <>
       <S.Wrapper>
         <S.Container>
           <S.UserInfo>
-            <S.ProfilePhoto src={`https://storage.googleapis.com/${userInfo?.picture}`} alt='유저 프로필 사진' />
+            <S.ProfilePhoto
+              src={`https://storage.googleapis.com/${props.data?.fetchBoard.user?.picture}`}
+              alt='유저 프로필 사진'
+              onError={props.handleImageError}
+            />
             <S.PostInfo>
               <S.UserName>{props.data?.fetchBoard?.writer}</S.UserName>
               <S.CreatedDate>{getDate(props.data?.fetchBoard?.createdAt)}</S.CreatedDate>

@@ -69,6 +69,7 @@ export const UserProfileWrapper = styled.div`
   justify-content: left;
   flex: 1;
   padding: 50px;
+  margin-left: 1rem;
 `;
 
 export const UserProfileHeader = styled.div`

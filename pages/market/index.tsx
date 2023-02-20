@@ -8,7 +8,7 @@ import { MouseEvent } from 'react';
 import SideBar from '../../src/components/commons/sideBar';
 
 // TODO: 중고 상품 검색 기능 구현
-const FETCH_USED_ITEMS = gql`
+export const FETCH_USED_ITEMS = gql`
   query fetchUseditems($page: Int) {
     fetchUseditems(page: $page) {
       _id
@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <>
       <div>
-        <MarketTitle>중고 거래 상품</MarketTitle>
+        <MarketTitle>중고 거래 마켓</MarketTitle>
         <SideBar />
         <Wrapper>
           <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true || false} style={{ width: '100%' }}>

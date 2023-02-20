@@ -11,7 +11,7 @@ const ProductsCommentListUI = ({ data, onLoadMore }: IProductCommentListProps) =
   if (!data) return <div />;
 
   return (
-    <div style={{ height: '700px', overflow: 'auto' }}>
+    <div style={{ maxHeight: '700px', overflow: 'auto' }}>
       <InfiniteScroll pageStart={0} loadMore={onLoadMore} hasMore={true}>
         {data?.fetchUseditemQuestions.map((el) => (
           <ProductsCommentListUIItem key={el._id} el={el} />

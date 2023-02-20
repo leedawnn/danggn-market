@@ -45,14 +45,18 @@ const Uploads02 = ({ onChangeProfilePhoto, fileUrl }: ImageFileInputProps) => {
   };
 
   const handleDefaultImage = (event: any) => {
-    event.target.src = `https://storage.googleapis.com/${userInfo?.picture}`;
+    event.target.src = '/defaultProfile.png';
   };
 
   return (
     <ProfilePhotoWrapper>
       <ProfilePhoto
         onClick={onClickUploadImage}
-        src={`https://storage.googleapis.com/${fileUrl}`}
+        src={
+          fileUrl === ''
+            ? `https://storage.googleapis.com/${userInfo?.picture}`
+            : `https://storage.googleapis.com/${fileUrl}`
+        }
         onError={handleDefaultImage}
       />
       <ProfilePhotoAddButton onClick={onClickUploadImage}>
@@ -65,20 +69,20 @@ const Uploads02 = ({ onChangeProfilePhoto, fileUrl }: ImageFileInputProps) => {
 
 export default Uploads02;
 
-export const ProfilePhotoWrapper = styled.div`
+const ProfilePhotoWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 2rem;
 `;
 
-export const ProfilePhoto = styled.img`
+const ProfilePhoto = styled.img`
   width: 180px;
   height: 180px;
   border-radius: 50%;
 `;
 
-export const ProfilePhotoAddButton = styled.div`
+const ProfilePhotoAddButton = styled.div`
   position: relative;
   right: 50%;
   display: flex;
@@ -97,7 +101,7 @@ export const ProfilePhotoAddButton = styled.div`
   }
 `;
 
-export const PhotoAddIcon = styled(TbCameraPlus)`
+const PhotoAddIcon = styled(TbCameraPlus)`
   font-size: 18px;
   color: rgb(255, 255, 255);
 `;

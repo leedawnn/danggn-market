@@ -7,6 +7,7 @@ export interface IDetailBoardUIProps {
   onClickMoveToBoards: () => void;
   onClickLike: () => void;
   onClickDislike: () => void;
+  handleImageError: (event: any) => void;
 }
 
 export interface IUpdateBoardInput {

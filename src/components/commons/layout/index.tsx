@@ -19,7 +19,7 @@ export default function Layout(props: ILayoutProps) {
     '/auth/signin',
     '/auth/mypage',
     '/auth/mypage/profile',
-    '/auth/order',
+    '/auth/like',
     '/auth/cart',
     '/board/[id]/edit',
     '/board/new',

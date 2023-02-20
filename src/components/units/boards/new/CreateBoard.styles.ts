@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 30px 100px;
+  padding: 50px 100px;
 `;
 
 export const Container = styled.div`
@@ -13,7 +13,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 85%;
   border: 1px solid #e5e5e5;
   box-shadow: 0px 4px 16px 0px #00000033;
   padding: 10px 100px;
@@ -34,7 +34,7 @@ export const PostForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 100px;
+  padding: 50px;
 `;
 
 export const UserContainer = styled.div`

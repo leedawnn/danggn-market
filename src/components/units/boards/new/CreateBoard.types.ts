@@ -38,7 +38,7 @@ export interface ICreateBoardUIprops {
   onChangeAddressDetail: (event: ChangeEvent<HTMLInputElement>) => void;
   onCompleteAddressSearch: (data: any) => void;
   onChangeFileUrls: (fileUrls: string, index: number) => void;
-  onClickValidation: () => void;
+  onClickCreateBoard: () => void;
   onClickUpdate: () => void;
   isOpen: boolean;
   zipcode: string;
