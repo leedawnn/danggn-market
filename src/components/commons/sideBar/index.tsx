@@ -53,7 +53,7 @@ const SideBar = () => {
   const isViewedEmpty = viewed.length === 0;
 
   useEffect(() => {
-    const viewed = JSON.parse(sessionStorage.getItem('viewed') || '[]');
+    const viewed = JSON.parse(localStorage.getItem('viewed') || '[]');
 
     setViewed(viewed);
   }, []);
