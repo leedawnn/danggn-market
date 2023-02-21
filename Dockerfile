@@ -1,10 +1,13 @@
-FROM node:16.12
+FROM node:16
 
 WORKDIR /danggn-market/
 
 COPY . /
 
 RUN yarn install
+
 RUN yarn build
 
-CMD yarn start
+EXPOSE 3000
+
+CMD ["yarn", "start"]

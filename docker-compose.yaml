@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  class_build:
+  danggn-market:
     build:
       context: .
       dockerfile: Dockerfile
