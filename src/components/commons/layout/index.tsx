@@ -26,7 +26,9 @@ export default function Layout(props: ILayoutProps) {
     '/market',
     '/market/create',
   ];
+  const IS_SHOW = ['/market/', '/auth', '/auth/mypage'];
 
+  const isShowFooter = IS_SHOW.includes(router.pathname);
   const isShowSideBar = HIDE_SIDEBAR.includes(router.pathname);
 
   return (
@@ -34,7 +36,7 @@ export default function Layout(props: ILayoutProps) {
       <Navigation />
       <div>{props.children}</div>
       {!isShowSideBar && <SideBar />}
-      <Footer />
+      {!isShowFooter && <Footer />}
     </Wrapper>
   );
 }
