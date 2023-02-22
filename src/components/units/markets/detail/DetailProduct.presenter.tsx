@@ -66,7 +66,7 @@ const DetailProductUI = ({
             )}
           </S.ProductDetail2>
           <S.ProductsButtonWrapper>
-            <S.DipButton isLike={isLike} onClick={onClickDip}>
+            <S.DipButton onClick={onClickDip}>
               <S.FillHeartIcon />
               &nbsp;{data?.fetchUseditem.pickedCount}
             </S.DipButton>

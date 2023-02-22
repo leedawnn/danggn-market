@@ -11,7 +11,6 @@ import {
   IMutationToggleUseditemPickArgs,
   IQuery,
   IQueryFetchUseditemArgs,
-  IQueryFetchUseditemsArgs,
   IUseditem,
 } from '../../../../commons/types/generated/types';
 import DetailProductUI from './DetailProduct.presenter';
