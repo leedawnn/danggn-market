@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { gql, GraphQLClient } from 'graphql-request';
 import DetailProductContainer from '../../../src/components/units/markets/detail/DetailProduct.container';
-import { IUseditem } from '../../../src/commons/types/generated/types';
 
 const DetailProducts = (props: any) => {
   return (
