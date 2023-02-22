@@ -8,7 +8,7 @@ class MyDocument extends Document {
           <meta charSet='utf-8' />
           <link
             href='https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.1/SangSangShinb7.woff'
-            rel='stylesheet'
+            rel='text/css'
           />
         </Head>
         <body>
