@@ -4,7 +4,13 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang='ko'>
-        <Head />
+        <Head>
+          <meta charSet='utf-8' />
+          <link
+            href='https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.1/SangSangShinb7.woff'
+            rel='stylesheet'
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />
