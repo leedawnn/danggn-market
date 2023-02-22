@@ -1,7 +1,9 @@
 {
   "name": "danggn-market",
-  "version": "0.1.0",
+  "version": "1.0",
   "private": true,
+  "type": "commonjs",
+  "author": "leedawn",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

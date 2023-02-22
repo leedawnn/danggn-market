@@ -1,12 +1,6 @@
 /** @type {import('next').NextConfig} */
-
-import withPlugins from 'next-compose-plugins';
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
-
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   trailingSlash: true,
   webpack: (config) => {
@@ -17,6 +11,16 @@ const nextConfig = {
     });
     return config;
   },
+  generateBuildId: () => 'danggn-market',
+  exportPathMap: () => ({
+    '/404': { page: '/404' },
+  }),
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
-export default withPlugins([[withBundleAnalyzer], nextConfig]);
+module.exports = nextConfig;

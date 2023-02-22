@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:14
 
 WORKDIR /danggn-market/
 
@@ -10,4 +10,4 @@ RUN yarn build
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD yarn start
