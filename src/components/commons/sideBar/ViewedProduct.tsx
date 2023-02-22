@@ -5,11 +5,10 @@ import { IQuery, IQueryFetchUseditemArgs, IUseditem } from '../../../commons/typ
 import { FETCH_USED_ITEM } from '../../units/markets/detail/DetailProduct.queries';
 
 interface IProductProps {
-  key: any;
   productId: any;
 }
 
-const ViewedProduct = ({ key, productId }: IProductProps) => {
+const ViewedProduct = ({ productId }: IProductProps) => {
   const [_, setViewedData] = useState<IUseditem[]>([]);
 
   const { data } = useQuery<Pick<IQuery, 'fetchUseditem'> | undefined, IQueryFetchUseditemArgs>(FETCH_USED_ITEM, {
@@ -25,15 +24,11 @@ const ViewedProduct = ({ key, productId }: IProductProps) => {
   }, []);
 
   return (
-    <>
-      <div key={key}>
-        <ProductImg
-          src={`https://storage.googleapis.com/${data?.fetchUseditem.images?.[0]}`}
-          alt={data?.fetchUseditem.name}
-          onError={handleImageError}
-        />
-      </div>
-    </>
+    <ProductImg
+      src={`https://storage.googleapis.com/${data?.fetchUseditem.images?.[0]}`}
+      alt={data?.fetchUseditem.name}
+      onError={handleImageError}
+    />
   );
 };
 
@@ -43,7 +38,7 @@ const ProductImg = styled.img`
   width: 70px;
   height: 70px;
 
-  :first-child {
+  :first-of-type {
     margin-bottom: 4px;
   }
 `;

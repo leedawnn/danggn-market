@@ -1,10 +1,17 @@
-import { ApolloClient, ApolloLink, ApolloProvider, fromPromise, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  ApolloProvider,
+  fromPromise,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
-import { ReactNode, useEffect } from 'react';
-import { useRecoilState, useRecoilValueLoadable } from 'recoil';
+import { ReactNode, useEffect, useMemo } from 'react';
+import { useRecoilState } from 'recoil';
 import { getAccessToken } from '../libraries/getAccessToken';
 import { onError } from '@apollo/client/link/error';
-import { accessTokenState, restoreAccessTokenLoadable } from '../store/Auth/accessToken';
+import { accessTokenState } from '../store/Auth/accessToken';
 import { userInfoState } from '../store/Auth/UserInfoState';
 import { FetchLoggedInUserHook } from '../libraries/fetchLoggedInUserHook';
 
@@ -16,7 +23,7 @@ interface IApolloSettingProps {
 
 export default function ApolloSetting(props: IApolloSettingProps) {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [userInfo] = useRecoilState(userInfoState);
 
   useEffect(() => {
     getAccessToken().then((newAccessToken) => {
@@ -61,6 +68,7 @@ export default function ApolloSetting(props: IApolloSettingProps) {
     cache: APOLLO_CACHE,
     connectToDevTools: true,
   });
+
   return (
     <ApolloProvider client={client}>
       <FetchLoggedInUserHook />

@@ -233,7 +233,7 @@ export const SettingInputs = styled.div`
 export const SettingRadioButton = styled.input`
   margin: 0 6px;
 
-  :first-child {
+  :first-of-type {
     margin: 0 6px 0 0;
   }
 `;
