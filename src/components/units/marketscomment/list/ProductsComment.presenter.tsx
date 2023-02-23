@@ -4,10 +4,10 @@ import ProductsCommentListUIItem from './ProductsComment.presenterItem';
 
 interface IProductCommentListProps {
   data?: Pick<IQuery, 'fetchUseditemQuestions'> | undefined;
-  onLoadMore: () => void;
+  // onLoadMore: () => void;
 }
 
-const ProductsCommentListUI = ({ data, onLoadMore }: IProductCommentListProps) => {
+const ProductsCommentListUI = ({ data }: IProductCommentListProps) => {
   if (!data) return <div />;
 
   return (

@@ -14,25 +14,25 @@ const ProductCommentList = () => {
     }
   );
 
-  const onLoadMore = () => {
-    if (!data) return;
+  // const onLoadMore = () => {
+  //   if (!data) return;
 
-    fetchMore({
-      variables: {
-        page: Math.ceil(data.fetchUseditemQuestions.length / 10) + 1,
-      },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult.fetchUseditemQuestions)
-          return { fetchUseditemQuestions: [...prev.fetchUseditemQuestions] };
+  //   fetchMore({
+  //     variables: {
+  //       page: Math.ceil(data.fetchUseditemQuestions.length / 10) + 1,
+  //     },
+  //     updateQuery: (prev, { fetchMoreResult }) => {
+  //       if (!fetchMoreResult.fetchUseditemQuestions)
+  //         return { fetchUseditemQuestions: [...prev.fetchUseditemQuestions] };
 
-        return {
-          fetchUseditemQuestions: [...prev.fetchUseditemQuestions, ...fetchMoreResult.fetchUseditemQuestions],
-        };
-      },
-    });
-  };
+  //       return {
+  //         fetchUseditemQuestions: [...prev.fetchUseditemQuestions, ...fetchMoreResult.fetchUseditemQuestions],
+  //       };
+  //     },
+  //   });
+  // };
 
-  return <ProductsCommentListUI data={data} onLoadMore={onLoadMore} />;
+  return <ProductsCommentListUI data={data} />;
 };
 
 export default ProductCommentList;
