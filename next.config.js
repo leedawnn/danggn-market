@@ -3,14 +3,6 @@ const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   trailingSlash: true,
-  webpack: (config) => {
-    config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
-    });
-    return config;
-  },
   generateBuildId: () => 'danggn-market',
   exportPathMap: () => ({
     '/404': { page: '/404' },
