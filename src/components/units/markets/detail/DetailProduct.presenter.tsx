@@ -73,7 +73,7 @@ const DetailProductUI = ({
             <S.BasketButton onClick={onClickBasket(data?.fetchUseditem)}>장바구니</S.BasketButton>
             <Modal
               title='장바구니 이동'
-              visible={cartModalOpen}
+              open={cartModalOpen}
               onOk={() => router.push('/auth/cart')}
               onCancel={() => setCartModalOpen(false)}
             >
