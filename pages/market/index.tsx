@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { useRouter } from 'next/router';
 import { MouseEvent } from 'react';
 import SideBar from '../../src/components/commons/sideBar';
+import Head from 'next/head';
 
 // TODO: 중고 상품 검색 기능 구현
 export const FETCH_USED_ITEMS = gql`
@@ -52,6 +53,10 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <title>댕근마켓 | 중고 거래 마켓</title>
+      </Head>
+
       <div>
         <MarketTitle>중고 거래 마켓</MarketTitle>
         <SideBar />

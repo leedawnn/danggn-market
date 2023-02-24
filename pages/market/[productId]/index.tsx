@@ -46,7 +46,7 @@ export const FETCH_USED_ITEM = gql`
 `;
 
 export const getServerSideProps = async (context: any) => {
-  const graphQLClient = new GraphQLClient('https://backend09.codebootcamp.co.kr/graphql');
+  const graphQLClient = new GraphQLClient('https://backend10.codebootcamp.co.kr/graphql');
 
   const result = await graphQLClient.request(FETCH_USED_ITEM, {
     useditemId: context.query.productId,
@@ -62,15 +62,6 @@ export const getServerSideProps = async (context: any) => {
         price: result.fetchUseditem.price,
         tags: result.fetchUseditem.tags,
         images: result.fetchUseditem.images,
-        pickedCount: result.fetchUseditem.pickedCount,
-        zipcode: result.fetchUseditem.useditemAddress.zipcode,
-        address: result.fetchUseditem.useditemAddress.address,
-        addressDetail: result.fetchUseditem.useditemAddress.addressDetail,
-        lat: result.fetchUseditem.useditemAddress.lat,
-        lng: result.fetchUseditem.useditemAddress.lng,
-        sellerName: result.fetchUseditem.seller.name,
-        picture: result.fetchUseditem.seller.picture,
-        createdAt: result.fetchUseditem.createdAt,
       },
     },
   };

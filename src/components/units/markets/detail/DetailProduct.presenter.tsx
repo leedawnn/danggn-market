@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import DOMPurify from 'dompurify';
 import ProductCommentList from '../../marketsComment/list/ProductComment.container';
 import ProductCommentCreate from '../../marketsComment/create';
+import Head from 'next/head';
 
 interface IDetailProductProps {
   handleImageError: (event: any) => void;

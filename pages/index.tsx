@@ -8,7 +8,7 @@ export default function Home() {
       <Head>
         <title>오직 반려동물만을 위한, 댕근마켓</title>
         <meta name='description' content='중고 거래부터 정보 공유까지 반려인들과 함께해요.' />
-        <meta property='og:url' content='https://danggn.shop/'></meta>
+        <meta property='og:url' content='https://danggn.shop'></meta>
         <meta property='og:title' content='오직 반려동물만을 위한, 댕근마켓'></meta>
         <meta property='og:description' content='중고 거래부터 정보 공유까지 반려인들과 함께해요.'></meta>
         <meta property='og:site_name' content='댕근마켓'></meta>
