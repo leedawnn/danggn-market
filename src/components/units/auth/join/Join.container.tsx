@@ -41,15 +41,12 @@ const JoinContainer = () => {
         userPoint: 0,
       });
 
-      setDefaultPassword(String(joinInputs.password));
-
       if (!result) throw Error('회원가입에 실패했습니다. 다시 한번 시도해주세요.');
 
       message.success({ content: '회원가입을 축하합니다! 🐶🎉' });
       router.push('/auth/signin');
     } catch (error) {
-      if (error instanceof Error) throw Error(error.message);
-      message.error({ content: '회원가입에 실패했습니다. 다시 한번 시도해주세요.' });
+      if (error instanceof Error) message.error({ content: error.message });
     }
   };
   return <JoinUI handleCreateUser={handleCreateUser} />;
