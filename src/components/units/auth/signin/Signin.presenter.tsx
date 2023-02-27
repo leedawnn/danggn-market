@@ -41,7 +41,7 @@ const SigninUI = ({ handleSigninUser }: ISigninProps) => {
           </S.LoginHeader>
           <S.LoginForm onSubmit={handleSubmit(handleSigninUser)}>
             <S.LoginInput type='text' placeholder='MEMBER EMAIL' {...register('email')} />
-            <S.LoginInput type='password' placeholder='PASSWORD' {...register('password')} />
+            <S.LoginInput type='password' placeholder='PASSWORD' {...register('password')} autoComplete='off' />
             <Button02 onClick={handleSigninUser} title='로그인' kakao={false} />
           </S.LoginForm>
         </S.LoginWrapper>

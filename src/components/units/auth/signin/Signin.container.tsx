@@ -46,8 +46,6 @@ const SigninContainer = () => {
         },
       });
 
-      // if (!data) message.error({ content: '해당 유저 정보를 찾을 수 없습니다. 🥺' });
-
       setUserInfo({
         email: data.fetchUserLoggedIn?.email,
         name: data.fetchUserLoggedIn?.name,
@@ -59,7 +57,7 @@ const SigninContainer = () => {
       router.push('/');
     } catch (error) {
       if (error instanceof Error) {
-        message.error({ content: error.message });
+        // message.error({ content: error.message });
       }
     }
   };
