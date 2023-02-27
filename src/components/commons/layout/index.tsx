@@ -26,10 +26,10 @@ export default function Layout(props: ILayoutProps) {
     '/market',
     '/market/create',
   ];
-  const IS_SHOW = ['/market/', '/auth', '/auth/mypage'];
+  const HIDE_FOOTER = ['/market/', '/auth/signin', '/auth/join', '/auth/mypage'];
 
-  const isShowFooter = IS_SHOW.includes(router.pathname);
   const isShowSideBar = HIDE_SIDEBAR.includes(router.pathname);
+  const isShowFooter = HIDE_FOOTER.includes(router.pathname);
 
   return (
     <Wrapper>
