@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { v4 as uuidv4 } from 'uuid';
 
 const RollingBanner = () => {
   return (
@@ -6,7 +7,7 @@ const RollingBanner = () => {
       <SlideTextInner>
         {Array(10)
           .fill(1)
-          .map((_, index) => index <= 9 && <SlideText>NICE TO MEET YOU / DANGGN</SlideText>)}
+          .map((_, index) => index <= 9 && <SlideText key={uuidv4()}>NICE TO MEET YOU / DANGGN</SlideText>)}
       </SlideTextInner>
     </Wrapper>
   );
