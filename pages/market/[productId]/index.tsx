@@ -46,7 +46,7 @@ export const FETCH_USED_ITEM = gql`
 `;
 
 export const getServerSideProps = async (context: any) => {
-  const graphQLClient = new GraphQLClient('https://backend10.codebootcamp.co.kr/graphql');
+  const graphQLClient = new GraphQLClient('https://backend12.codebootcamp.co.kr/graphql');
 
   const result = await graphQLClient.request(FETCH_USED_ITEM, {
     useditemId: context.query.productId,

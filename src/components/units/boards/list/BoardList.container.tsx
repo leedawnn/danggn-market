@@ -1,16 +1,16 @@
 import { useQuery } from '@apollo/client';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { IQuery, IQueryFetchBoardsArgs, IQueryFetchBoardsCountArgs } from '../../../../commons/types/generated/types';
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { FETCH_BOARDS, FETCH_BOARDS_COUNT } from './BoardList.queries';
 import BoardListUI from './BoardList.presenter';
-import _ from 'lodash';
+import useDebounce from '../../../../commons/libraries/useDebounce';
 
 const BoardList = () => {
   const router = useRouter();
 
-  const [size, setSize] = useState<SizeType>('large');
+  const [size] = useState<SizeType>('large');
 
   const { data, refetch } = useQuery<Pick<IQuery, 'fetchBoards'>, IQueryFetchBoardsArgs>(FETCH_BOARDS);
   const { data: dataBoardsCount, refetch: refetchBoardsCount } = useQuery<
@@ -18,7 +18,8 @@ const BoardList = () => {
     IQueryFetchBoardsCountArgs
   >(FETCH_BOARDS_COUNT);
 
-  const [keyword, setKeyword] = useState<string>('');
+  const [keywordInputValue, setKeywordInputValue] = useState<string>('');
+  const keyword = useDebounce(keywordInputValue);
 
   const [startPage, setStartPage] = useState<number>(1);
   const [activePage, setActivePage] = useState<number>(1);
@@ -38,20 +39,6 @@ const BoardList = () => {
     refetch({ page: activePage });
   };
 
-  const getDebounce = _.debounce((value: string) => {
-    refetch({ search: value, page: 1 });
-    refetchBoardsCount({ search: value });
-    onChangeKeyword(value);
-  }, 200);
-
-  const onChangeKeyword = (value: string) => {
-    setKeyword(value);
-  };
-
-  function onChangeSearchbar(event: ChangeEvent<HTMLInputElement>) {
-    getDebounce(event.target.value);
-  }
-
   const onClickPrevPage = () => {
     if (startPage <= 1) return;
     setStartPage((prev) => prev - 10);
@@ -65,6 +52,16 @@ const BoardList = () => {
     setActivePage(startPage + 10);
     refetch({ page: startPage + 10 });
   };
+
+  const onChangeSearchbar = (event: ChangeEvent<HTMLInputElement>) => {
+    setKeywordInputValue(event.target.value);
+  };
+
+  useEffect(() => {
+    refetch({ search: keyword });
+    refetchBoardsCount({ search: keyword });
+  }, [keyword]);
+
   return (
     <BoardListUI
       data={data}
